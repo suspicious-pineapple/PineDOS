@@ -82,16 +82,13 @@
     call print_hex
     call newline
 
+
+
+
     jmp $
 
 
-    array_get: ;DI = pointer to array, BX = array index, returns value in AX
-        push bx
-        shl bx, 1 ;16 bit words
-        add bx, di
-        mov ax, word [bx]
-        pop bx
-    ret
+
 
 
     test_arr:
@@ -231,11 +228,23 @@
         
 
 
+    array_get: ;DI = pointer to array, BX = array index, returns value in AX
+        push bx
+        shl bx, 1 ;16 bit words
+        add bx, di
+        mov ax, word [bx]
+        pop bx
+    ret
 
 
-
-
-
+    print_array: ; DI = pointer to array, CX = array size
+        pusha
+        mov bx, 0
+        .loop_printArr
+        
+    
+    popa
+    ret
 
 
 
@@ -391,6 +400,7 @@
 
     kernel_start_msg db "Kernel loaded!", 0
     printhex_test_msg db "hex printing test: ", 0
-
+    arrayget_test_msg db "array get test: ", 0
+    malloc_test_msg db "malloc test: ", 0
     
 times (512*8)-($-$$) db 0
