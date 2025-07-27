@@ -3,16 +3,46 @@
 	;define location where kernel will be loaded- after this 512 byte bootloader
 	;0x7c00 (origin) + 0x200 (512 bytes) = 0x7e00
 
+jmp short BL_skip
+nop
 
 
+	.VBR:
+	FAT_OEM_STR db "PINEDOS0" ;8 byte OEM info
+	FAT_BYTES_PER_SECTOR dw 512 ;bytes per sector, 512
+	FAT_SECTORS_PER_CLUSTER db 1 ;sectors per cluster
+	FAT_RESERVED_SECTORS dw 1 ;reserved sectors
+	FAT_NUM_TABLES db 1 ;number of file allocation tables
+	FAT_NUM_ROOT_ENTRIES dw 16 ;128 root directory entries
+	FAT_TOTAL_LOGICAL_SECTORS dw 512
+	FAT_MEDIA_DESCRIPTOR db 0xf0 ; 3.5-inch (90 mm) double sided, 80 tracks per side, 18 or 36 sectors per track (1440 KB, known as "1.44 MB" or 2880 KB, known as "2.88 MB").
+	FAT_SECTORS_PER_TABLE dw 1
+	FAT_SECTORS_PER_TRACK dw 18
+	FAT_NUM_HEADS dw 2
+	FAT_HIDDEN_SECTORS dw 0
+	dw 0
+	FAT_LARGE_SECTOR_COUNT dw 0
+	dw 0
+
+	;Extended boot record
+	FAT_DRIVE_NUMBER db 0
+	FAT_NT_FLAGS db 0
+	FAT_SIGNATURE db 0x28
+	FAT_VOLUME_ID dd 0
+	FAT_VOLUME_LABEL db "PineDOS    "
+	FAT_SYS_IDENTIFIER db "SUSSYSTR"
+	
 
 
 	kernel_address equ 0x7c00+512
 	
 
-mov [BL_devicenum], dl
 
 ;origin is 0x7c00
+
+BL_skip:
+mov [BL_devicenum], dl
+
 
 BL_start:
 	
@@ -190,9 +220,92 @@ BL_start:
 	BL_attempt dw 0
 	BL_devicenum db 0
 
+
+
+
+
+
+
+
+
+
+
+
 	times 510-($-$$) db 0	; Pad remainder of boot sector with 0s
 	dw 0xAA55		; The standard PC boot signature
-	BL_loadhere:	
+	BL_loadhere:
+
+
+;example file:
+;4B
+;45 52 4E 45 4C 31 36 42 49 4E 20
+
+;0x10 -> Type
+
+;0xBA -> Reserved
+
+;0x27 -> Time, seconds
+
+;0xFA15
+
+;0xFA5A
+
+
+;0x005A
+
+;00
+;43
+;15
+;FA
+;5A
+;04
+;00
+;0x0000001C
+
+	times (512*2)-($-$$) db 0
+
+	.FAT:
+	KERNEL_FILENAME db "KERNEL16BIN"
+	KERNELFILE_ATTR db 0x01 ;readonly
+	db 0 ; reserved
+	db 0x27 ; creation time seconds
+	dw 0xFA15 ; creation time
+	dw 0xFA5A ; creation date
+	dw 0xFA5A ; last access date
+	dw 0 ; high 16 bits of cluster number. 0 because FAT16
+	dw 0xFA15 ; last modified time
+	dw 0xFA5A ; last modified date
+	dw 8 ; low 16 bits of the files cluster number. uhhh
+	dd 128 ; size of the file
+
+	
+	db "TXTFILE0TXT"
+	db 0x01 ;readonly
+	db 0 ; reserved
+	db 0x17 ; creation time seconds
+	dw 0xFA15 ; creation time
+	dw 0xFA5A ; creation date
+	dw 0xFA5A ; last access date
+	dw 0 ; high 16 bits of cluster number. 0 because FAT16
+	dw 0xFA15 ; last modified time
+	dw 0xFA5A ; last modified date
+	dw 7 ; low 16 bits of the files cluster number. uhhh
+	dd 59 ; size of the file
+
+
+
+
+
+
+
+	times (512*5)-($-$$) db 0
+	db "This is a test for a simple text file. It is 59 bytes long."
+	times (512*6)-($-$$) db 0
+
 
 ;include kernel.asm here
 %include "kernel.asm"
+
+
+
+times (512*512+1)-($-$$) db 0

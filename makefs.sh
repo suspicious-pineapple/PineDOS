@@ -1,0 +1,1 @@
+mkdosfs -a -C -f 1 -F 16 -i 69696969 -n PINEDOS86-32 -r 224 -R 1 -s 1 -S 512 blank_FS.img 512
