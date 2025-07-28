@@ -1,6 +1,7 @@
     ; real mode memory map
     ; 0x00000500 0x00007BFF conventional memory, 29.75KiB
     ; use 4kb for allocation table
+
     mallocRecordStart equ 0x500
     mallocRecordSize equ 0x800
 
@@ -403,4 +404,6 @@
     arrayget_test_msg db "array get test: ", 0
     malloc_test_msg db "malloc test: ", 0
     
-times (512*8)-($-$$) db 0
+    
+    
+    ;times (512*4)-($-$$) db 0
