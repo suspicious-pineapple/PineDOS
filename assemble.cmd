@@ -14,9 +14,10 @@ del tmp\kernel16.bin
 
 nasm -f bin boot.asm -o tmp\boot.bin
 nasm -f bin kernel16.asm -o tmp\kernel16.bin
-
+nasm -f bin kernel32.asm -o tmp\kernel32.bin
 type tmp\boot.bin > tmp\os.img
 type tmp\kernel16.bin >> tmp\os.img
+type tmp\kernel32.bin >> tmp\os.img
 
 
 ::run

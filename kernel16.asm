@@ -12,8 +12,6 @@
     stackSize equ 0x1000
     
 
-    mov word [mallocRecordStart], heapStart
-    mov word [mallocRecordStart+2], 4
 
     
     mov ax, stackStart
@@ -83,10 +81,63 @@
     call print_hex
     call newline
 
+    mov si, successful_print_test_msg
+    call print_string
+
+    
+    ;mov ah, 00h
+    ;mov al, 37h
+    ;int 10h
+    ;xor ah,ah
+    ;call print_hex
+
+    call newline
+    mov si, graphicsmode_get_msg
+    call print_string
+    mov ah, 0Fh
+    int 10h
+    mov dl, ah
+    xor ah,ah
+    call print_hex
+    call newline
+    mov al, dl
+    call print_hex
 
 
 
+
+    ;mov si, graphicsmode_set_msg
+    ;call print_string
+    mov ax, 0040h
+    mov es,ax
+    xor ah,ah
+    call newline
+    mov al, es:[0084h]
+    call print_hex
+    call newline
+    mov al, es:[004ah]
+    call print_hex
+    call newline
+    
+    mov al, 1
+    mov bh, 07h
+    mov dx,0
+
+    mov ch, es:[0084h]
+    sub ch,1
+    mov cl, es:[004ah]
+    sub cl,1
+    mov ah, 06h
+    int 10h
+
+    mov ah, 0Eh
+    mov al, 'F'
+    int 10h
     jmp $
+
+
+
+    jmp enable_pmode
 
 
 
@@ -188,26 +239,76 @@
 
             
 
-    malloc_slot_num: dw 0
-    malloc_attempt_valid: db 0
-    malloc_requested_size: dw 0
-    malloc_current_address: dw 0
-    malloc_current_end_address: dw 0
-    malloc_comparison_address: dw 0
-    malloc_comparison_end_address: dw 0
-    malloc_failed_no_slots db "Allocation failed: out of slots", 0
-    malloc_failed_no_memory db "Allocation failed: out of memory", 0
 
-
-    kernel_start_msg db "Kernel loaded!", 0
+    kernel_start_msg db "Stage 2 bootloader loaded!", 0
     printhex_test_msg db "hex printing test: ", 0
     arrayget_test_msg db "array get test: ", 0
-    malloc_test_msg db "malloc test: ", 0
+    successful_print_test_msg db "you should see the following numbers: 0x1234, 0xABCD, 0x69, 0x420, 0x99", 0
+    graphicsmode_set_msg db "setting graphics mode. goodbye!", 0
+    graphicsmode_get_msg db "current video mode:", 0
     
     
     
+    ; stolen from http://www.osdever.net/tutorials/view/the-world-of-protected-mode?the_id=18
+    gdt:
+        gdt_null:
+            dq 0
+        gdt_code:
+            dw 0ffffh
+            dw 0
+            db 0
+            db 10011010b
+            db 11001111b
+            db 0
+        gdt_data:
+            dw 0FFFFh
+            dw 0
+            db 0
+            db 10010010b
+            db 11001111b
+            db 0
+    gdt_end
+    gdt_desc:
+   db gdt_end - gdt
+   dw gdt
+
+
+    enable_pmode:
+
+
+    cli
+    
+    xor ax, ax
+    mov ds, ax
+
+    lgdt [gdt_desc]
+    mov eax, cr0
+    or eax, $1
+    mov cr0, eax
+    
+    ;jmp 08h:clear_pipe
+
+    BITS 32
+    clear_pipe:
+    
+
+    mov ax, 08h
+    mov ds, ax
+    ;mov ss, ax
+    ;jmp $
+    ;mov esp, 090000h
+    mov byte [0a8000h], 'P'
+    mov byte [0a8001h], 1Bh
+
+
+
+
+    .hang:
+    jmp .hang
+
     times (512*4)-($-$$) db 0
 
     kernel32_base:
-    %include kernel32_base
     
+
+    ;%include kernel32_base

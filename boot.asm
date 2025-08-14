@@ -27,14 +27,12 @@ BL_start:
 	;mov ax, 07C0h		; Set data segment to where we're loaded
 	;mov ds, ax
 
-	;mov ax, 0x1000
-	;mov ss, ax
-	;mov sp, 0xFFFF
-	;mov ax, 0
-	;mov ds, ax
-	;mov es, ax
-	
-
+	mov ax, 0x1000
+	mov ss, ax
+	mov sp, 0xFFFF
+	mov ax, 0
+	mov ds, ax
+	mov es, ax
 
 
 	;mov ah, 00h
