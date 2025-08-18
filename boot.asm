@@ -18,9 +18,9 @@ align 4
     resd 1
     resd 1
     dd 0
-    dd 640
-    dd 480
-    dd 16
+    dd 1080
+    dd 1920
+    dd 32
 
 section .bss
 align 16

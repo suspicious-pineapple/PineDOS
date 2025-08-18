@@ -27,17 +27,18 @@ call print_hex_serial
 xor ecx,ecx
 xor edx,edx
 .loop:
-mov eax, 111111111111111111111111b
+;mov eax, 111111111111111111111111b
+mov eax, 0xAAFF0051
 call put_pixel
 inc ecx
-cmp ecx, 16
+cmp ecx, 32
 jle .loop
 inc edx
 mov eax,edx
 call print_hex_serial
 xor ecx,ecx
 
-cmp edx, 16
+cmp edx, 32
 
 jle .loop
 xor edx,edx
@@ -53,22 +54,12 @@ jmp kernel_main
 
 
 
-put_pixel: ;eax -> color, ecx = x, edx = y, ebx = ??ß
+put_pixel: ;eax -> color, ecx = x, edx = y
 pusha
-    pusha
-    ;push eax
+    push eax
     mov ax, 0x1111
     call print_hex_serial
-    ;pop eax
-    ;call print_hex_serial
-    ;mov ax, cx
-    ;call print_hex_serial
-    ;mov ax, dx
-    ;call print_hex_serial
-    ;mov ax, 0x1234
-    ;call print_hex_serial
-    popa
-
+    pop eax   
 
     push eax
     mov eax, dword [FRAMEBUFFER]
@@ -76,11 +67,12 @@ pusha
     mov ebx, dword [FRAMEBUFFER]
     mov eax, dword [FRAMEBUFFER_PITCH]
     call print_hex_serial
-
     mul edx
+
     push eax
 
     mov eax, dword [FRAMEBUFFER_BPP]
+    mov eax,5
     call print_hex_serial
     mul ecx
     mov ecx,eax
@@ -89,6 +81,7 @@ pusha
     add ebx, ecx
     pop eax
     mov dword [ebx], eax
+
     mov eax,ebx
     call print_hex_serial
 popa
