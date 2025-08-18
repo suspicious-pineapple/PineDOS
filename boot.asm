@@ -17,10 +17,10 @@ align 4
     resd 1
     resd 1
     resd 1
-    dd 1
+    dd 0
     dd 640
     dd 480
-    dd 32
+    dd 16
 
 section .bss
 align 16

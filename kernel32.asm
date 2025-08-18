@@ -3,9 +3,10 @@ BITS 32
 global kernel_main
 kernel_main:
 mov dword [MULTIBOOT_INFO_ADDR],ebx
-mov ebx, MULTIBOOT_INFO_ADDR
+;mov ebx, MULTIBOOT_INFO_ADDR
 mov ecx, dword [ebx+88]
 mov dword [FRAMEBUFFER], ecx
+;mov dword [FRAMEBUFFER], 0xA0000
 mov ecx, dword [ebx+96]
 mov dword [FRAMEBUFFER_PITCH], ecx
 mov ecx, dword [ebx+100]
@@ -19,34 +20,34 @@ mov dword [FRAMEBUFFER_BPP], ecx
 
 
 
+mov eax, 0x12345678
+call print_hex_serial
 
-mov eax, 4
-mov ecx, 15
-mov edx, 15
+
+xor ecx,ecx
+xor edx,edx
+.loop:
+mov eax, 111111111111111111111111b
 call put_pixel
+inc ecx
+cmp ecx, 16
+jle .loop
+inc edx
+mov eax,edx
+call print_hex_serial
+xor ecx,ecx
 
-.halt:
-pusha
-mov al, 'A'
-mov dx, 0x3F8
-out dx, al
-popa
-pusha
-inc dx
-inc al
-call put_pixel
-cmp dx, 200
-jle .noclear
-mov dx,0
-inc cx
-cmp cx,200
-jle .noclear
-mov cx,0
-.noclear:
+cmp edx, 16
 
-popa
+jle .loop
+xor edx,edx
+jmp .loop
 
-jmp .halt
+
+;jmp $
+
+
+
 
 jmp kernel_main
 
@@ -54,20 +55,95 @@ jmp kernel_main
 
 put_pixel: ;eax -> color, ecx = x, edx = y, ebx = ??ß
 pusha
+    pusha
+    ;push eax
+    mov ax, 0x1111
+    call print_hex_serial
+    ;pop eax
+    ;call print_hex_serial
+    ;mov ax, cx
+    ;call print_hex_serial
+    ;mov ax, dx
+    ;call print_hex_serial
+    ;mov ax, 0x1234
+    ;call print_hex_serial
+    popa
+
+
     push eax
+    mov eax, dword [FRAMEBUFFER]
+    call print_hex_serial
     mov ebx, dword [FRAMEBUFFER]
     mov eax, dword [FRAMEBUFFER_PITCH]
-    mul  edx
-    mov edx, eax
+    call print_hex_serial
+
+    mul edx
+    push eax
+
     mov eax, dword [FRAMEBUFFER_BPP]
+    call print_hex_serial
     mul ecx
     mov ecx,eax
+    pop edx
     add ebx, edx
     add ebx, ecx
     pop eax
-    mov byte [ebx], al
+    mov dword [ebx], eax
+    mov eax,ebx
+    call print_hex_serial
 popa
 ret
+
+
+
+
+print_hex_serial:
+pusha
+    push eax
+    shr eax, 16
+    call print_hex_serial_16
+    pop eax
+    call print_hex_serial_16
+    mov dx, 0x3F8
+    mov al, 0Dh
+    out dx, al
+    mov al, 0Ah
+    out dx, al
+popa
+ret
+
+
+print_hex_serial_16:
+    pusha
+        mov bx, ax
+        shr ax, 12
+        call .print_nibble
+        mov ax, bx
+        shr ax, 8
+        call .print_nibble
+        mov ax, bx
+        shr ax, 4
+        call .print_nibble
+        mov ax, bx
+        call .print_nibble
+
+        popa
+    ret
+        .print_nibble:
+            and ax, 0Fh
+            cmp ax, 10
+            jge .greaterThan9
+            add al, '0'
+            jmp .print
+            .greaterThan9:
+            add al, 'A'-10
+            .print:
+            mov dx, 0x3F8
+            out dx,al
+        ret
+
+
+
 
 
 MULTIBOOT_INFO_ADDR: dq 0
