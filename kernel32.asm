@@ -99,6 +99,48 @@ popa
 ret
 
 
+draw_line: ;eax -> color, ecx: start, edx: end
+pusha
+push eax
+mov ax, cx
+sub ax, dx
+push ax
+shr ecx,16
+shr edx,16
+mov ax, cx
+sub ax, dx
+push ax
+
+pop bx
+pop ax
+idiv bx
+
+
+.lineloop:
+
+.subloop:
+
+cmp 
+jle .subloop
+
+
+jle .lineloop
+
+
+
+pop eax
+
+
+
+popa
+ret
+.steps_per_line: dw 0
+.line_counter: dw 0
+
+
+
+
+
 
 
 print_hex_serial:
@@ -148,6 +190,8 @@ print_hex_serial_16:
 
 
 
+
+ACTIVE_COLOR: dw 0xFF00FF
 
 MULTIBOOT_INFO_ADDR: dq 0
 FRAMEBUFFER: dq 0
