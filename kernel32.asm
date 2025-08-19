@@ -15,7 +15,8 @@ mov ecx, dword [ebx+104]
 mov dword [FRAMEBUFFER_HEIGHT], ecx
 mov ecx, dword [ebx+108]
 mov dword [FRAMEBUFFER_BPP], ecx
-
+mov eax,ecx
+call print_hex_serial
 
 
 
@@ -28,9 +29,19 @@ xor ecx,ecx
 xor edx,edx
 .loop:
 ;mov eax, 111111111111111111111111b
-mov eax, 0xAAFF0051
+xor eax,eax
+mov al, 255
+shl eax,8
+mov al, 255
+shl eax,8
+mov al,0
+
+mov eax, 0xFF00FF
+
 call put_pixel
 inc ecx
+
+
 cmp ecx, 32
 jle .loop
 inc edx
@@ -72,7 +83,7 @@ pusha
     push eax
 
     mov eax, dword [FRAMEBUFFER_BPP]
-    mov eax,5
+    mov eax,4
     call print_hex_serial
     mul ecx
     mov ecx,eax
@@ -134,7 +145,6 @@ print_hex_serial_16:
             mov dx, 0x3F8
             out dx,al
         ret
-
 
 
 

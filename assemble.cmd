@@ -13,4 +13,3 @@ nasm -felf32 kernel32.asm -o tmp/kernel.o
 
 wsl bash -e ./create-image.sh
 ::run
-qemu-system-i386 -cdrom pinedos.iso
