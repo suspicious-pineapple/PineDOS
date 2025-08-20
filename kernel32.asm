@@ -49,6 +49,24 @@ call put_char
 
 
 
+; Clear screen by printing test completion message
+mov eax, 'D'
+mov ecx, 100
+mov edx, 50
+call put_char
+mov eax, 'O'
+mov ecx, 108
+mov edx, 50
+call put_char
+mov eax, 'N'
+mov ecx, 116
+mov edx, 50
+call put_char
+mov eax, 'E'
+mov ecx, 124
+mov edx, 50
+call put_char
+
 ; Draw a triangle using the line drawing function
 ; Triangle vertices: (100, 50), (200, 150), (50, 150)
 
