@@ -102,149 +102,143 @@ jmp $
 ;global
 put_pixel: ;eax -> color, ecx = x, edx = y
 pusha
-    push eax
-    mov ax, 0x1111
-    call print_hex_serial
-    pop eax   
+    push eax            ; Save color
 
-    push eax
-    mov eax, dword [FRAMEBUFFER]
-    call print_hex_serial
     mov ebx, dword [FRAMEBUFFER]
     mov eax, dword [FRAMEBUFFER_PITCH]
-    call print_hex_serial
     mul edx
 
     push eax
 
-    mov eax, dword [FRAMEBUFFER_BPP]
-    mov eax,4
-    call print_hex_serial
+    mov eax, 4          ; 4 bytes per pixel
     mul ecx
-    mov ecx,eax
+    mov ecx, eax
     pop edx
     add ebx, edx
     add ebx, ecx
-    pop eax
+    pop eax             ; Restore color
     mov dword [ebx], eax
 
-    mov eax,ebx
-    call print_hex_serial
 popa
 ret
 
 
 draw_line: ;eax -> color, ecx: start (x0 in lower 16, y0 in upper 16), edx: end (x1 in lower 16, y1 in upper 16)
 pusha
-    push eax    ; Save color
+    ; Save color on stack
+    push eax
 
     ; Extract coordinates from packed format
-    mov eax, ecx
-    mov ebx, eax
-    and eax, 0xFFFF     ; x0 = lower 16 bits of ecx
-    shr ebx, 16         ; y0 = upper 16 bits of ecx
+    ; x0 = ecx & 0xFFFF, y0 = ecx >> 16
+    ; x1 = edx & 0xFFFF, y1 = edx >> 16
     
-    mov ecx, edx
-    mov esi, ecx
-    and ecx, 0xFFFF     ; x1 = lower 16 bits of edx
-    shr esi, 16         ; y1 = upper 16 bits of edx
+    ; Extract start coordinates
+    movzx eax, cx       ; x0 = lower 16 bits of ecx  
+    shr ecx, 16         ; y0 = upper 16 bits of ecx
+    
+    ; Extract end coordinates  
+    movzx ebx, dx       ; x1 = lower 16 bits of edx
+    shr edx, 16         ; y1 = upper 16 bits of edx
 
-    ; Now we have: eax=x0, ebx=y0, ecx=x1, esi=y1
+    ; Now we have: eax=x0, ecx=y0, ebx=x1, edx=y1
     
     ; Calculate dx = abs(x1 - x0)
-    mov edx, ecx
-    sub edx, eax
-    mov edi, edx
-    sar edi, 31         ; Sign extension: 0 if positive, -1 if negative
-    xor edx, edi
-    sub edx, edi        ; abs(dx)
-    push edx            ; Save abs(dx) on stack
-
-    ; Calculate dy = abs(y1 - y0)
-    mov edx, esi
-    sub edx, ebx
-    mov edi, edx
+    mov esi, ebx
+    sub esi, eax        ; dx = x1 - x0
+    mov edi, esi
     sar edi, 31         ; Sign extension
-    xor edx, edi
-    sub edx, edi        ; abs(dy)
-    push edx            ; Save abs(dy) on stack
+    xor esi, edi
+    sub esi, edi        ; abs(dx) in esi
+
+    ; Calculate dy = abs(y1 - y0) 
+    push ebx            ; Save x1
+    mov ebx, edx
+    sub ebx, ecx        ; dy = y1 - y0
+    mov edi, ebx
+    sar edi, 31         ; Sign extension
+    xor ebx, edi
+    sub ebx, edi        ; abs(dy) in ebx
+    pop edi             ; Restore x1 to edi
 
     ; Calculate step directions
-    mov edx, 1
-    cmp ecx, eax        ; Compare x1 with x0
-    jge .sx_positive
-    neg edx
-.sx_positive:
-    push edx            ; Save sx on stack
+    push esi            ; Save abs(dx)
+    push ebx            ; Save abs(dy)
+    
+    mov esi, 1          ; sx = 1
+    cmp edi, eax        ; Compare x1 with x0
+    jge .sx_done
+    neg esi             ; sx = -1
+.sx_done:
+    push esi            ; Save sx
 
-    mov edx, 1
-    cmp esi, ebx        ; Compare y1 with y0
-    jge .sy_positive
-    neg edx
-.sy_positive:
-    push edx            ; Save sy on stack
+    mov esi, 1          ; sy = 1
+    cmp edx, ecx        ; Compare y1 with y0
+    jge .sy_done
+    neg esi             ; sy = -1
+.sy_done:
+    push esi            ; Save sy
 
-    ; Stack now contains: [color] [abs(dx)] [abs(dy)] [sx] [sy]
     ; Calculate initial error: err = dx - dy
-    mov edx, [esp + 12] ; abs(dx)
-    sub edx, [esp + 8]  ; abs(dy)
-    push edx            ; Save err on stack
+    mov esi, [esp + 12] ; abs(dx)
+    sub esi, [esp + 8]  ; err = dx - dy
+    push esi            ; Save err
 
+    ; Stack: [color] [abs(dx)] [abs(dy)] [sx] [sy] [err]
     ; Main drawing loop
 .draw_loop:
-    ; Draw current pixel at (eax, ebx)
+    ; Draw current pixel at (eax, ecx)
     push eax
-    push ebx
     push ecx
-    push esi
+    push edx
+    push edi
     
-    mov ecx, eax        ; x coordinate
-    mov edx, ebx        ; y coordinate
-    mov eax, [esp + 40] ; color (adjusted for pushes)
+    ; Set up put_pixel parameters: eax=color, ecx=x, edx=y
+    mov edx, ecx        ; y coordinate
+    mov ecx, eax        ; x coordinate  
+    mov eax, [esp + 36] ; color (adjusted for all pushes)
     call put_pixel
     
-    pop esi
+    pop edi
+    pop edx
     pop ecx
-    pop ebx
     pop eax
 
     ; Check if we've reached the end point
-    cmp eax, ecx        ; x0 == x1?
+    cmp eax, edi        ; x0 == x1?
     jne .continue_line
-    cmp ebx, esi        ; y0 == y1?
+    cmp ecx, edx        ; y0 == y1?
     je .line_done       ; Both equal, we're done
 
 .continue_line:
     ; Calculate e2 = 2 * err
-    mov edx, [esp]      ; err
-    shl edx, 1          ; e2 = 2 * err
+    mov esi, [esp]      ; err
+    shl esi, 1          ; e2 = 2 * err
 
     ; Check if e2 > -dy (move in x direction)
-    mov edi, [esp + 8]  ; abs(dy)
-    neg edi             ; -dy
-    cmp edx, edi
+    mov ebx, [esp + 8]  ; abs(dy)
+    neg ebx             ; -dy
+    cmp esi, ebx
     jle .check_y_move
 
     ; Move in x direction: err -= dy, x0 += sx
-    mov edi, [esp + 8]  ; abs(dy)
-    sub [esp], edi      ; err -= dy
+    mov ebx, [esp + 8]  ; abs(dy)
+    sub [esp], ebx      ; err -= dy
     add eax, [esp + 4]  ; x0 += sx
 
 .check_y_move:
     ; Check if e2 < dx (move in y direction)
-    mov edi, [esp + 12] ; abs(dx)
-    cmp edx, edi
+    mov ebx, [esp + 12] ; abs(dx)
+    cmp esi, ebx
     jge .draw_loop
 
     ; Move in y direction: err += dx, y0 += sy
-    add [esp], edi      ; err += dx
-    add ebx, [esp + 4]  ; y0 += sy
+    add [esp], ebx      ; err += dx
+    add ecx, [esp + 4]  ; y0 += sy
     jmp .draw_loop
 
 .line_done:
-    ; Clean up stack: pop err, sy, sx, abs(dy), abs(dx)
-    add esp, 20
-    pop eax             ; Restore color
+    ; Clean up stack: pop err, sy, sx, abs(dy), abs(dx), color
+    add esp, 24
 
 popa
 ret
