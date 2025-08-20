@@ -404,88 +404,21 @@ function getRectangles(grid) {
 function buildLib(optimizationLevel=2) {
 let lineCount = 0;
 let programStart = `
+put_char:
+
+pusha
+mov dword [offsetX], ecx
+mov dword [offsetY], edx
+mov dword [currentChar], eax
+
 mov dword [offsetYold], 0
 
-mov dword [scanOffset], 0
-mov dword [scanLength], 40*80
-;op add maxScan scanOffset scanLength
-mov eax, dword [scanOffset]
-add eax, dword [scanLength]
-mov dword [maxScan],eax
 
-vsync:
-;set addr scanOffset
-mov eax,[scanOffset]
-mov dword [addr], eax
-
-hsync:
-;jump vsync greaterThanEq addr maxScan
-mov eax, dword [addr]
-cmp eax, dword [maxScan]
-jge vsync
-
-;op idiv offsetY addr ${displayCols}
-;op mod offsetX addr ${displayCols}
-
-mov eax, [addr]
-mov ecx, dword ${displayCols}
-div ecx
-mov dword [offsetY], eax
-dec edx
-mov dword [offsetX], edx
-;op sub offsetX offsetX 1
-
-
-
-;op mul offsetY offsetY ${charHeight+1}
-;op mul offsetX offsetX ${charWidth+1}
-;op sub offsetY ${176-charHeight} offsetY
-
-mov eax, [offsetY]
-mov ebx, ${charHeight+1}
-mul ebx
-mov dword [offsetY],eax
-
-mov eax, [offsetX]
-mov ebx, ${charWidth+1}
-mul ebx
-mov dword [offsetX],eax
-
-
-
-;op add nextSync addr ${displayCols}
-;op min nextSync nextSync maxScan
-
-mov eax, dword [addr]
-add eax, ${displayCols}
-
-cmp eax, dword [maxScan]
-jle smallerThanMaxScan
-mov eax, dword [maxScan]
-smallerThanMaxScan:
-mov dword [nextSync], eax
-
-
-
-mainLoop:
-;jump hsync equal addr nextSync
-mov eax, dword [addr]
-cmp eax, [nextSync]
-je hsync
-
-;read currentChar bank1 addr
-;op add addr addr 1
-
-mov ebx, CONSOLE_TEXT
-add ebx, dword [addr]
-mov eax, dword [ebx]
-inc dword [addr]
-
-
-;jump mainLoop lessThan currentChar 32
 cmp dword [currentChar], 32
-jl mainLoop
-
+jg .above32
+popa
+ret
+.above32:
 ;op add offsetX offsetX ${charWidth+1}
 add dword [offsetX], ${charWidth+1}
 
@@ -505,7 +438,7 @@ for (let i = 32; i < 127; i++) {
     //counterArray += "jump char" + i + " always\n";
     
     counterArray += "cmp dword [currentChar], " + i + "\n";
-    counterArray += "je char" + i + "\n";
+    counterArray += "je .char" + i + "\n";
 }
 
 let drawSegment = "";
@@ -542,8 +475,8 @@ for(let i = 0; i < mostCommonLines.length; i++) {
 let ySetup = [];
 //ySetup.push("jump ySetupDone equal offsetY offsetYold");
 ySetup.push("mov eax,dword [offsetY]");
-ySetup.push("cmp eax,dword [offsetYold]");
-ySetup.push("je ySetupDone");
+//ySetup.push("cmp eax,dword [offsetYold]");
+//ySetup.push("je ySetupDone");
 //ySetup.push("set offsetYold offsetY");
 ySetup.push("mov dword [offsetYold], eax");
 for(let y = 0; y < charPixelRows+1; y++) {
@@ -553,7 +486,7 @@ for(let y = 0; y < charPixelRows+1; y++) {
     ySetup.push("mov dword [gridY"+y+"], eax");
 
 }
-ySetup.push("ySetupDone:");
+ySetup.push(".ySetupDone:");
 staticPoints += ySetup.join("\n")+"\n";
 
 
@@ -571,8 +504,21 @@ let averageInstructions = (drawSegment.split("\n").filter(l=>{return l.startsWit
 let variableNames = ["offsetX","offsetY","addr","currentChar","maxScan","scanLength","scanOffset","nextSync","gridX0","offsetYold","gridY0","gridX1","gridX2","gridX3","gridX4","gridX5","gridY1","gridY2","gridY3","gridY4","gridY5","gridY6","gridY7","gridY8"]
 let variables = variableNames.map((v)=>{return v+":"+"dd 0\n"}).join("\n");
 
+let jumpTable = ".charJumpTable:\n";
+for(let i = 0; i < 127; i++){
+    if(i <= 32){
+        jumpTable+="dd .char33\n"
+        continue
+    }
+    jumpTable+="dd .char"+i+"\n";
+}
 
-let finalCode = programStart +staticPoints+ counterArray + drawSegment + variables;
+let finalCode = programStart +staticPoints+ counterArray + drawSegment + variables + jumpTable;
+for(let i=0;i<variableNames.length;i++){
+    let currentVar = variableNames[i];
+    finalCode=finalCode.replaceAll(currentVar+"]","."+currentVar+"]");
+    finalCode=finalCode.replaceAll(currentVar+":","."+currentVar+":");
+}
 
 //count lines that arent newlines or end with ":"
 let lines = finalCode.split("\n");
@@ -622,7 +568,7 @@ function generateDrawCode(charNum){
     grid = flipGrid(grid);
     //get rects and lines
     //generate code
-    let code = "char" + charNum + ":\n";
+    let code = ".char" + charNum + ":\n";
     let usedYs = [];
     let usedXs = [];
     let drawInstr = findPatterns(grid);
@@ -658,7 +604,7 @@ function generateDrawCode(charNum){
     let drawCode = drawInstr.map(d=>d.code);
 
     //let endCode = ["jump mainLoop always"];
-    let endCode = ["jmp mainLoop"];
+    let endCode = ["popa\nret"];
     return code + gridSetup.join("\n") + "\n" + drawCode.join("\n") + "\n" + endCode.join("\n") + "\n";
 }
 
