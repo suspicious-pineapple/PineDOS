@@ -35,15 +35,17 @@ call print_hex_serial
 mov ecx, 200
 mov edx, 100
 mov eax, 'F'
+mov dword [ACTIVE_COLOR], INFO_COLOR
 call put_char
-
 mov ecx, 200+8
 mov eax, 'r'
+mov dword [ACTIVE_COLOR], ERROR_COLOR
 call put_char
 mov ecx, 200+8+8
 mov eax, 'o'
 call put_char
 mov ecx, 200+8+8+8
+mov dword [ACTIVE_COLOR], SUCCESS_COLOR
 mov eax, 'g'
 call put_char
 

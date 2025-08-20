@@ -481,8 +481,11 @@ ySetup.push("mov eax,dword [offsetY]");
 ySetup.push("mov dword [offsetYold], eax");
 for(let y = 0; y < charPixelRows+1; y++) {
     //ySetup.push("op add gridY"+y+" offsetY "+(y*charPixelHeight));
-    ySetup.push("mov eax,dword [offsetY]");
-    ySetup.push("add eax,"+(y*charPixelHeight));
+    ySetup.push("mov eax,"+(y*charPixelHeight));
+    ySetup.push("mov ecx, dword [scale]");
+    ySetup.push("shl eax,cl");
+    
+    ySetup.push("add eax,dword [offsetY]");
     ySetup.push("mov dword [gridY"+y+"], eax");
 
 }
@@ -501,7 +504,7 @@ let averageInstructions = (drawSegment.split("\n").filter(l=>{return l.startsWit
 
 //let finalCode = programStart + staticPoints + counterArray + drawSegment;
 
-let variableNames = ["offsetX","offsetY","addr","currentChar","maxScan","scanLength","scanOffset","nextSync","gridX0","offsetYold","gridY0","gridX1","gridX2","gridX3","gridX4","gridX5","gridY1","gridY2","gridY3","gridY4","gridY5","gridY6","gridY7","gridY8"]
+let variableNames = ["offsetX","offsetY","scale","addr","currentChar","maxScan","scanLength","scanOffset","nextSync","gridX0","offsetYold","gridY0","gridX1","gridX2","gridX3","gridX4","gridX5","gridY1","gridY2","gridY3","gridY4","gridY5","gridY6","gridY7","gridY8"]
 let variables = variableNames.map((v)=>{return v+":"+"dd 0\n"}).join("\n");
 
 let jumpTable = ".charJumpTable:\n";
@@ -565,7 +568,7 @@ buildBtn.addEventListener("click", ()=>{
 
 function generateDrawCode(charNum){
     let grid = storedChars[charNum];
-    grid = flipGrid(grid);
+    //grid = flipGrid(grid);
     //get rects and lines
     //generate code
     let code = ".char" + charNum + ":\n";
@@ -595,8 +598,10 @@ function generateDrawCode(charNum){
     for(let i = 0; i < usedXs.length; i++) {
         //gridSetup.push("op add gridX" + usedXs[i] + " offsetX " + usedXs[i]*charPixelWidth);
         gridSetup.push(`
-        mov eax, dword [offsetX]
-        add eax, ${usedXs[i]*charPixelWidth}
+        mov eax, ${usedXs[i]*charPixelWidth}
+        mov ecx, dword [scale]
+        shl eax, cl
+        add eax, dword [offsetX]
         mov dword [gridX${usedXs[i]}], eax
         `
         );
