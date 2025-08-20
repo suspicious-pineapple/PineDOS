@@ -674,12 +674,8 @@ class Point {
 }
 
 function flipGrid(grid) {
-    let newGrid = [];
-    //upside down
-    for (let i = 0; i < grid.length; i++) {
-        newGrid.push(grid[grid.length - 1 - i]);
-    }
-    return newGrid;
+    // Return original grid without flipping to fix upside-down font issue
+    return grid;
 }
 
 //create a new canvas element, and add it to the document
