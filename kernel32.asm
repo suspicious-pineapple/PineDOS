@@ -48,43 +48,55 @@ mov eax, 'g'
 call put_char
 
 
-xor ecx,ecx
-xor edx,edx
-.loop:
-;mov eax, 111111111111111111111111b
-xor eax,eax
-mov al, 255
-shl eax,8
-mov al, 255
-shl eax,8
-mov al,0
 
-mov eax, 0xFF00FF
+; Draw a triangle using the line drawing function
+; Triangle vertices: (100, 50), (200, 150), (50, 150)
 
-call put_pixel
-inc ecx
+; Draw line from (100, 50) to (200, 150)
+mov eax, 0xFF0000   ; Red color
+mov ecx, (50 << 16) | 100   ; Start: y=50, x=100
+mov edx, (150 << 16) | 200  ; End: y=150, x=200
+call draw_line
 
+; Draw line from (200, 150) to (50, 150)
+mov eax, 0x00FF00   ; Green color
+mov ecx, (150 << 16) | 200  ; Start: y=150, x=200
+mov edx, (150 << 16) | 50   ; End: y=150, x=50
+call draw_line
 
-cmp ecx, 32
-jle .loop
-inc edx
-mov eax,edx
-call print_hex_serial
-xor ecx,ecx
+; Draw line from (50, 150) to (100, 50)
+mov eax, 0x0000FF   ; Blue color
+mov ecx, (150 << 16) | 50   ; Start: y=150, x=50
+mov edx, (50 << 16) | 100   ; End: y=50, x=100
+call draw_line
 
-cmp edx, 32
+; Draw some additional test lines to verify all octants work
+; Horizontal line
+mov eax, 0xFFFF00   ; Yellow color
+mov ecx, (200 << 16) | 50   ; Start: y=200, x=50
+mov edx, (200 << 16) | 250  ; End: y=200, x=250
+call draw_line
 
-jle .loop
-xor edx,edx
-jmp .loop
+; Vertical line
+mov eax, 0xFF00FF   ; Magenta color
+mov ecx, (50 << 16) | 300   ; Start: y=50, x=300
+mov edx, (250 << 16) | 300  ; End: y=250, x=300
+call draw_line
 
+; Diagonal line (negative slope)
+mov eax, 0x00FFFF   ; Cyan color
+mov ecx, (50 << 16) | 350   ; Start: y=50, x=350
+mov edx, (150 << 16) | 250  ; End: y=150, x=250
+call draw_line
 
-;jmp $
+; Steep diagonal line
+mov eax, 0xFFFFFF   ; White color
+mov ecx, (50 << 16) | 400   ; Start: y=50, x=400
+mov edx, (200 << 16) | 420  ; End: y=200, x=420
+call draw_line
 
-
-
-
-jmp kernel_main
+; Halt the system - we're done drawing
+jmp $
 
 
 ;global
@@ -122,15 +134,117 @@ popa
 ret
 
 
-draw_line: ;eax -> color, ecx: start, edx: end
+draw_line: ;eax -> color, ecx: start (x0 in lower 16, y0 in upper 16), edx: end (x1 in lower 16, y1 in upper 16)
+pusha
+    push eax    ; Save color
 
+    ; Extract coordinates from packed format
+    mov eax, ecx
+    mov ebx, eax
+    and eax, 0xFFFF     ; x0 = lower 16 bits of ecx
+    shr ebx, 16         ; y0 = upper 16 bits of ecx
+    
+    mov ecx, edx
+    mov esi, ecx
+    and ecx, 0xFFFF     ; x1 = lower 16 bits of edx
+    shr esi, 16         ; y1 = upper 16 bits of edx
 
+    ; Now we have: eax=x0, ebx=y0, ecx=x1, esi=y1
+    
+    ; Calculate dx = abs(x1 - x0)
+    mov edx, ecx
+    sub edx, eax
+    mov edi, edx
+    sar edi, 31         ; Sign extension: 0 if positive, -1 if negative
+    xor edx, edi
+    sub edx, edi        ; abs(dx)
+    push edx            ; Save abs(dx) on stack
 
+    ; Calculate dy = abs(y1 - y0)
+    mov edx, esi
+    sub edx, ebx
+    mov edi, edx
+    sar edi, 31         ; Sign extension
+    xor edx, edi
+    sub edx, edi        ; abs(dy)
+    push edx            ; Save abs(dy) on stack
 
+    ; Calculate step directions
+    mov edx, 1
+    cmp ecx, eax        ; Compare x1 with x0
+    jge .sx_positive
+    neg edx
+.sx_positive:
+    push edx            ; Save sx on stack
 
+    mov edx, 1
+    cmp esi, ebx        ; Compare y1 with y0
+    jge .sy_positive
+    neg edx
+.sy_positive:
+    push edx            ; Save sy on stack
 
+    ; Stack now contains: [color] [abs(dx)] [abs(dy)] [sx] [sy]
+    ; Calculate initial error: err = dx - dy
+    mov edx, [esp + 12] ; abs(dx)
+    sub edx, [esp + 8]  ; abs(dy)
+    push edx            ; Save err on stack
 
+    ; Main drawing loop
+.draw_loop:
+    ; Draw current pixel at (eax, ebx)
+    push eax
+    push ebx
+    push ecx
+    push esi
+    
+    mov ecx, eax        ; x coordinate
+    mov edx, ebx        ; y coordinate
+    mov eax, [esp + 40] ; color (adjusted for pushes)
+    call put_pixel
+    
+    pop esi
+    pop ecx
+    pop ebx
+    pop eax
 
+    ; Check if we've reached the end point
+    cmp eax, ecx        ; x0 == x1?
+    jne .continue_line
+    cmp ebx, esi        ; y0 == y1?
+    je .line_done       ; Both equal, we're done
+
+.continue_line:
+    ; Calculate e2 = 2 * err
+    mov edx, [esp]      ; err
+    shl edx, 1          ; e2 = 2 * err
+
+    ; Check if e2 > -dy (move in x direction)
+    mov edi, [esp + 8]  ; abs(dy)
+    neg edi             ; -dy
+    cmp edx, edi
+    jle .check_y_move
+
+    ; Move in x direction: err -= dy, x0 += sx
+    mov edi, [esp + 8]  ; abs(dy)
+    sub [esp], edi      ; err -= dy
+    add eax, [esp + 4]  ; x0 += sx
+
+.check_y_move:
+    ; Check if e2 < dx (move in y direction)
+    mov edi, [esp + 12] ; abs(dx)
+    cmp edx, edi
+    jge .draw_loop
+
+    ; Move in y direction: err += dx, y0 += sy
+    add [esp], edi      ; err += dx
+    add ebx, [esp + 4]  ; y0 += sy
+    jmp .draw_loop
+
+.line_done:
+    ; Clean up stack: pop err, sy, sx, abs(dy), abs(dx)
+    add esp, 20
+    pop eax             ; Restore color
 
 popa
 ret
