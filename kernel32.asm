@@ -44,27 +44,28 @@ std
 call console_render
 
 
+mov edx, 150
+mov ecx, 0
+mov eax, 0x0000FF
+mov ebx, 640
+call horizontal_line
+
 xor edx,edx
 .loop:
 ;mov eax, 111111111111111111111111b
-xor eax,eax
-mov al, 255
-shl eax,8
-mov al, 255
-shl eax,8
-mov al,0
 
 mov eax, 0xFF00FF
-
+mov eax,edx
+shl eax, 10
 call put_pixel
 inc ecx
 
 
+mov eax,ecx
+call print_hex_serial
 cmp ecx, 32
 jle .loop
 inc edx
-mov eax,edx
-call print_hex_serial
 xor ecx,ecx
 
 cmp edx, 32
@@ -81,32 +82,6 @@ jmp .loop
 
 jmp kernel_main
 
-
-;global
-put_pixel: ;eax -> color, ecx = x, edx = y
-pusha
-    push eax
-    mov eax, dword [FRAMEBUFFER]
-    mov ebx, dword [FRAMEBUFFER]
-    mov eax, dword [FRAMEBUFFER_PITCH]
-    mul edx
-
-    push eax
-
-    mov eax, dword [FRAMEBUFFER_BPP]
-    mov eax,4
-    call print_hex_serial
-    mul ecx
-    mov ecx,eax
-    pop edx
-    add ebx, edx
-    add ebx, ecx
-    pop eax
-    mov dword [ebx], eax
-
-
-popa
-ret
 
 
 
@@ -126,8 +101,8 @@ xor eax,eax
 lodsw
 cmp al, 0
 jne .notnull
-pop ecx
-loop .printloop
+;pop ecx
+;loop .printloop
 .notnull:
 
 xor ebx,ebx
@@ -176,6 +151,15 @@ loop .printloop
 
 popa
 ret
+
+print_string:
+
+
+
+
+
+
+
 
 
 
@@ -228,15 +212,16 @@ print_hex_serial_16:
 
 
 
-%include "character_drawing.asm"
 
 
 
+%include "asmutil/character_drawing.asm"
+%include "colors.asm"
+%include "asmutil/drawing.asm"
+%include "asmutil/cwrappers.asm"
 
 ACTIVE_COLOR: dd 0xFF00FF
 
-
-%include "colors.asm"
 
 
 MULTIBOOT_INFO_ADDR: dq 0
@@ -252,6 +237,9 @@ FRAMEBUFFER_TYPE dq 0
 CONSOLE_COLUMNS dd 69
 CONSOLE_ROWS dd 42
 CONSOLE_BUFFER times (42*69*2) db 0
+CONSOLE_CURRENT_ROW:
+CONSOLE_CURRENT_COLUMN:
+
 DISPLAY_SCALE dq 0
 CHARACTER_HEIGHT dq 7
 CHARACTER_WIDTH dq 5
