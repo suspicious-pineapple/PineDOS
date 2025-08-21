@@ -29,19 +29,21 @@ call put_char
 
 
 
+mov byte [DISPLAY_SCALE],0
 
-
-mov byte [CONSOLE_BUFFER+128],'F'
-mov byte [CONSOLE_BUFFER+128+2],'R'
-mov byte [CONSOLE_BUFFER+128+4],'O'
-mov byte [CONSOLE_BUFFER+128+6],'G'
-mov byte [CONSOLE_BUFFER+128+8],'S'
-mov byte [CONSOLE_BUFFER+128+10],'!'
-mov byte [CONSOLE_BUFFER+128+10],'!'
-
+mov byte [CONSOLE_BUFFER+16],'F'
+mov byte [CONSOLE_BUFFER+16+1],1
+mov byte [CONSOLE_BUFFER+16+2],'R'
+mov byte [CONSOLE_BUFFER+16+4],'O'
+mov byte [CONSOLE_BUFFER+16+6],'G'
+mov byte [CONSOLE_BUFFER+16+7],2
+mov byte [CONSOLE_BUFFER+16+8],'S'
+mov byte [CONSOLE_BUFFER+16+10],'!'
+mov byte [CONSOLE_BUFFER+16+10],'!'
+std
 call console_render
 
-xor ecx,ecx
+
 xor edx,edx
 .loop:
 ;mov eax, 111111111111111111111111b
@@ -122,7 +124,7 @@ pusha
 mov eax, dword [DISPLAY_SCALE]
 mov dword [put_char.scale], eax
 
-
+cld
 mov ecx, 42*69
 mov esi, CONSOLE_BUFFER
 
@@ -149,7 +151,9 @@ or eax,ebx
 push eax
 
 
-mov eax, ecx
+mov eax, 42*69
+sub eax, ecx
+
 xor edx,edx
 
 div dword [CONSOLE_COLUMNS] ; EAX => Vertical position, EDX => Horizontal position
