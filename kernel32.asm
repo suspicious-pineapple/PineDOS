@@ -31,15 +31,15 @@ call put_char
 
 mov byte [DISPLAY_SCALE],0
 
-mov byte [CONSOLE_BUFFER+16],'F'
-mov byte [CONSOLE_BUFFER+16+1],1
-mov byte [CONSOLE_BUFFER+16+2],'R'
-mov byte [CONSOLE_BUFFER+16+4],'O'
-mov byte [CONSOLE_BUFFER+16+6],'G'
-mov byte [CONSOLE_BUFFER+16+7],2
-mov byte [CONSOLE_BUFFER+16+8],'S'
-mov byte [CONSOLE_BUFFER+16+10],'!'
-mov byte [CONSOLE_BUFFER+16+10],'!'
+mov byte [CONSOLE_BUFFER+32],'F'
+mov byte [CONSOLE_BUFFER+32+1],1
+mov byte [CONSOLE_BUFFER+32+2],'R'
+mov byte [CONSOLE_BUFFER+32+4],'O'
+mov byte [CONSOLE_BUFFER+32+6],'G'
+mov byte [CONSOLE_BUFFER+32+7],2
+mov byte [CONSOLE_BUFFER+32+8],'S'
+mov byte [CONSOLE_BUFFER+32+10],'!'
+mov byte [CONSOLE_BUFFER+32+10],'!'
 std
 call console_render
 
@@ -86,16 +86,9 @@ jmp kernel_main
 put_pixel: ;eax -> color, ecx = x, edx = y
 pusha
     push eax
-    mov ax, 0x1111
-    call print_hex_serial
-    pop eax   
-
-    push eax
     mov eax, dword [FRAMEBUFFER]
-    call print_hex_serial
     mov ebx, dword [FRAMEBUFFER]
     mov eax, dword [FRAMEBUFFER_PITCH]
-    call print_hex_serial
     mul edx
 
     push eax
@@ -111,8 +104,7 @@ pusha
     pop eax
     mov dword [ebx], eax
 
-    mov eax,ebx
-    call print_hex_serial
+
 popa
 ret
 
@@ -138,7 +130,6 @@ pop ecx
 loop .printloop
 .notnull:
 
-
 xor ebx,ebx
 mov bx,ax
 shr bx,8
@@ -150,7 +141,6 @@ or eax,ebx
 
 push eax
 
-
 mov eax, 42*69
 sub eax, ecx
 
@@ -158,19 +148,13 @@ xor edx,edx
 
 div dword [CONSOLE_COLUMNS] ; EAX => Vertical position, EDX => Horizontal position
 
-
-
 mov ebx, dword [CHARACTER_HEIGHT]
 mov cl, byte [DISPLAY_SCALE]
-
-
 
 shl ebx, cl
 push edx
 mul ebx
 pop edx ; i dont care about the overflow here
-
-
 
 push eax ;now holds the target vertical position, later to be popped into edx
 
@@ -249,7 +233,6 @@ print_hex_serial_16:
 
 
 
-global ACTIVE_COLOR
 ACTIVE_COLOR: dd 0xFF00FF
 
 
