@@ -1,0 +1,9 @@
+Building the cross compiler stuff (in cross/) is somewhat important.
+
+C wrappers for assembly functions will be defined in asmutil/cwrappers.asm
+
+terminal color palette is defined in colors.asm
+
+names of various variables are found at the bottom of kernel.asm
+
+todo: MOVe to C. assembly is insanity

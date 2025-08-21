@@ -31,6 +31,13 @@ call put_char
 
 mov byte [DISPLAY_SCALE],0
 
+mov ecx, 54
+mov edx, 1
+mov eax, 0
+mov al, 'F'
+mov ah, 1
+call put_console_char
+
 mov byte [CONSOLE_BUFFER+32],'F'
 mov byte [CONSOLE_BUFFER+32+1],1
 mov byte [CONSOLE_BUFFER+32+2],'R'
@@ -152,13 +159,30 @@ loop .printloop
 popa
 ret
 
-print_string:
+put_console_char: ;ax -> char and color, ecx -> column, edx -> row 
+cmp ecx, dword [CONSOLE_COLUMNS]
+jg anxiety
+cmp edx, dword [CONSOLE_ROWS]
+jg anxiety
+pusha
+push eax
+mov eax, edx
+mul dword [CONSOLE_ROWS]
+add eax, ecx
+shl eax,1 ; leftshift to multiply by 2, even addresses have letters, odd addresses have color data
+mov ebx,eax
+pop eax
+mov byte [CONSOLE_BUFFER+ebx],al
+mov byte [CONSOLE_BUFFER+1+ebx],ah
+popa
+ret
 
 
 
-
-
-
+anxiety:
+mov eax, 0xDEAD ;RIP :( something went wrong
+call print_hex_serial
+jmp $ ;halt
 
 
 
@@ -170,10 +194,10 @@ pusha
     call print_hex_serial_16
     pop eax
     call print_hex_serial_16
-    mov dx, 0x3F8
-    mov al, 0Dh
+    mov dx, 0x3F8 ;out port for serial0
+    mov al, 0Dh ;send CR
     out dx, al
-    mov al, 0Ah
+    mov al, 0Ah ;send LF
     out dx, al
 popa
 ret
