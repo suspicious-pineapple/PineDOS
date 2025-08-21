@@ -4,12 +4,12 @@ put_char:
 pusha
 mov dword [.offsetX], ecx
 mov dword [.offsetY], edx
-mov dword [.currentChar], eax
+mov byte [.currentChar], al
 
 mov dword [.offsetYold], 0
 
 
-cmp dword [.currentChar], 32
+cmp byte [.currentChar], 32
 jg .above32
 popa
 ret
@@ -17,10 +17,9 @@ ret
 ;op add offsetX offsetX 6
 add dword [.offsetX], 6
 
-;drawflush display1
 
-
-
+shr eax,8
+mov [.color],eax
 
 
 mov eax,dword [.offsetY]
@@ -304,35 +303,35 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -356,28 +355,28 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
@@ -422,112 +421,112 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -572,105 +571,105 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -715,91 +714,91 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -844,98 +843,98 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -952,14 +951,14 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
@@ -990,49 +989,49 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -1063,49 +1062,49 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -1136,35 +1135,35 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -1195,49 +1194,49 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -1254,14 +1253,14 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -1292,21 +1291,21 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
@@ -1330,28 +1329,28 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -1396,49 +1395,49 @@ ret
         mov dword [.gridX0], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -1476,98 +1475,98 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -1598,70 +1597,70 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX3 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -1699,70 +1698,70 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -1793,70 +1792,70 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -1894,77 +1893,77 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -1995,70 +1994,70 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -2096,112 +2095,112 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX3 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -2239,70 +2238,70 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -2333,112 +2332,112 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -2476,119 +2475,119 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -2612,56 +2611,56 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -2685,42 +2684,42 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -2751,35 +2750,35 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -2810,42 +2809,42 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
@@ -2876,35 +2875,35 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -2942,49 +2941,49 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3029,147 +3028,147 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX3 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3214,91 +3213,91 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX0 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3336,105 +3335,105 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3465,63 +3464,63 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3559,105 +3558,105 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3688,91 +3687,91 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3810,84 +3809,84 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -3932,119 +3931,119 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -4082,112 +4081,112 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -4218,77 +4217,77 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -4319,56 +4318,56 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -4413,91 +4412,91 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX0 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX0 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -4528,56 +4527,56 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -4622,112 +4621,112 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX0 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -4772,77 +4771,77 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -4887,84 +4886,84 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5002,98 +5001,98 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5138,105 +5137,105 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5281,112 +5280,112 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX0 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5424,91 +5423,91 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -5539,56 +5538,56 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5626,84 +5625,84 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5748,49 +5747,49 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5835,105 +5834,105 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX0 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -5978,63 +5977,63 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX0 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6079,56 +6078,56 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX0 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX4 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6173,84 +6172,84 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX0 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6281,70 +6280,70 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6375,42 +6374,42 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6441,70 +6440,70 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6535,21 +6534,21 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
@@ -6587,28 +6586,28 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6632,14 +6631,14 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
@@ -6677,112 +6676,112 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX3 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -6820,98 +6819,98 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -6942,42 +6941,42 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7015,98 +7014,98 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7144,77 +7143,77 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7245,49 +7244,49 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7325,112 +7324,112 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX4 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX4 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -7468,70 +7467,70 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7548,28 +7547,28 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7600,42 +7599,42 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -7673,77 +7672,77 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7767,35 +7766,35 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7840,56 +7839,56 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -7927,56 +7926,56 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX0 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX0 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -8014,84 +8013,84 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX4 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -8122,70 +8121,70 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -8216,70 +8215,70 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -8310,42 +8309,42 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -8376,49 +8375,49 @@ ret
         mov dword [.gridX1], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -8449,56 +8448,56 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -8529,63 +8528,63 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -8616,49 +8615,49 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX1 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX3 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -8703,63 +8702,63 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX0 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -8790,42 +8789,42 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -8863,49 +8862,49 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX4 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -8943,63 +8942,63 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX2 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX3 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -9037,63 +9036,63 @@ ret
         mov dword [.gridX0], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX3 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX1 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX1 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX1 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX2 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -9110,35 +9109,35 @@ ret
         mov dword [.gridX2], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX2 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX2 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX2 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY5]
     call put_pixel
@@ -9176,63 +9175,63 @@ ret
         mov dword [.gridX4], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX1 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY0]
     call put_pixel
     ;draw rect gridX2 gridY0 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY1]
     call put_pixel
     ;draw rect gridX3 gridY1 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX3 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
     ;draw rect gridX3 gridY4 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY5]
     call put_pixel
     ;draw rect gridX3 gridY5 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY6]
     call put_pixel
     ;draw rect gridX1 gridY6 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY6]
     call put_pixel
@@ -9277,35 +9276,35 @@ ret
         mov dword [.gridX3], eax
         
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX1]
     mov edx, dword [.gridY2]
     call put_pixel
     ;draw rect gridX1 gridY2 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX0]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX0 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX2]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX2 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX4]
     mov edx, dword [.gridY3]
     call put_pixel
     ;draw rect gridX4 gridY3 1 1
 
 
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [.color]
     mov ecx, dword [.gridX3]
     mov edx, dword [.gridY4]
     call put_pixel
@@ -9322,6 +9321,8 @@ ret
 .addr:dd 0
 
 .currentChar:dd 0
+
+.color:dd 0
 
 .maxScan:dd 0
 

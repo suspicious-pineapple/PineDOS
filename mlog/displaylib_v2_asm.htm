@@ -409,12 +409,12 @@ put_char:
 pusha
 mov dword [offsetX], ecx
 mov dword [offsetY], edx
-mov dword [currentChar], eax
+mov byte [currentChar], al
 
 mov dword [offsetYold], 0
 
 
-cmp dword [currentChar], 32
+cmp byte [currentChar], 32
 jg .above32
 popa
 ret
@@ -422,10 +422,9 @@ ret
 ;op add offsetX offsetX ${charWidth+1}
 add dword [offsetX], ${charWidth+1}
 
-;drawflush display1
 
-
-
+shr eax,8
+mov [color],eax
 `;
 //let counterArray = "\nop add @counter @counter currentChar\n";
 let counterArray = "\n\n";
@@ -504,7 +503,7 @@ let averageInstructions = (drawSegment.split("\n").filter(l=>{return l.startsWit
 
 //let finalCode = programStart + staticPoints + counterArray + drawSegment;
 
-let variableNames = ["offsetX","offsetY","scale","addr","currentChar","maxScan","scanLength","scanOffset","nextSync","gridX0","offsetYold","gridY0","gridX1","gridX2","gridX3","gridX4","gridX5","gridY1","gridY2","gridY3","gridY4","gridY5","gridY6","gridY7","gridY8"]
+let variableNames = ["offsetX","offsetY","scale","addr","currentChar","color","maxScan","scanLength","scanOffset","nextSync","gridX0","offsetYold","gridY0","gridX1","gridX2","gridX3","gridX4","gridX5","gridY1","gridY2","gridY3","gridY4","gridY5","gridY6","gridY7","gridY8"]
 let variables = variableNames.map((v)=>{return v+":"+"dd 0\n"}).join("\n");
 
 let jumpTable = ".charJumpTable:\n";

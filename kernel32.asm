@@ -1,11 +1,5 @@
 BITS 32
 
-INFO_COLOR equ 0xFFFFFF
-ERROR_COLOR equ 0xFF0000
-SUCCESS_COLOR equ 0xFF00FF
-
-
-
 global kernel_main
 kernel_main:
 mov dword [MULTIBOOT_INFO_ADDR],ebx
@@ -21,34 +15,31 @@ mov ecx, dword [ebx+104]
 mov dword [FRAMEBUFFER_HEIGHT], ecx
 mov ecx, dword [ebx+108]
 mov dword [FRAMEBUFFER_BPP], ecx
-mov eax,ecx
-call print_hex_serial
 
-
-
-
-mov eax, 0x12345678
-call print_hex_serial
 
 
 
 mov ecx, 200
 mov edx, 100
-mov eax, 'F'
-mov dword [ACTIVE_COLOR], INFO_COLOR
-call put_char
-mov ecx, 200+8
-mov eax, 'r'
-mov dword [ACTIVE_COLOR], ERROR_COLOR
-call put_char
-mov ecx, 200+8+8
-mov eax, 'o'
-call put_char
-mov ecx, 200+8+8+8
-mov dword [ACTIVE_COLOR], SUCCESS_COLOR
-mov eax, 'g'
+mov eax, 0xFFFF0000
+mov al, 'Z'
+
+mov dword [put_char.scale], 1
 call put_char
 
+
+
+
+
+mov byte [CONSOLE_BUFFER+128],'F'
+mov byte [CONSOLE_BUFFER+128+2],'R'
+mov byte [CONSOLE_BUFFER+128+4],'O'
+mov byte [CONSOLE_BUFFER+128+6],'G'
+mov byte [CONSOLE_BUFFER+128+8],'S'
+mov byte [CONSOLE_BUFFER+128+10],'!'
+mov byte [CONSOLE_BUFFER+128+10],'!'
+
+call console_render
 
 xor ecx,ecx
 xor edx,edx
@@ -124,22 +115,79 @@ popa
 ret
 
 
-draw_line: ;eax -> color, ecx: start, edx: end
+
+console_render:
+pusha
+
+mov eax, dword [DISPLAY_SCALE]
+mov dword [put_char.scale], eax
+
+
+mov ecx, 42*69
+mov esi, CONSOLE_BUFFER
+
+.printloop:
+push ecx
+xor eax,eax
+lodsw
+cmp al, 0
+jne .notnull
+pop ecx
+loop .printloop
+.notnull:
+
+
+xor ebx,ebx
+mov bx,ax
+shr bx,8
+and ebx,11111b
+add ebx,VGA_COLORS
+mov ebx,dword [ebx];
+shl ebx,8
+or eax,ebx
+
+push eax
+
+
+mov eax, ecx
+xor edx,edx
+
+div dword [CONSOLE_COLUMNS] ; EAX => Vertical position, EDX => Horizontal position
 
 
 
+mov ebx, dword [CHARACTER_HEIGHT]
+mov cl, byte [DISPLAY_SCALE]
 
 
 
+shl ebx, cl
+push edx
+mul ebx
+pop edx ; i dont care about the overflow here
+
+
+
+push eax ;now holds the target vertical position, later to be popped into edx
+
+mov eax, dword [CHARACTER_WIDTH]
+mov cl, byte [DISPLAY_SCALE]
+shl eax,cl
+mul edx
+
+mov ecx,eax
+pop edx
+pop eax
+
+call put_char
+
+pop ecx
+loop .printloop
 
 
 
 popa
 ret
-
-
-
-
 
 
 
@@ -201,6 +249,8 @@ global ACTIVE_COLOR
 ACTIVE_COLOR: dd 0xFF00FF
 
 
+%include "colors.asm"
+
 
 MULTIBOOT_INFO_ADDR: dq 0
 FRAMEBUFFER: dq 0
@@ -210,6 +260,11 @@ FRAMEBUFFER_HEIGHT dq 0
 FRAMEBUFFER_BPP dq 0
 FRAMEBUFFER_TYPE dq 0
 
-;global CONSOLE_TEXT
-CONSOLE_TEXT times (40*80) db 'E'
 
+;global CONSOLE_TEXT
+CONSOLE_COLUMNS dd 69
+CONSOLE_ROWS dd 42
+CONSOLE_BUFFER times (42*69*2) db 0
+DISPLAY_SCALE dq 0
+CHARACTER_HEIGHT dq 7
+CHARACTER_WIDTH dq 5

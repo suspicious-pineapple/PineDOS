@@ -431,7 +431,7 @@ let dot1 = new pattern([
 ]
 , function(x,y){
     return `
-    mov eax, dword [ACTIVE_COLOR]
+    mov eax, dword [color]
     mov ecx, dword [gridX${x}]
     mov edx, dword [gridY${y}]
     call put_pixel
