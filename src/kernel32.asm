@@ -115,6 +115,7 @@ xor ebx,ebx
 mov bx,ax
 shr bx,8
 and ebx,11111b
+shl bx,2
 add ebx,VGA_COLORS
 mov ebx,dword [ebx];
 shl ebx,8
@@ -371,8 +372,8 @@ CONSOLE_CURRENT_ROW: dd 1
 CONSOLE_CURRENT_COLUMN: dd 0
 CONSOLE_COLOR: db 0
 DISPLAY_SCALE dq 0
-CHARACTER_HEIGHT dq 7
-CHARACTER_WIDTH dq 5
+CHARACTER_HEIGHT dq 7+3
+CHARACTER_WIDTH dq 5+2
 
 CONSOLE_BUFFER times (42*69*2) db 0
 
