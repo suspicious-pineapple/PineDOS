@@ -1,0 +1,379 @@
+BITS 32
+
+global kernel_main
+kernel_main:
+
+mov dword [MULTIBOOT_INFO_ADDR],ebx
+;mov ebx, MULTIBOOT_INFO_ADDR
+mov ecx, dword [ebx+88]
+mov dword [FRAMEBUFFER], ecx
+;mov dword [FRAMEBUFFER], 0xA0000
+mov ecx, dword [ebx+96]
+mov dword [FRAMEBUFFER_PITCH], ecx
+mov ecx, dword [ebx+100]
+mov dword [FRAMEBUFFER_WIDTH], ecx
+mov ecx, dword [ebx+104]
+mov dword [FRAMEBUFFER_HEIGHT], ecx
+mov ecx, dword [ebx+108]
+mov dword [FRAMEBUFFER_BPP], ecx
+
+
+%include "src/asmutil/interrupts.asm"
+
+
+
+
+
+mov byte [DISPLAY_SCALE],1
+
+
+
+
+;mov al, "r"
+;call print_char
+;mov al, "o"
+;call print_char
+;mov al, "g"
+;call print_char
+
+mov ah, 0 ;default color
+mov ESI, TEST_STRING ;ESI is the pointer for the string to be printed
+call print_string
+
+
+
+extern cmain
+call cmain
+
+
+call console_render
+jmp $
+
+mov edx, 150
+mov ecx, 0
+mov eax, 0x0000FF
+mov ebx, 640
+call horizontal_line
+
+xor edx,edx
+.loop:
+;mov eax, 111111111111111111111111b
+
+mov eax, 0xFF00FF
+mov eax,edx
+shl eax, 10
+call put_pixel
+inc ecx
+
+
+mov eax,ecx
+;call print_hex_serial
+cmp ecx, 32
+jle .loop
+inc edx
+xor ecx,ecx
+
+cmp edx, 32
+
+jle .loop
+xor edx,edx
+jmp .loop
+
+
+;jmp $
+
+
+
+
+jmp kernel_main
+
+
+
+global _console_render
+_console_render:
+console_render: ;void (void)
+pusha
+
+mov eax, dword [DISPLAY_SCALE]
+mov dword [put_char.scale], eax
+
+cld
+mov ecx, 42*69
+mov esi, CONSOLE_BUFFER
+
+.printloop:
+push ecx
+xor eax,eax
+lodsw
+cmp al, 0
+jne .notnull
+;pop ecx
+;loop .printloop
+.notnull:
+
+xor ebx,ebx
+mov bx,ax
+shr bx,8
+and ebx,11111b
+add ebx,VGA_COLORS
+mov ebx,dword [ebx];
+shl ebx,8
+or eax,ebx
+
+push eax
+
+mov eax, 42*69
+sub eax, ecx
+
+xor edx,edx
+
+div dword [CONSOLE_COLUMNS] ; EAX => Vertical position, EDX => Horizontal position
+
+mov ebx, dword [CHARACTER_HEIGHT]
+mov cl, byte [DISPLAY_SCALE]
+
+shl ebx, cl
+push edx
+mul ebx
+pop edx ; i dont care about the overflow here
+
+push eax ;now holds the target vertical position, later to be popped into edx
+
+mov eax, dword [CHARACTER_WIDTH]
+mov cl, byte [DISPLAY_SCALE]
+shl eax,cl
+mul edx
+
+mov ecx,eax
+pop edx
+pop eax
+
+call put_char
+
+pop ecx
+loop .printloop
+
+
+
+popa
+ret
+
+put_console_char: ;ax -> char and color, ecx -> column, edx -> row 
+cmp ecx, dword [CONSOLE_COLUMNS]
+jg anxiety
+cmp edx, dword [CONSOLE_ROWS]
+jg anxiety
+pusha
+push eax
+mov eax, edx
+mul dword [CONSOLE_COLUMNS]
+add eax, ecx
+shl eax,1 ; leftshift to multiply by 2, even addresses have letters, odd addresses have color data
+mov ebx,eax
+pop eax
+mov byte [CONSOLE_BUFFER+ebx],al
+mov byte [CONSOLE_BUFFER+1+ebx],ah
+popa
+ret
+
+print_char:
+pusha
+cmp al, 0x0a
+je .linefeed
+cmp al, 0x0d
+je .carriagereturn
+mov ecx, dword [CONSOLE_CURRENT_COLUMN]
+mov edx, dword [CONSOLE_CURRENT_ROW]
+call put_console_char
+inc dword [CONSOLE_CURRENT_COLUMN]
+cmp ecx, dword [CONSOLE_COLUMNS]
+jg .fullnewline
+jmp .endprint
+.carriagereturn:
+mov dword [CONSOLE_CURRENT_COLUMN], 0
+jmp .endprint
+.linefeed:
+inc dword [CONSOLE_CURRENT_ROW]
+jmp .endprint
+.fullnewline:
+mov dword [CONSOLE_CURRENT_COLUMN],0
+inc dword [CONSOLE_CURRENT_ROW]
+jmp .endprint
+.endprint:
+
+
+popa
+ret
+
+scroll_console: ;todo
+ret
+
+global _outb
+_outb:
+
+mov dx, word [esp+4]
+xor eax,eax
+mov al, byte [esp+8]
+out dx,al
+
+ret
+
+global _set_console_color
+_set_console_color:
+mov dl, byte [esp+4]
+mov byte [CONSOLE_COLOR], dl
+ret
+
+
+global _kprint
+_kprint:
+mov edx, dword [esp+4]
+push esi
+push eax
+mov esi, edx
+mov ah, byte [CONSOLE_COLOR]
+call print_string 
+pop eax
+pop esi
+ret
+
+print_string: ; ESI -> String, EAX -> color. 0-terminated
+pusha
+
+.printloop:
+lodsb ;load string byte from where ESI points, then increment ESI
+cmp al, 0 ;compare the loaded byte to 0
+je .finished ;if the comparison was true, string is over
+call print_char ;print byte in "al". the print_char procedure handles newlines etc
+jmp .printloop
+
+.finished:
+
+popa
+ret
+
+global _print_serial
+_print_serial:
+mov edx, dword [ESP + 4]
+push esi
+mov esi, edx
+call print_string_serial
+pop esi
+ret
+
+print_string_serial: ; ESI -> String, EAX -> color. 0-terminated
+pusha
+
+.printloop:
+lodsb ;load string byte from where ESI points, then increment ESI
+cmp al, 0 ;compare the loaded byte to 0
+je .finished ;if the comparison was true, string is over
+mov dx,0x3F8
+out dx,al
+jmp .printloop
+
+.finished:
+
+popa
+ret
+
+
+
+
+
+global _anxiety
+anxiety:
+mov eax, 0xDEAD ;RIP :( something went wrong
+call print_hex_serial
+jmp $ ;halt
+
+
+
+
+
+
+print_hex_serial:
+pusha
+    push eax
+    shr eax, 16
+    call print_hex_serial_16
+    pop eax
+    call print_hex_serial_16
+    mov dx, 0x3F8 ;out port for serial0
+    mov al, 0Dh ;send CR
+    out dx, al
+    mov al, 0Ah ;send LF
+    out dx, al
+popa
+ret
+
+
+print_hex_serial_16:
+    pusha
+        mov bx, ax
+        shr ax, 12
+        call .print_nibble
+        mov ax, bx
+        shr ax, 8
+        call .print_nibble
+        mov ax, bx
+        shr ax, 4
+        call .print_nibble
+        mov ax, bx
+        call .print_nibble
+
+        popa
+    ret
+        .print_nibble:
+            and ax, 0Fh
+            cmp ax, 10
+            jge .greaterThan9
+            add al, '0'
+            jmp .print
+            .greaterThan9:
+            add al, 'A'-10
+            .print:
+            mov dx, 0x3F8
+            out dx,al
+        ret
+
+
+
+
+
+
+
+times 100 db 0
+
+%include "src/asmutil/memfunc.asm"
+%include "src/asmutil/character_drawing.asm"
+%include "src/colors.asm"
+%include "src/asmutil/drawing.asm"
+times 100 db 0
+
+;ACTIVE_COLOR: dd 0xFF00FF
+
+
+
+MULTIBOOT_INFO_ADDR: dq 0
+FRAMEBUFFER: dq 0
+FRAMEBUFFER_PITCH dq 0
+FRAMEBUFFER_WIDTH dq 0
+FRAMEBUFFER_HEIGHT dq 0
+FRAMEBUFFER_BPP dq 0
+FRAMEBUFFER_TYPE dq 0
+
+
+;global CONSOLE_TEXT
+CONSOLE_COLUMNS dd 69
+CONSOLE_ROWS dd 42
+CONSOLE_CURRENT_ROW: dd 1 
+CONSOLE_CURRENT_COLUMN: dd 0
+CONSOLE_COLOR: db 0
+DISPLAY_SCALE dq 0
+CHARACTER_HEIGHT dq 7
+CHARACTER_WIDTH dq 5
+
+CONSOLE_BUFFER times (42*69*2) db 0
+
+TEST_STRING: db "String printing works",0dh,0ah,0

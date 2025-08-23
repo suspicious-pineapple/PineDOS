@@ -7,8 +7,8 @@
 
 setlocal
 set PATH=%PATH%;C:\Program Files\NASM;D:\Program Files\qemu
-nasm -felf32 boot.asm -o tmp/boot.o
-nasm -felf32 kernel32.asm -o tmp/kernel.o
+nasm -felf32 src/boot.asm -o tmp/boot.o
+nasm -felf32 src/kernel32.asm -o tmp/kernel.o
 
 
 wsl bash -e ./create-image.sh

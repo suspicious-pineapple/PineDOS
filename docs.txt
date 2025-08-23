@@ -6,4 +6,28 @@ terminal color palette is defined in colors.asm
 
 names of various variables are found at the bottom of kernel.asm
 
-todo: MOVe to C. assembly is insanity
+todo: MOVe things to C. assembly is insanity
+
+
+
+roadmap:
+	- interrupts
+	- keyboard driver
+	- more libc functions
+	- bump allocator
+	- improve allocator
+	- a shell
+	- disk driver, primitive file system (-> maybe FAT driver)
+	- hex viewer/editor
+	- userspace programs somehow?
+		- text editor
+
+	- ???
+	- multitasking (later: preemptive multitasking)
+	- IP/TCP stack
+	- Telnet?
+	- virtual memory? long mode? paging?
+	
+	
+
+

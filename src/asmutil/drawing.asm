@@ -1,0 +1,104 @@
+put_pixel: ;eax -> color, ecx = x, edx = y
+pusha
+    push eax
+    mov ebx, dword [FRAMEBUFFER]
+    mov eax, dword [FRAMEBUFFER_PITCH]
+    mul edx
+
+    push eax ;multiplication result
+
+    mov eax, dword [FRAMEBUFFER_BPP]
+    mov eax,4
+
+    mul ecx
+    mov ecx,eax
+    pop edx
+    add ebx, edx
+    add ebx, ecx
+    pop eax
+    mov dword [ebx], eax
+    cmp dword [DISPLAY_SCALE], 1
+    jne .endplot
+    add ebx,4
+    mov dword [ebx], eax
+    add ebx, dword [FRAMEBUFFER_PITCH]
+    mov dword [ebx], eax
+    sub ebx,4
+    mov dword [ebx], eax
+    .endplot:
+popa
+ret
+
+;put_rect: ; eax -> color, ecx = x, edx = y, 
+
+
+
+
+
+
+
+horizontal_line: ; ECX -> X, EDX -> Y, EBX -> Length, EAX -> Color
+pusha
+    push ebx
+    push eax
+    mov ebx, dword [FRAMEBUFFER]
+    mov eax, dword [FRAMEBUFFER_PITCH]
+    mul edx
+
+    push eax
+
+    mov eax, dword [FRAMEBUFFER_BPP]
+    mov eax,4 ; real BPP for some reason
+
+    mul ecx
+    mov ecx,eax
+    pop edx
+    add ebx, edx
+    add ebx, ecx
+    pop eax
+    pop ecx
+    .hlineloop:
+    mov dword [ebx], eax
+    add ebx, 4 ; real BPP for some reason
+    loop .hlineloop
+
+popa
+ret
+
+blank_screen: ; EAX -> Color
+pusha
+    push eax
+
+    mov eax, dword [FRAMEBUFFER_HEIGHT]
+    mul dword [FRAMEBUFFER_WIDTH]
+    mov ebx, eax
+
+    mov ecx,0
+    mov edx,0
+    
+    pop eax
+    push ebx
+    push eax
+    mov ebx, dword [FRAMEBUFFER]
+    mov eax, dword [FRAMEBUFFER_PITCH]
+    mul edx
+
+    push eax
+
+    mov eax, dword [FRAMEBUFFER_BPP]
+    mov eax,4 ; real BPP for some reason
+
+    mul ecx
+    mov ecx,eax
+    pop edx
+    add ebx, edx
+    add ebx, ecx
+    pop eax
+    pop ecx
+    .hlineloop:
+    mov dword [ebx], eax
+    add ebx, 4 ; real BPP for some reason
+    loop .hlineloop
+
+popa
+ret
