@@ -1,6 +1,5 @@
 #include "libc/string.h"
 #include "asmfunctions.h"
-#include <stdio.h>
 void cmain() {
 
     _kprint("entering main.c\r\n\r\n");
@@ -22,16 +21,10 @@ void cmain() {
 
     _kprint("Frogs?\r\n");
 
-    char str3[64];
-
-    sprintf(str3, "There are %d snails", 25);
-    _kprint(str3);
-
     //_kprint("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n");
     //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");
 
     //memcpy(&str1,&str2,5);
-    test();
     /*
     _outb(0x3F8,'F');
     _outb(0x3F8,'r');
