@@ -18,8 +18,12 @@ mov ecx, dword [ebx+108]
 mov dword [FRAMEBUFFER_BPP], ecx
 
 
-%include "src/asmutil/interrupts.asm"
+;%include "src/asmutil/interrupts.asm"
 
+;pusha
+;extern setup_interrupts
+;call setup_interrupts
+;popa
 
 
 
@@ -206,8 +210,9 @@ jmp .endprint
 popa
 ret
 
-scroll_console: ;todo
-ret
+extern scroll_console
+;scroll_console: ;todo
+;ret
 
 global _outb
 _outb:
@@ -366,15 +371,20 @@ FRAMEBUFFER_TYPE dq 0
 
 
 ;global CONSOLE_TEXT
+global CONSOLE_COLUMNS
 CONSOLE_COLUMNS dd 69
+global CONSOLE_ROWS
 CONSOLE_ROWS dd 42
-CONSOLE_CURRENT_ROW: dd 1 
-CONSOLE_CURRENT_COLUMN: dd 0
+global CONSOLE_CURRENT_ROW
+CONSOLE_CURRENT_ROW dd 1 
+global CONSOLE_CURRENT_COLUMN
+CONSOLE_CURRENT_COLUMN dd 0
 CONSOLE_COLOR: db 0
 DISPLAY_SCALE dq 0
 CHARACTER_HEIGHT dq 7+3
 CHARACTER_WIDTH dq 5+2
 
+global CONSOLE_BUFFER
 CONSOLE_BUFFER times (42*69*2) db 0
 
 TEST_STRING: db "String printing works",0dh,0ah,0

@@ -1,28 +1,37 @@
+#include "libc/string.h"
 #include "asmfunctions.h"
+#include <stdio.h>
 void cmain() {
 
-    _kprint("entering main.c\r\n");
+    _kprint("entering main.c\r\n\r\n");
 
 
-    char* str1 = "Snails\r\n";
-    char str2[] = "Frogs\r\n";
-
-    _set_console_color(0);
+    char str2[] = "F9876543210F.\r\n";
+    char str1[] = "D0123456789D.\r\n";
+    
+    /*
+    memcpy(str1+5, str1+3,3);
     _kprint(str1);
-    _set_console_color(1);
-    _kprint(str1);
-    _set_console_color(2);
-    _kprint(str1);
-    _set_console_color(3);
-    _kprint(str1);
-    _set_console_color(4);
+    char str2[] = "0123456789.\r\n";
+    memmove(str2+5, str2+3,3);
     _kprint(str2);
-    _kprint(str1);
-    _kprint(str1);
-    
-    
-    //memcpy(&str1,&str2,5);
+    */
 
+    memcpy(str1+1,str2+1,10);
+    _kprint(str1);
+
+    _kprint("Frogs?\r\n");
+
+    char str3[64];
+
+    sprintf(str3, "There are %d snails", 25);
+    _kprint(str3);
+
+    //_kprint("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n");
+    //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");
+
+    //memcpy(&str1,&str2,5);
+    test();
     /*
     _outb(0x3F8,'F');
     _outb(0x3F8,'r');
@@ -32,3 +41,7 @@ void cmain() {
     */
 }
 
+void scroll_console(){
+    memmove(CONSOLE_BUFFER, CONSOLE_BUFFER+(69*2), 42*69*2);
+
+}

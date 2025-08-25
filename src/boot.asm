@@ -12,11 +12,11 @@ align 4
     dd MAGIC
     dd MBFLAGS
     dd CHECKSUM
-    resd 1
-    resd 1
-    resd 1
-    resd 1
-    resd 1
+    resd 0
+    resd 0
+    resd 0
+    resd 0
+    resd 0
     dd 0
     dd 640
     dd 480

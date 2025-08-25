@@ -2,6 +2,8 @@
     "files.associations": {
         "cstdint": "cpp",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "*.inc": "c",
+        "string.h": "c"
     }
 }
