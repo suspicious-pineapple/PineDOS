@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 extern void _kprint(char *); // 
 extern void _console_render(void); //update the kernel console

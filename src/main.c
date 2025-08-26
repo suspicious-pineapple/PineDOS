@@ -1,4 +1,4 @@
-#include "libc/string.h"
+#include "libc_freestanding/string.h"
 #include "asmfunctions.h"
 void cmain() {
 
@@ -16,10 +16,15 @@ void cmain() {
     _kprint(str2);
     */
 
-    memcpy(str1+1,str2+1,10);
+    memcpy(str1,str2,10);
     _kprint(str1);
 
     _kprint("Frogs?\r\n");
+
+    
+    memcmp(str1,str2,4)==0 ? _kprint("They are equal") : _kprint("They are not equal");
+
+
 
     //_kprint("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n");
     //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");

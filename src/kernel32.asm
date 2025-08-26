@@ -387,4 +387,8 @@ CHARACTER_WIDTH dq 5+2
 global CONSOLE_BUFFER
 CONSOLE_BUFFER times (42*69*2) db 0
 
+global interrupt_table
+interrupt_table:
+times 8*256 db 0
+
 TEST_STRING: db "String printing works",0dh,0ah,0

@@ -4,6 +4,8 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "*.inc": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "kernel.h": "c",
+        "asmfunctions.h": "c"
     }
 }
