@@ -121,9 +121,9 @@ shr bx,8
 and ebx,11111b
 shl bx,2
 add ebx,VGA_COLORS
-mov ebx,dword [ebx];
+mov ebx,dword [ebx]; lookup the color
 shl ebx,8
-or eax,ebx
+or eax,ebx ; add the color to the packet. high 3 bytes = color, low byte = character
 
 push eax
 
@@ -205,6 +205,14 @@ mov dword [CONSOLE_CURRENT_COLUMN],0
 inc dword [CONSOLE_CURRENT_ROW]
 jmp .endprint
 .endprint:
+mov eax, dword [CONSOLE_CURRENT_ROW]
+cmp eax, dword [CONSOLE_ROWS]
+jl .endprint_fr
+call scroll_console
+dec dword [CONSOLE_CURRENT_ROW]
+dec dword [CONSOLE_CURRENT_ROW]
+
+.endprint_fr:
 
 
 popa
@@ -391,8 +399,6 @@ CHARACTER_WIDTH dq 5+2
 global CONSOLE_BUFFER
 CONSOLE_BUFFER times (42*69*2) db 0
 
-global interrupt_table
-interrupt_table:
-times 8*256 db 0
+
 
 TEST_STRING: db "String printing works",0dh,0ah,0

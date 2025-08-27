@@ -65,7 +65,8 @@ pusha
 popa
 ret
 
-blank_screen: ; EAX -> Color
+global _blank_screen
+_blank_screen: ; EAX -> Color
 pusha
     push eax
 

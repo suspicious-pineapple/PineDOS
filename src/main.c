@@ -1,5 +1,6 @@
 #include "libc_freestanding/string.h"
 #include "asmfunctions.h"
+#include "kernel.h"
 void cmain() {
 
     _kprint("entering main.c\r\n\r\n");
@@ -39,7 +40,6 @@ void cmain() {
     _kprint("DDDDDDDDDDDDDDDDDDDD");
     _kprint("EEEEEEEEEEEEEEEEEEEE");
     _kprint("FFFFFFFFFFFFFFFFFFFF");
-    _fault();
     //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");
 
     //memcpy(&str1,&str2,5);
@@ -50,9 +50,44 @@ void cmain() {
     _outb(0x3F8,'g');
     _outb(0x3F8,'s');
     */
+    _console_render();
+    _console_render();
+    
+   volatile uint32_t test = 0;
+    volatile uint32_t test2 = 0;
+    while(1){
+        
+        char hexstr[11];
+        hex32_to_ascii(hexstr, test);
+        _kprint(hexstr);
+        _kprint("\r\n");
+
+        
+         for(uint32_t j = 0; j < 50000;j++){
+            
+        for(uint32_t k = 0; k < 500;k++){
+            test2++;
+            test2++;
+        }
+
+        }
+
+
+        test++;
+        
+        _blank_screen();
+        _console_render();
+
+    }
+    
+
+
+
+
+
 }
 
 void scroll_console(){
-    memmove(CONSOLE_BUFFER, CONSOLE_BUFFER+(69*2), 42*69*2);
+    memmove(&CONSOLE_BUFFER, &CONSOLE_BUFFER + (69*2), (42*69*2));
 
 }
