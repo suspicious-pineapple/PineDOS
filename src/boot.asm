@@ -18,8 +18,8 @@ align 4
     dd 0
     dd 0
     dd 0
-    dd 640
-    dd 480
+    dd 720
+    dd 1280
     dd 32
 
 section .bss

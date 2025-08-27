@@ -26,7 +26,13 @@ void cmain() {
 
 
 
-    //_kprint("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+    
+    char hexstr[11];
+    hex32_to_ascii(hexstr, 0x12345678);
+    _kprint(hexstr);
+
     //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");
 
     //memcpy(&str1,&str2,5);

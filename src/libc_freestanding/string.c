@@ -20,3 +20,27 @@ int memcmp(const void *s1, const void *s2, uint32_t n){
 
     return 0;
 }
+
+
+
+
+
+
+
+char* hex32_to_ascii(char* dest,uint32_t value){
+    dest[0]='0';
+    dest[1]='x';
+    dest[11]=0;
+
+    char nibbles[17] = "0123456789ABCDEF";
+
+    for(int i = 0; i < 8; i++){
+        int tmp = (value >> (4*i)) & 0xF;
+        dest[9-i]=nibbles[tmp];
+    }
+
+
+    return dest;
+}
+
+
