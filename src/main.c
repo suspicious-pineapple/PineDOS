@@ -32,7 +32,14 @@ void cmain() {
     char hexstr[11];
     hex32_to_ascii(hexstr, 0x12345678);
     _kprint(hexstr);
-
+    _kprint("\r\n");
+    _kprint("AAAAAAAAAAAAAAAAAAAA");
+    _kprint("BBBBBBBBBBBBBBBBBBBB");
+    _kprint("CCCCCCCCCCCCCCCCCCCC");
+    _kprint("DDDDDDDDDDDDDDDDDDDD");
+    _kprint("EEEEEEEEEEEEEEEEEEEE");
+    _kprint("FFFFFFFFFFFFFFFFFFFF");
+    _fault();
     //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");
 
     //memcpy(&str1,&str2,5);

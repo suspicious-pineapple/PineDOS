@@ -192,7 +192,7 @@ mov edx, dword [CONSOLE_CURRENT_ROW]
 call put_console_char
 inc dword [CONSOLE_CURRENT_COLUMN]
 cmp ecx, dword [CONSOLE_COLUMNS]
-jg .fullnewline
+jge .fullnewline
 jmp .endprint
 .carriagereturn:
 mov dword [CONSOLE_CURRENT_COLUMN], 0
@@ -294,7 +294,11 @@ call print_hex_serial
 jmp $ ;halt
 
 
-
+global _fault
+_fault:
+mov al,0
+div al
+ret
 
 
 
