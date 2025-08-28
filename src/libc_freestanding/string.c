@@ -42,9 +42,11 @@ char* hex32_to_ascii(char* dest,uint32_t value){
 
     return dest;
 }
-/*
+
 void print_hex32(uint32_t value){
-    char dest[11];
+    char dest[12];
+    
+    hex32_to_ascii(dest,value);
+    _kprint(dest);
 
 }
-*/

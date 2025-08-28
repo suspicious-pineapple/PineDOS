@@ -63,7 +63,7 @@ void cmain() {
         _kprint(hexstr);
         _kprint("\r\n");
 
-        
+        /*
          for(uint32_t j = 0; j < 50000;j++){
             
         for(uint32_t k = 0; k < 500;k++){
@@ -72,7 +72,7 @@ void cmain() {
         }
 
         }
-
+    */
 
         test++;
         

@@ -1,5 +1,10 @@
 BITS 32
 
+cfg_console_width equ 69
+cfg_console_height equ 42 
+
+
+
 global kernel_main
 kernel_main:
 
@@ -102,7 +107,7 @@ mov eax, dword [DISPLAY_SCALE]
 mov dword [put_char.scale], eax
 
 cld
-mov ecx, 42*69
+mov ecx, cfg_console_height*cfg_console_width
 mov esi, CONSOLE_BUFFER
 
 .printloop:
@@ -127,7 +132,7 @@ or eax,ebx ; add the color to the packet. high 3 bytes = color, low byte = chara
 
 push eax
 
-mov eax, 42*69
+mov eax, cfg_console_height*cfg_console_width
 sub eax, ecx
 
 xor edx,edx
@@ -373,19 +378,24 @@ times 100 db 0
 
 
 MULTIBOOT_INFO_ADDR: dq 0
+global FRAMEBUFFER
 FRAMEBUFFER: dq 0
+global FRAMEBUFFER_PITCH
 FRAMEBUFFER_PITCH dq 0
+global FRAMEBUFFER_WIDTH
 FRAMEBUFFER_WIDTH dq 0
+global FRAMEBUFFER_HEIGHT
 FRAMEBUFFER_HEIGHT dq 0
+global FRAMEBUFFER_BPP
 FRAMEBUFFER_BPP dq 0
+global FRAMEBUFFER_TYPE
 FRAMEBUFFER_TYPE dq 0
-
 
 ;global CONSOLE_TEXT
 global CONSOLE_COLUMNS
-CONSOLE_COLUMNS dd 69
+CONSOLE_COLUMNS dd cfg_console_width
 global CONSOLE_ROWS
-CONSOLE_ROWS dd 42
+CONSOLE_ROWS dd cfg_console_height
 global CONSOLE_CURRENT_ROW
 CONSOLE_CURRENT_ROW dd 1 
 global CONSOLE_CURRENT_COLUMN
@@ -396,8 +406,9 @@ CHARACTER_HEIGHT dq 7+3
 CHARACTER_WIDTH dq 5+2
 
 global CONSOLE_BUFFER
-CONSOLE_BUFFER: times (43*69*2) db 0
+CONSOLE_BUFFER: times ((cfg_console_height+1)*cfg_console_width*2) db 0
 
+;SECONDARY_FRAMEBUFFER times()
 
 
 TEST_STRING: db "String printing works",0dh,0ah,0

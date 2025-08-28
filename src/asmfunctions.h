@@ -10,3 +10,9 @@ extern void _blank_screen();
 
 extern uint8_t CONSOLE_BUFFER[42*69*2];
 extern uint32_t* CONSOLE_ROWS;
+extern uint32_t* FRAMEBUFFER;
+extern uint32_t* FRAMEBUFFER_PITCH;
+extern uint32_t* FRAMEBUFFER_WIDTH;
+extern uint32_t* FRAMEBUFFER_HEIGHT;
+extern uint32_t* FRAMEBUFFER_BPP;
+extern uint32_t* FRAMEBUFFER_TYPE;
