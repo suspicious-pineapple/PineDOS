@@ -210,7 +210,6 @@ cmp eax, dword [CONSOLE_ROWS]
 jl .endprint_fr
 call scroll_console
 dec dword [CONSOLE_CURRENT_ROW]
-dec dword [CONSOLE_CURRENT_ROW]
 
 .endprint_fr:
 
@@ -397,7 +396,7 @@ CHARACTER_HEIGHT dq 7+3
 CHARACTER_WIDTH dq 5+2
 
 global CONSOLE_BUFFER
-CONSOLE_BUFFER times (42*69*2) db 0
+CONSOLE_BUFFER: times (43*69*2) db 0
 
 
 

@@ -18,11 +18,12 @@ void cmain() {
     */
 
     memcpy(str1,str2,10);
+    //memset(&str1, 'F', 6);
     _kprint(str1);
 
     _kprint("Frogs?\r\n");
 
-    
+
     memcmp(str1,str2,4)==0 ? _kprint("They are equal") : _kprint("They are not equal");
 
 
@@ -88,6 +89,5 @@ void cmain() {
 }
 
 void scroll_console(){
-    memmove(&CONSOLE_BUFFER, &CONSOLE_BUFFER + (69*2), (42*69*2));
-
+    memmove(CONSOLE_BUFFER, CONSOLE_BUFFER + (69*2), (42*69*2));
 }
