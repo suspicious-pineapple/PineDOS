@@ -54,6 +54,15 @@ void cmain() {
 
     memcmp(str1,str2,4)==0 ? _kprint("They are equal") : _kprint("They are not equal");
 
+    for(int i = 0; i < 8; i++){
+        _kprint("\r\n");
+        print_hex32(i);
+
+    }
+
+    volatile uint32_t runtest(uint32_t depth);
+
+    runtest(0);
 
 
     _kprint("\r\n");
@@ -82,49 +91,37 @@ void cmain() {
     */
     _console_render();
 
-    void runtest();
-    runtest();
 
-           volatile uint32_t test = 0;
-    volatile uint32_t test2 = 0;
-    while(1){
-        
-        char hexstr[11];
-        hex32_to_ascii(hexstr, test);
-        _kprint(hexstr);
-        _kprint("\r\n");
-
-        _kprint("stack size: ");
-    print_hex32(_get_stacksize());
-    
-    _kprint("\r\n");
-
-
-        /*
-         for(uint32_t j = 0; j < 50000;j++){
-            
-        for(uint32_t k = 0; k < 500;k++){
-            test2++;
-            test2++;
-        }
-
-        }
-    */
-
-        test++;
-        
-        _blank_screen();
-        _console_render();
-
-    }
-
+ 
 
 }
 
-void runtest(){
+volatile uint32_t runtest(uint32_t depth){
+        _kprint("\r\n");
+
+        _kprint("stack size: ");
+    
     
 
+    //char hexstr[12];
+    //hex32_to_ascii(hexstr, _get_stacksize());
+    //_kprint(hexstr);
+    
+    //print_hex32(_get_stacksize());
+    print_hex32(_get_stacksize());
+    _kprint("\r\n");
+    print_hex32(depth);
+    _kprint("\r\n");
+   
+    if(depth>12){
+        return 0;
+    }
 
+    runtest(depth+1);
+
+
+
+    return 0;
 }
 
 
