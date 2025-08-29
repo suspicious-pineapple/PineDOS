@@ -24,7 +24,7 @@ align 4
 
 section .bss
 align 16
-
+global stack_bottom
 stack_bottom:
 resb 16384
 stack_top:

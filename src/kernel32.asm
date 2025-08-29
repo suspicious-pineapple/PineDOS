@@ -222,9 +222,15 @@ dec dword [CONSOLE_CURRENT_ROW]
 popa
 ret
 
+extern stack_bottom
+global _get_stacksize
+_get_stacksize:
+mov eax, stack_bottom + 16384
+sub eax, esp
+ret
+
+
 extern scroll_console
-;scroll_console: ;todo
-;ret
 
 global _outb
 _outb:
@@ -377,19 +383,19 @@ times 100 db 0
 
 
 
-MULTIBOOT_INFO_ADDR: dq 0
+MULTIBOOT_INFO_ADDR: dd 0
 global FRAMEBUFFER
-FRAMEBUFFER: dq 0
+FRAMEBUFFER dq 0
 global FRAMEBUFFER_PITCH
-FRAMEBUFFER_PITCH dq 0
+FRAMEBUFFER_PITCH dd 0
 global FRAMEBUFFER_WIDTH
-FRAMEBUFFER_WIDTH dq 0
+FRAMEBUFFER_WIDTH dd 0
 global FRAMEBUFFER_HEIGHT
-FRAMEBUFFER_HEIGHT dq 0
+FRAMEBUFFER_HEIGHT dd 0
 global FRAMEBUFFER_BPP
-FRAMEBUFFER_BPP dq 0
+FRAMEBUFFER_BPP dd 0
 global FRAMEBUFFER_TYPE
-FRAMEBUFFER_TYPE dq 0
+FRAMEBUFFER_TYPE dd 0
 
 ;global CONSOLE_TEXT
 global CONSOLE_COLUMNS

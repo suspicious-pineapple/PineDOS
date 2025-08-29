@@ -4,6 +4,34 @@
 void cmain() {
 
     _kprint("entering main.c\r\n\r\n");
+    
+    _kprint("\r\n");
+    _kprint("FRAMEBUFFER ");
+    print_hex32(FRAMEBUFFER);
+    _kprint("\r\n");
+    _kprint("FRAMEBUFFER_PITCH ");
+    print_hex32(FRAMEBUFFER_PITCH);
+    _kprint("\r\n");
+    _kprint("FRAMEBUFFER_WIDTH ");
+    print_hex32(FRAMEBUFFER_WIDTH);
+    _kprint("\r\n");
+    _kprint("FRAMEBUFFER_HEIGHT ");
+    print_hex32(FRAMEBUFFER_HEIGHT);
+    _kprint("\r\n");
+    _kprint("FRAMEBUFFER_BPP ");
+    print_hex32(FRAMEBUFFER_BPP);
+    _kprint("\r\n");
+    _kprint("FRAMEBUFFER_TYPE ");
+    print_hex32(FRAMEBUFFER_TYPE);
+    _kprint("\r\n");
+    
+    _kprint("stack size: ");
+    print_hex32(_get_stacksize());
+    
+    _kprint("\r\n");
+
+
+
 
 
     char str2[] = "F9876543210F.\r\n";
@@ -41,6 +69,7 @@ void cmain() {
     _kprint("DDDDDDDDDDDDDDDDDDDD");
     _kprint("EEEEEEEEEEEEEEEEEEEE");
     _kprint("FFFFFFFFFFFFFFFFFFFF");
+    _kprint("\r\n");
     //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");
 
     //memcpy(&str1,&str2,5);
@@ -52,9 +81,11 @@ void cmain() {
     _outb(0x3F8,'s');
     */
     _console_render();
-    _console_render();
-    
-   volatile uint32_t test = 0;
+
+    void runtest();
+    runtest();
+
+           volatile uint32_t test = 0;
     volatile uint32_t test2 = 0;
     while(1){
         
@@ -62,6 +93,12 @@ void cmain() {
         hex32_to_ascii(hexstr, test);
         _kprint(hexstr);
         _kprint("\r\n");
+
+        _kprint("stack size: ");
+    print_hex32(_get_stacksize());
+    
+    _kprint("\r\n");
+
 
         /*
          for(uint32_t j = 0; j < 50000;j++){
@@ -80,13 +117,17 @@ void cmain() {
         _console_render();
 
     }
-    
-
-
-
 
 
 }
+
+void runtest(){
+    
+
+
+}
+
+
 
 void scroll_console(){
     memmove(CONSOLE_BUFFER, CONSOLE_BUFFER + (69*2), (42*69*2));
