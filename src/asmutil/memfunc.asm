@@ -57,8 +57,8 @@ jmp memcpy_forward
 global memset
 memset:
 mov edx, dword [esp+4] ;dest
-mov al, byte [esp+5] ;byte to set things to
-mov ecx, dword [esp+9] ;number of bytes to set
+mov al, byte [esp+8] ;byte to set things to
+mov ecx, dword [esp+12] ;number of bytes to set
 xchg edx,esi
 rep stosb ;repeat stosb ecx times
 mov eax,edx

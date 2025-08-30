@@ -1,8 +1,8 @@
 BITS 32
 
 cfg_console_width equ 69
-cfg_console_height equ 42 
-
+cfg_console_height equ 38
+cfg_kernel_heap_size equ 0x4000000
 
 
 global kernel_main
@@ -45,9 +45,9 @@ mov byte [DISPLAY_SCALE],1
 ;mov al, "g"
 ;call print_char
 
-mov ah, 0 ;default color
-mov ESI, TEST_STRING ;ESI is the pointer for the string to be printed
-call print_string
+;mov ah, 0 ;default color
+;mov ESI, TEST_STRING ;ESI is the pointer for the string to be printed
+;call print_string
 
 
 
@@ -242,6 +242,33 @@ out dx,al
 
 ret
 
+global _outw
+_outw:
+
+mov dx, word [esp+4]
+xor eax,eax
+mov ax, word [esp+8]
+out dx,ax
+
+ret
+
+global _outd
+_outd:
+
+mov dx, word [esp+4]
+xor eax,eax
+mov eax, dword [esp+8]
+out dx,eax
+
+ret
+
+
+
+
+
+
+
+
 global _set_console_color
 _set_console_color:
 mov dl, byte [esp+4]
@@ -418,3 +445,7 @@ CONSOLE_BUFFER: times ((cfg_console_height+1)*cfg_console_width*2) db 0
 
 
 TEST_STRING: db "String printing works",0dh,0ah,0
+
+global KERNEL_HEAP
+KERNEL_HEAP resb (25)
+

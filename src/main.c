@@ -113,13 +113,13 @@ volatile uint32_t runtest(uint32_t depth){
     print_hex32(depth);
     _kprint("\r\n");
    
-    if(depth>12){
+    if(depth>8){
         return 0;
     }
 
-    runtest(depth+1);
+    uint32_t retval = runtest(depth+1);
 
-
+    print_hex32(retval);
 
     return 0;
 }
@@ -127,5 +127,5 @@ volatile uint32_t runtest(uint32_t depth){
 
 
 void scroll_console(){
-    memmove(CONSOLE_BUFFER, CONSOLE_BUFFER + (69*2), (42*69*2));
+    memmove(CONSOLE_BUFFER, CONSOLE_BUFFER + (69*2), (38*69*2));
 }

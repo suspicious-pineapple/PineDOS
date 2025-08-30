@@ -17,3 +17,4 @@ extern uint32_t FRAMEBUFFER_WIDTH;
 extern uint32_t FRAMEBUFFER_HEIGHT;
 extern uint32_t FRAMEBUFFER_BPP;
 extern uint32_t FRAMEBUFFER_TYPE;
+extern uint32_t KERNEL_HEAP;
