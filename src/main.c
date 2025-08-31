@@ -1,8 +1,11 @@
 #include "libc_freestanding/string.h"
 #include "asmfunctions.h"
 #include "kernel.h"
+#include "libc_freestanding/kmalloc.h"
 void cmain() {
 
+
+    /*
     _kprint("entering main.c\r\n\r\n");
     
     _kprint("\r\n");
@@ -30,66 +33,56 @@ void cmain() {
     
     _kprint("\r\n");
 
-
-
-
-
-    char str2[] = "F9876543210F.\r\n";
-    char str1[] = "D0123456789D.\r\n";
-    
-    /*
-    memcpy(str1+5, str1+3,3);
-    _kprint(str1);
-    char str2[] = "0123456789.\r\n";
-    memmove(str2+5, str2+3,3);
-    _kprint(str2);
     */
 
-    memcpy(str1,str2,10);
-    //memset(&str1, 'F', 6);
-    _kprint(str1);
 
-    _kprint("Frogs?\r\n");
-
-
-    memcmp(str1,str2,4)==0 ? _kprint("They are equal") : _kprint("They are not equal");
-
-    for(int i = 0; i < 8; i++){
-        _kprint("\r\n");
-        print_hex32(i);
-
-    }
-
-    volatile uint32_t runtest(uint32_t depth);
-
-    runtest(0);
+    _set_console_color(0);
+    _kprint("GDT..");
+    _set_console_color(7);
+    _kprint("whatever grub sets by default lmao\r\n");
+    _set_console_color(0);
+    _kprint("IDT..");
+    _set_console_color(7);
+    _kprint("not implemented yet lol\r\n\n");
+    
+    _set_console_color(0);
 
 
-    _kprint("\r\n");
+
+    char* teststring = "Testing a string!";
+    
+    uint32_t teststr_len = strlen(teststring);
+
+    print_hex32(teststr_len);
+
+    char* newstr = kmalloc(teststr_len+1);
+    
     _kprint("\r\n");
     
-    char hexstr[11];
-    hex32_to_ascii(hexstr, 0x12345678);
-    _kprint(hexstr);
+    memcpy(newstr, teststring, teststr_len+1);
+    
+    char* teststring2 = "Snails!!";
+    char* newstring2 = kmalloc(strlen(teststring2)+1);
+    memcpy(newstring2,teststring2,strlen(teststring2));
+    
+    
+    _kprint(newstring2);
     _kprint("\r\n");
-    _kprint("AAAAAAAAAAAAAAAAAAAA");
-    _kprint("BBBBBBBBBBBBBBBBBBBB");
-    _kprint("CCCCCCCCCCCCCCCCCCCC");
-    _kprint("DDDDDDDDDDDDDDDDDDDD");
-    _kprint("EEEEEEEEEEEEEEEEEEEE");
-    _kprint("FFFFFFFFFFFFFFFFFFFF");
+    print_hex32((uint32_t)teststring2);
     _kprint("\r\n");
-    //_kprint("abcdefghijklmnopqrstuvw @@@@ _@_v");
+    print_hex32((uint32_t)newstring2);
+    _kprint("\r\n");
+    _kprint(newstr);
+    _kprint("\r\n");
+    print_hex32((uint32_t)teststring);
+    _kprint("\r\n");
+    print_hex32((uint32_t)newstr);
 
-    //memcpy(&str1,&str2,5);
-    /*
-    _outb(0x3F8,'F');
-    _outb(0x3F8,'r');
-    _outb(0x3F8,'o');
-    _outb(0x3F8,'g');
-    _outb(0x3F8,'s');
-    */
+
+
+
     _console_render();
+
 
 
  

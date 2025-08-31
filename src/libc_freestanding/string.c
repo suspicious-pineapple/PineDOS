@@ -50,3 +50,11 @@ void print_hex32(uint32_t value){
     _kprint(dest);
 
 }
+
+uint32_t strlen(char* str){
+    uint32_t len = 0;
+    while(str[len]!=0){
+        len++;
+    }
+    return len;
+}

@@ -29,6 +29,8 @@ stack_bottom:
 resb 16384
 stack_top:
 
+
+
 section .text
 global _start:function (_start.end - _start)
 

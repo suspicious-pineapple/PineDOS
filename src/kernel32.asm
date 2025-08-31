@@ -3,7 +3,7 @@ BITS 32
 cfg_console_width equ 69
 cfg_console_height equ 38
 cfg_kernel_heap_size equ 0x4000000
-
+cfg_kernel_heap_location equ 0x3200000 ; locate kernel at 50MiB for no particular reason. i am sure this will not bite me in the ass later on
 
 global kernel_main
 kernel_main:
@@ -446,6 +446,5 @@ CONSOLE_BUFFER: times ((cfg_console_height+1)*cfg_console_width*2) db 0
 
 TEST_STRING: db "String printing works",0dh,0ah,0
 
-global KERNEL_HEAP
-KERNEL_HEAP resb (25)
+
 
