@@ -2,10 +2,16 @@
 #include "asmfunctions.h"
 #include "kernel.h"
 #include "libc_freestanding/kmalloc.h"
+
+
+
+char* secondary_framebuffer;
+char* primary_framebuffer;
+
+
 void cmain() {
 
-
-    /*
+    
     _kprint("entering main.c\r\n\r\n");
     
     _kprint("\r\n");
@@ -33,7 +39,9 @@ void cmain() {
     
     _kprint("\r\n");
 
-    */
+    secondary_framebuffer = (char*)kmalloc(FRAMEBUFFER_HEIGHT*FRAMEBUFFER_PITCH);
+    primary_framebuffer = (char*)FRAMEBUFFER;
+    FRAMEBUFFER = (uint32_t)secondary_framebuffer;
 
 
     _set_console_color(0);
@@ -79,46 +87,38 @@ void cmain() {
     print_hex32((uint32_t)newstr);
 
 
-
-
     _console_render();
-
-
-
+    copy_framebuffer();
+    uint32_t testnum = 0;
+    while(1) {
+        _kprint("\r\n");
+        print_hex32(testnum);
+        testnum++;
+        _console_render();
+        copy_framebuffer();
+        _blank_screen();
+    
+    
+    }
  
 
-}
-
-volatile uint32_t runtest(uint32_t depth){
-        _kprint("\r\n");
-
-        _kprint("stack size: ");
-    
-    
-
-    //char hexstr[12];
-    //hex32_to_ascii(hexstr, _get_stacksize());
-    //_kprint(hexstr);
-    
-    //print_hex32(_get_stacksize());
-    print_hex32(_get_stacksize());
-    _kprint("\r\n");
-    print_hex32(depth);
-    _kprint("\r\n");
-   
-    if(depth>8){
-        return 0;
-    }
-
-    uint32_t retval = runtest(depth+1);
-
-    print_hex32(retval);
-
-    return 0;
 }
 
 
 
 void scroll_console(){
     memmove(CONSOLE_BUFFER, CONSOLE_BUFFER + (69*2), (38*69*2));
+    for(int i = 0; i < 15; i++){
+        scroll_framebuffer();
+    }
+}
+
+void scroll_framebuffer(){
+    memcpy_4byte(primary_framebuffer, primary_framebuffer + FRAMEBUFFER_PITCH, FRAMEBUFFER_PITCH*(FRAMEBUFFER_HEIGHT-1));
+}
+
+void copy_framebuffer(){
+    memcpy_4byte(primary_framebuffer,secondary_framebuffer,FRAMEBUFFER_HEIGHT*FRAMEBUFFER_PITCH);
+
+
 }

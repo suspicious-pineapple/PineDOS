@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 extern void* memcpy(void* dest, void* source, uint32_t size);
+extern void* memcpy_4byte(void* dest, void* source, uint32_t size);
 extern void* memmove(void* dest, void* source, uint32_t size);
 extern void* memset(void* dest, uint8_t value, uint32_t size); // all these are found in src/asmutil/memfunc.asm
 char* hex32_to_ascii(char *dest,uint32_t value);

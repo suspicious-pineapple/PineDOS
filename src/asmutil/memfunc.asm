@@ -11,10 +11,11 @@ push edi
 memcpy_forward:
 mov esi, eax ;the args loaded earlier, before pushing anything
 mov edi, edx
-.loopcpy:
-lodsb
-stosb
-loop .loopcpy
+;.loopcpy:
+;lodsb
+;stosb
+rep movsb
+;loop .loopcpy
 mov eax,edx ;return value is dest
 pop edi ; restore EDI, ESI
 pop esi
@@ -29,10 +30,7 @@ dec esi
 dec edi
 
 std ;set direction flag
-.loopcpy:
-lodsb
-stosb
-loop .loopcpy
+rep movsb
 mov eax,edx; return value is dest
 pop edi ; restore EDI, ESI
 pop esi
@@ -69,7 +67,26 @@ ret
 
 
 
+global memcpy_4byte
+memcpy_4byte:
+mov edx, dword [esp+4] ;dest
+mov eax, dword [esp+8] ;source
+mov ecx, dword [esp+12] ;size
+shr ecx,2
+push esi ;GCC requires ESI and EDI to be preserved
+push edi
 
+mov esi, eax ;the args loaded earlier, before pushing anything
+mov edi, edx
+;.loopcpy:
+;lodsb
+;stosb
+rep movsd
+;loop .loopcpy
+mov eax,edx ;return value is dest
+pop edi ; restore EDI, ESI
+pop esi
+ret
 
 
 

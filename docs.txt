@@ -12,11 +12,18 @@ todo: MOVe things to C. assembly is insanity
 
 roadmap:
 	- interrupts
+		- asm wrapper for C interrupt functions
 	- keyboard driver
+		- depends on interrupts i guess
 	- more libc functions
-	- bump allocator
+		- actually dont. implement syscalls instead
+		- libc only for userspace
+	- bump allocator [done]
 	- improve allocator
 	- a shell
+		-> actually no shell. kernel shells bad
+			do in userspace instead
+
 	- disk driver, primitive file system (-> maybe FAT driver)
 	- hex viewer/editor
 	- userspace programs somehow?

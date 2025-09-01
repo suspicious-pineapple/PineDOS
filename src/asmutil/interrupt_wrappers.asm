@@ -4,7 +4,7 @@
 global _set_interrupt_routine
 _set_interrupt_routine:
 mov edx, byte [esp+4]
-mov ecx, dword [esp+5]
+mov ecx, dword [esp+8]; 4 byte aligned
 
 pusha
 

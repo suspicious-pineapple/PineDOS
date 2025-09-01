@@ -6,6 +6,12 @@
         "*.inc": "c",
         "string.h": "c",
         "kernel.h": "c",
-        "asmfunctions.h": "c"
+        "asmfunctions.h": "c",
+        "xlocinfo": "c",
+        "*.x": "c",
+        "*.def": "c",
+        "cstdlib": "c",
+        "memory_resource": "c",
+        "memory": "c"
     }
 }
