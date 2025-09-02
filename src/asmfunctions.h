@@ -9,6 +9,7 @@ extern void _default_interrupt_handler();
 extern void _blank_screen();
 extern uint32_t _get_stacksize();
 
+/*
 extern uint8_t CONSOLE_BUFFER[42*69*2];
 extern uint32_t CONSOLE_ROWS;
 extern uint32_t FRAMEBUFFER;
@@ -18,3 +19,37 @@ extern uint32_t FRAMEBUFFER_HEIGHT;
 extern uint32_t FRAMEBUFFER_BPP;
 extern uint32_t FRAMEBUFFER_TYPE;
 extern uint32_t KERNEL_HEAP;
+
+*/
+
+
+
+
+
+typedef struct kvals {
+    uint32_t MULTIBOOT_INFO_ADDR;
+    uint32_t FRAMEBUFFER;
+    uint32_t FRAMEBUFFER_PITCH;
+    uint32_t FRAMEBUFFER_WIDTH;
+    uint32_t FRAMEBUFFER_HEIGHT;
+    uint32_t FRAMEBUFFER_BPP;
+    uint32_t FRAMEBUFFER_TYPE;
+    
+    uint32_t CONSOLE_COLUMNS;
+    uint32_t CONSOLE_ROWS;
+    uint32_t CONSOLE_CURRENT_ROW;
+    uint32_t CONSOLE_CURRENT_COLUMN;
+    uint32_t CONSOLE_COLOR;
+    uint32_t DISPLAY_SCALE;
+    uint32_t CHARACTER_HEIGHT;
+    uint32_t CHARACTER_WIDTH;
+    uint8_t CONSOLE_BUFFER[42*69*2];
+
+
+} kvals;
+
+
+extern kvals kglobals;
+
+
+

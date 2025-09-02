@@ -11,27 +11,30 @@ char* primary_framebuffer;
 
 void cmain() {
 
+
+
+
     
     _kprint("entering main.c\r\n\r\n");
     
     _kprint("\r\n");
     _kprint("FRAMEBUFFER ");
-    print_hex32(FRAMEBUFFER);
+    print_hex32(kglobals.FRAMEBUFFER);
     _kprint("\r\n");
     _kprint("FRAMEBUFFER_PITCH ");
-    print_hex32(FRAMEBUFFER_PITCH);
+    print_hex32(kglobals.FRAMEBUFFER_PITCH);
     _kprint("\r\n");
     _kprint("FRAMEBUFFER_WIDTH ");
-    print_hex32(FRAMEBUFFER_WIDTH);
+    print_hex32(kglobals.FRAMEBUFFER_WIDTH);
     _kprint("\r\n");
     _kprint("FRAMEBUFFER_HEIGHT ");
-    print_hex32(FRAMEBUFFER_HEIGHT);
+    print_hex32(kglobals.FRAMEBUFFER_HEIGHT);
     _kprint("\r\n");
     _kprint("FRAMEBUFFER_BPP ");
-    print_hex32(FRAMEBUFFER_BPP);
+    print_hex32(kglobals.FRAMEBUFFER_BPP);
     _kprint("\r\n");
     _kprint("FRAMEBUFFER_TYPE ");
-    print_hex32(FRAMEBUFFER_TYPE);
+    print_hex32(kglobals.FRAMEBUFFER_TYPE);
     _kprint("\r\n");
     
     _kprint("stack size: ");
@@ -39,9 +42,9 @@ void cmain() {
     
     _kprint("\r\n");
 
-    secondary_framebuffer = (char*)kmalloc(FRAMEBUFFER_HEIGHT*FRAMEBUFFER_PITCH);
-    primary_framebuffer = (char*)FRAMEBUFFER;
-    FRAMEBUFFER = (uint32_t)secondary_framebuffer;
+    secondary_framebuffer = (char*)kmalloc(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
+    primary_framebuffer = (char*)kglobals.FRAMEBUFFER;
+    kglobals.FRAMEBUFFER = (uint32_t)secondary_framebuffer;
 
 
     _set_console_color(0);
@@ -107,18 +110,21 @@ void cmain() {
 
 
 void scroll_console(){
-    memmove(CONSOLE_BUFFER, CONSOLE_BUFFER + (69*2), (38*69*2));
-    for(int i = 0; i < 15; i++){
-        scroll_framebuffer();
+    memmove(kglobals.CONSOLE_BUFFER, kglobals.CONSOLE_BUFFER + (69*2), (38*69*2));
+    for(int i = 0; i < 10; i++){
+        //scroll_framebuffer();
     }
 }
 
+
+
+
 void scroll_framebuffer(){
-    memcpy_4byte(primary_framebuffer, primary_framebuffer + FRAMEBUFFER_PITCH, FRAMEBUFFER_PITCH*(FRAMEBUFFER_HEIGHT-1));
+    memcpy_4byte(primary_framebuffer, primary_framebuffer + kglobals.FRAMEBUFFER_PITCH, kglobals.FRAMEBUFFER_PITCH*(kglobals.FRAMEBUFFER_HEIGHT-1));
 }
 
 void copy_framebuffer(){
-    memcpy_4byte(primary_framebuffer,secondary_framebuffer,FRAMEBUFFER_HEIGHT*FRAMEBUFFER_PITCH);
+    memcpy_4byte(primary_framebuffer,secondary_framebuffer,kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
 
 
 }

@@ -72,34 +72,18 @@ pusha
 
     mov eax, dword [FRAMEBUFFER_HEIGHT]
     mul dword [FRAMEBUFFER_WIDTH]
-    mov ebx, eax
+    mov ecx, eax
+    pop eax
 
-    mov ecx,0
-    mov edx,0
+    push edi
+    mov edi, dword [FRAMEBUFFER] 
+    rep stosd
+    pop edi
     
-    pop eax
-    push ebx
-    push eax
-    mov ebx, dword [FRAMEBUFFER]
-    mov eax, dword [FRAMEBUFFER_PITCH]
-    mul edx
-
-    push eax
-
-    mov eax, dword [FRAMEBUFFER_BPP]
-    mov eax,4 ; real BPP for some reason
-
-    mul ecx
-    mov ecx,eax
-    pop edx
-    add ebx, edx
-    add ebx, ecx
-    pop eax
-    pop ecx
-    .hlineloop:
-    mov dword [ebx], eax
-    add ebx, 4 ; real BPP for some reason
-    loop .hlineloop
 
 popa
 ret
+
+
+
+
