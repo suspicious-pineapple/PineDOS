@@ -8,7 +8,7 @@ extern void _fault();
 extern void _default_interrupt_handler();
 extern void _blank_screen();
 extern uint32_t _get_stacksize();
-
+extern void _console_render_line(uint32_t line);
 /*
 extern uint8_t CONSOLE_BUFFER[42*69*2];
 extern uint32_t CONSOLE_ROWS;

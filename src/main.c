@@ -105,8 +105,13 @@ void cmain() {
 
 
 
-    _console_render();
+    //_console_render();
+    
+    for(uint32_t i = 0; i < 32; i++){
+        _console_render_line(i);
+    }
     copy_framebuffer();
+
     uint32_t testnum = 0;
     while(0) {
         _kprint("\r\n");

@@ -17,9 +17,11 @@ ret
 ;op add offsetX offsetX 6
 add dword [.offsetX], 6
 
-
+xor ebx,ebx
+mov bl, al
 shr eax,8
 mov [.color],eax
+
 
 
 mov eax,dword [.offsetY]
@@ -66,229 +68,138 @@ add eax,dword [.offsetY]
 mov dword [.gridY7], eax
 .ySetupDone:
 
+shl ebx, 2
+jmp [.jmpTable + ebx]
+.jmpTable:
 
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-cmp dword [.currentChar], 32
-je .char32
-cmp dword [.currentChar], 33
-je .char33
-cmp dword [.currentChar], 34
-je .char34
-cmp dword [.currentChar], 35
-je .char35
-cmp dword [.currentChar], 36
-je .char36
-cmp dword [.currentChar], 37
-je .char37
-cmp dword [.currentChar], 38
-je .char38
-cmp dword [.currentChar], 39
-je .char39
-cmp dword [.currentChar], 40
-je .char40
-cmp dword [.currentChar], 41
-je .char41
-cmp dword [.currentChar], 42
-je .char42
-cmp dword [.currentChar], 43
-je .char43
-cmp dword [.currentChar], 44
-je .char44
-cmp dword [.currentChar], 45
-je .char45
-cmp dword [.currentChar], 46
-je .char46
-cmp dword [.currentChar], 47
-je .char47
-cmp dword [.currentChar], 48
-je .char48
-cmp dword [.currentChar], 49
-je .char49
-cmp dword [.currentChar], 50
-je .char50
-cmp dword [.currentChar], 51
-je .char51
-cmp dword [.currentChar], 52
-je .char52
-cmp dword [.currentChar], 53
-je .char53
-cmp dword [.currentChar], 54
-je .char54
-cmp dword [.currentChar], 55
-je .char55
-cmp dword [.currentChar], 56
-je .char56
-cmp dword [.currentChar], 57
-je .char57
-cmp dword [.currentChar], 58
-je .char58
-cmp dword [.currentChar], 59
-je .char59
-cmp dword [.currentChar], 60
-je .char60
-cmp dword [.currentChar], 61
-je .char61
-cmp dword [.currentChar], 62
-je .char62
-cmp dword [.currentChar], 63
-je .char63
-cmp dword [.currentChar], 64
-je .char64
-cmp dword [.currentChar], 65
-je .char65
-cmp dword [.currentChar], 66
-je .char66
-cmp dword [.currentChar], 67
-je .char67
-cmp dword [.currentChar], 68
-je .char68
-cmp dword [.currentChar], 69
-je .char69
-cmp dword [.currentChar], 70
-je .char70
-cmp dword [.currentChar], 71
-je .char71
-cmp dword [.currentChar], 72
-je .char72
-cmp dword [.currentChar], 73
-je .char73
-cmp dword [.currentChar], 74
-je .char74
-cmp dword [.currentChar], 75
-je .char75
-cmp dword [.currentChar], 76
-je .char76
-cmp dword [.currentChar], 77
-je .char77
-cmp dword [.currentChar], 78
-je .char78
-cmp dword [.currentChar], 79
-je .char79
-cmp dword [.currentChar], 80
-je .char80
-cmp dword [.currentChar], 81
-je .char81
-cmp dword [.currentChar], 82
-je .char82
-cmp dword [.currentChar], 83
-je .char83
-cmp dword [.currentChar], 84
-je .char84
-cmp dword [.currentChar], 85
-je .char85
-cmp dword [.currentChar], 86
-je .char86
-cmp dword [.currentChar], 87
-je .char87
-cmp dword [.currentChar], 88
-je .char88
-cmp dword [.currentChar], 89
-je .char89
-cmp dword [.currentChar], 90
-je .char90
-cmp dword [.currentChar], 91
-je .char91
-cmp dword [.currentChar], 92
-je .char92
-cmp dword [.currentChar], 93
-je .char93
-cmp dword [.currentChar], 94
-je .char94
-cmp dword [.currentChar], 95
-je .char95
-cmp dword [.currentChar], 96
-je .char96
-cmp dword [.currentChar], 97
-je .char97
-cmp dword [.currentChar], 98
-je .char98
-cmp dword [.currentChar], 99
-je .char99
-cmp dword [.currentChar], 100
-je .char100
-cmp dword [.currentChar], 101
-je .char101
-cmp dword [.currentChar], 102
-je .char102
-cmp dword [.currentChar], 103
-je .char103
-cmp dword [.currentChar], 104
-je .char104
-cmp dword [.currentChar], 105
-je .char105
-cmp dword [.currentChar], 106
-je .char106
-cmp dword [.currentChar], 107
-je .char107
-cmp dword [.currentChar], 108
-je .char108
-cmp dword [.currentChar], 109
-je .char109
-cmp dword [.currentChar], 110
-je .char110
-cmp dword [.currentChar], 111
-je .char111
-cmp dword [.currentChar], 112
-je .char112
-cmp dword [.currentChar], 113
-je .char113
-cmp dword [.currentChar], 114
-je .char114
-cmp dword [.currentChar], 115
-je .char115
-cmp dword [.currentChar], 116
-je .char116
-cmp dword [.currentChar], 117
-je .char117
-cmp dword [.currentChar], 118
-je .char118
-cmp dword [.currentChar], 119
-je .char119
-cmp dword [.currentChar], 120
-je .char120
-cmp dword [.currentChar], 121
-je .char121
-cmp dword [.currentChar], 122
-je .char122
-cmp dword [.currentChar], 123
-je .char123
-cmp dword [.currentChar], 124
-je .char124
-cmp dword [.currentChar], 125
-je .char125
-cmp dword [.currentChar], 126
-je .char126
+
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char33
+dd .char32
+dd .char33
+dd .char34
+dd .char35
+dd .char36
+dd .char37
+dd .char38
+dd .char39
+dd .char40
+dd .char41
+dd .char42
+dd .char43
+dd .char44
+dd .char45
+dd .char46
+dd .char47
+dd .char48
+dd .char49
+dd .char50
+dd .char51
+dd .char52
+dd .char53
+dd .char54
+dd .char55
+dd .char56
+dd .char57
+dd .char58
+dd .char59
+dd .char60
+dd .char61
+dd .char62
+dd .char63
+dd .char64
+dd .char65
+dd .char66
+dd .char67
+dd .char68
+dd .char69
+dd .char70
+dd .char71
+dd .char72
+dd .char73
+dd .char74
+dd .char75
+dd .char76
+dd .char77
+dd .char78
+dd .char79
+dd .char80
+dd .char81
+dd .char82
+dd .char83
+dd .char84
+dd .char85
+dd .char86
+dd .char87
+dd .char88
+dd .char89
+dd .char90
+dd .char91
+dd .char92
+dd .char93
+dd .char94
+dd .char95
+dd .char96
+dd .char97
+dd .char98
+dd .char99
+dd .char100
+dd .char101
+dd .char102
+dd .char103
+dd .char104
+dd .char105
+dd .char106
+dd .char107
+dd .char108
+dd .char109
+dd .char110
+dd .char111
+dd .char112
+dd .char113
+dd .char114
+dd .char115
+dd .char116
+dd .char117
+dd .char118
+dd .char119
+dd .char120
+dd .char121
+dd .char122
+dd .char123
+dd .char124
+dd .char125
+dd .char126
 .char32:
 
 

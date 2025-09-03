@@ -164,9 +164,82 @@ pop ecx
 loop .printloop
 
 
-
 popa
 ret
+
+global _console_render_line
+_console_render_line:
+std
+mov edx, dword [esp+4] ;the line to render
+pusha
+
+mov eax, dword [DISPLAY_SCALE]
+mov dword [put_char.scale], eax
+
+push edx
+mov eax, edx
+mul dword [CONSOLE_COLUMNS]
+shl eax, 1
+mov esi, eax
+add esi, CONSOLE_BUFFER
+add esi, dword [CONSOLE_COLUMNS]
+add esi, dword [CONSOLE_COLUMNS]
+dec esi
+dec esi
+pop edx
+
+
+mov cl, byte [DISPLAY_SCALE]
+mov eax, dword [CHARACTER_HEIGHT]
+shl eax,cl ;eax is now the true char height
+mul edx ; mul eax by edx, overflow in edx
+mov edx, eax ;ignore overflow, use edx as vertical position. dont touch this
+
+mov ecx, dword [CONSOLE_COLUMNS]
+
+.lineprintloop:
+push ecx
+mov eax,ecx
+mov cl, byte [DISPLAY_SCALE]
+shl eax,cl ; now holds the true char width
+;pop ecx ;restore ecx
+;push ecx
+push edx
+dec eax
+dec eax
+mul dword [CHARACTER_WIDTH] ;multiply the char width by ecx, the column
+mov ecx, eax
+pop edx
+lodsw
+xor ebx,ebx
+mov bx,ax
+shr bx, 8
+and bx, 11111b
+shl bx, 2
+add ebx, VGA_COLORS
+mov ebx, dword [ebx]
+shl ebx, 8
+mov bl,al
+mov eax,ebx
+;mov edx, 155
+;mov ecx, 200
+;mov eax, 0xFF00FF00
+;mov al, 'F'
+;xchg ecx, edx
+call put_char
+pop ecx
+
+loop .lineprintloop
+
+cld
+popa
+ret
+
+
+
+
+
+
 
 put_console_char: ;ax -> char and color, ecx -> column, edx -> row 
 cmp ecx, dword [CONSOLE_COLUMNS]

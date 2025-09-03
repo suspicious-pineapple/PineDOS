@@ -425,22 +425,27 @@ ret
 ;op add offsetX offsetX ${charWidth+1}
 add dword [offsetX], ${charWidth+1}
 
-
+xor ebx,ebx
+mov bl, al
 shr eax,8
 mov [color],eax
+
+
+
 `;
 //let counterArray = "\nop add @counter @counter currentChar\n";
 let counterArray = "\n\n";
 //add 32 "noop"
 for(let i = 0; i < 32; i++) {
-    counterArray += "nop\n";
+    counterArray += "dd .char33\n";
 }
 //for every printable character
 for (let i = 32; i < 127; i++) {
     //counterArray += "jump char" + i + " always\n";
     
-    counterArray += "cmp dword [currentChar], " + i + "\n";
-    counterArray += "je .char" + i + "\n";
+    //counterArray += "cmp dword [currentChar], " + i + "\n";
+    //counterArray += "je .char" + i + "\n";
+    counterArray += "dd .char" + i + "\n";
 }
 
 let drawSegment = "";
@@ -491,7 +496,13 @@ for(let y = 0; y < charPixelRows+1; y++) {
     ySetup.push("mov dword [gridY"+y+"], eax");
 
 }
-ySetup.push(".ySetupDone:");
+
+//needed for the jump table to work
+ySetup.push(`.ySetupDone:
+shr ebx, 2
+jmp [.jmpTable + ebx]
+.jmpTable:
+`);
 staticPoints += ySetup.join("\n")+"\n";
 
 
