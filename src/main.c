@@ -105,22 +105,17 @@ void cmain() {
 
 
 
-    //_console_render();
     
-    for(uint32_t i = 0; i < 32; i++){
-        _console_render_line(i);
-    }
-    copy_framebuffer();
 
-    uint32_t testnum = 0;
-    while(0) {
+    uint32_t testnum = 0x12345;
+    while(1) {
         _kprint("\r\n");
         print_hex32(testnum);
         testnum++;
+
         _console_render();
         copy_framebuffer();
         _blank_screen();
-    
     
     }
  

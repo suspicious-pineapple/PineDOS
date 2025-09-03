@@ -200,14 +200,12 @@ mov ecx, dword [CONSOLE_COLUMNS]
 .lineprintloop:
 push ecx
 mov eax,ecx
-mov cl, byte [DISPLAY_SCALE]
-shl eax,cl ; now holds the true char width
-;pop ecx ;restore ecx
-;push ecx
 push edx
 dec eax
-dec eax
 mul dword [CHARACTER_WIDTH] ;multiply the char width by ecx, the column
+mov cl, byte [DISPLAY_SCALE]
+shl eax,cl ; now holds the true char width
+
 mov ecx, eax
 pop edx
 lodsw
