@@ -88,12 +88,27 @@ void cmain() {
     print_hex32((uint32_t)teststring);
     _kprint("\r\n");
     print_hex32((uint32_t)newstr);
+    
+    _kprint("\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+    _kprint("\r\n");
+
+    
+    _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
+
+
 
 
     _console_render();
     copy_framebuffer();
     uint32_t testnum = 0;
-    while(1) {
+    while(0) {
         _kprint("\r\n");
         print_hex32(testnum);
         testnum++;
