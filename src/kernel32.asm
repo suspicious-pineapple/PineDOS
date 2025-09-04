@@ -1,5 +1,6 @@
 BITS 32
 
+
 cfg_console_width equ 69
 cfg_console_height equ 38
 cfg_kernel_heap_size equ 0x4000000
@@ -23,7 +24,19 @@ mov ecx, dword [ebx+108]
 mov dword [FRAMEBUFFER_BPP], ecx
 
 
-;%include "src/asmutil/interrupts.asm"
+
+
+
+%include "src/asmutil/gdt.asm"
+
+
+
+
+
+
+
+
+
 
 ;pusha
 ;extern setup_interrupts
@@ -475,6 +488,8 @@ times 100 db 0
 %include "src/asmutil/character_drawing.asm"
 %include "src/colors.asm"
 %include "src/asmutil/drawing.asm"
+%include "src/asmutil/interrupt_wrappers.asm"
+
 times 100 db 0
 
 ;ACTIVE_COLOR: dd 0xFF00FF
@@ -517,7 +532,6 @@ CHARACTER_WIDTH dd 5+2
 global CONSOLE_BUFFER
 
 CONSOLE_BUFFER: times ((cfg_console_height+1)*cfg_console_width*2) db 0
-
 
 
 TEST_STRING: db "String printing works",0dh,0ah,0

@@ -2,7 +2,7 @@
 #include "asmfunctions.h"
 #include "kernel.h"
 #include "libc_freestanding/kmalloc.h"
-
+#include "interrupt_handlers.h"
 
 
 char* secondary_framebuffer;
@@ -94,25 +94,23 @@ void cmain() {
     _kprint("\r\n");
     _kprint("\r\n");
     _kprint("\r\n");
-    _kprint("\r\n");
-    _kprint("\r\n");
-    _kprint("\r\n");
-    _kprint("\r\n");
 
-    
     _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 
 
+        console_render_partial();
+        copy_framebuffer();
 
 
+        //fill_interrupts();
     
 
-    uint32_t testnum = 0x12345;
-    while(1) {
         _kprint("\r\n");
+    uint32_t testnum = 0;
+    while(1) {
+        _kprint("\r");
         print_hex32(testnum);
         testnum++;
-
         _console_render();
         copy_framebuffer();
         _blank_screen();
@@ -122,6 +120,12 @@ void cmain() {
 
 }
 
+void console_render_partial(){
+    //for(uint32_t i; i < kglobals.CONSOLE_ROWS)
+    
+    memcpy_4byte(secondary_framebuffer, secondary_framebuffer + kglobals.FRAMEBUFFER_PITCH*kglobals.CHARACTER_HEIGHT*2, kglobals.FRAMEBUFFER_PITCH*(kglobals.FRAMEBUFFER_HEIGHT-1));
+    _console_render_line(kglobals.CONSOLE_CURRENT_ROW);
+}
 
 
 void scroll_console(){

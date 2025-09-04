@@ -12,6 +12,8 @@
         "*.def": "c",
         "cstdlib": "c",
         "memory_resource": "c",
-        "memory": "c"
+        "memory": "c",
+        "interrupts.h": "c",
+        "compare": "c"
     }
 }
