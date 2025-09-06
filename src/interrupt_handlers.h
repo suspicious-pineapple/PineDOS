@@ -7,3 +7,4 @@ void fill_interrupts();
 extern void set_isr(uint32_t handler, uint16_t index);
 void default_interrupt();
 extern void trigger_int();
+extern void test1();

@@ -6,7 +6,7 @@
 
 
 void default_interrupt(){
-    disable_interrupts();
+    //disable_interrupts();
     _kprint("Received some kind of interrupt!\r\n");
     _console_render();
     while(1){};
@@ -18,15 +18,16 @@ void default_interrupt(){
 
 void fill_interrupts(){
 
-    for(uint16_t i=1; i<255; i++){
-        set_isr((uint32_t)default_interrupt,(uint32_t)i);
+    load_interrupts();
+    for(uint16_t i=1; i<50; i++){
+        set_isr((uint32_t)default_interrupt,(uint8_t)i);
     }
 
-    load_interrupts();
     //enable_interrupts();
     //disable_interrupts();
     trigger_int();
     //while(1){};
+    //test1();
 }
 
 
