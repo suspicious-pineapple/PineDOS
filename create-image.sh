@@ -15,4 +15,4 @@ mkdir -p isodir/boot/grub
 cp tmp/pinedos.bin isodir/boot/pinedos.bin
 cp grub.cfg isodir/boot/grub/grub.cfg
 grub-mkrescue -o pinedos.iso isodir
-qemu-system-i386 -hda pinedos.iso -m 4096M
+qemu-system-i386 -hda pinedos.iso -m 4096M -no-reboot -d int

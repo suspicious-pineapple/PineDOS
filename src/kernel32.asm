@@ -32,6 +32,7 @@ mov dword [FRAMEBUFFER_BPP], ecx
 
 
 
+;int 10h
 
 
 

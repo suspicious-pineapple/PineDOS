@@ -1,80 +1,66 @@
 
 
 
+align 4
 
 
 
 
-global _setup_interrupts
-_setup_interrupts:
+global set_isr
+set_isr:
+    mov ecx, dword [esp+4] ; handler
+    xor edx,edx
+    mov dx, word [esp+8] ;interrupt number
 
+    pusha
+        extern default_interrupt
+        mov ecx, default_interrupt
+        shl edx, 3 ; multiply by 8 bytes to get idt entry offset
 
+        mov word [edx+interrupt_table], cx ; low 16 bits of offset
+        and ecx, 0xFFFF0000
+        shr ecx, 16
+
+        mov word [edx+interrupt_table+6], cx ; high 16 bits of offset
+
+        mov word [edx+interrupt_table+2], 08h
+        mov byte [edx+interrupt_table+3], 0
+
+        mov byte [edx+interrupt_table+4], 10001110b
+
+    popa
 ret
 
 
 
-global _enable_interrupts
-_enable_interrupts:
-
-sti
+global enable_interrupts
+enable_interrupts:
+    sti
 ret
 
-global _disable_interrupts
-_disable_interrupts:
-cli
+global disable_interrupts
+disable_interrupts:
+    cli
 ret
 
 
-%macro isr_err_stub 1
-isr_stub_%+%1:
-    call exception_handler
-    iret 
-%endmacro
-; if writing for 64-bit, use iretq instead
-%macro isr_no_err_stub 1
-isr_stub_%+%1:
-    call exception_handler
-    iret
-%endmacro
+global load_interrupts
+load_interrupts:
+    lidt [interrupt_table_descriptor]
+ret
 
-extern exception_handler
-isr_no_err_stub 0
-isr_no_err_stub 1
-isr_no_err_stub 2
-isr_no_err_stub 3
-isr_no_err_stub 4
-isr_no_err_stub 5
-isr_no_err_stub 6
-isr_no_err_stub 7
-isr_err_stub    8
-isr_no_err_stub 9
-isr_err_stub    10
-isr_err_stub    11
-isr_err_stub    12
-isr_err_stub    13
-isr_err_stub    14
-isr_no_err_stub 15
-isr_no_err_stub 16
-isr_err_stub    17
-isr_no_err_stub 18
-isr_no_err_stub 19
-isr_no_err_stub 20
-isr_no_err_stub 21
-isr_no_err_stub 22
-isr_no_err_stub 23
-isr_no_err_stub 24
-isr_no_err_stub 25
-isr_no_err_stub 26
-isr_no_err_stub 27
-isr_no_err_stub 28
-isr_no_err_stub 29
-isr_err_stub    30
-isr_no_err_stub 31
+global trigger_int
+trigger_int:
+int 1
+ret
 
-global isr_stub_table
-isr_stub_table:
-%assign i 0 
-%rep    32 
-    dd isr_stub_%+i ; use DQ instead if targeting 64-bit
-%assign i i+1 
-%endrep
+
+interrupt_table:
+times 8*256 db 0
+
+
+align 4
+interrupt_table_descriptor:
+db 33
+dd interrupt_table
+clear

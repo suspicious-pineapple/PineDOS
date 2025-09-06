@@ -1,7 +1,9 @@
 #include <stdint.h>
-extern void _set_interrupt_routine(uint32_t function,uint16_t interrupt_number);
-extern void _setup_interrupts();
-void default_interrupt_c();
-extern void _enable_interrupts();
-extern void _disable_interrupts();
+extern void set_interrupt_routine(uint32_t function,uint16_t interrupt_number);
+extern void load_interrupts();
+extern void enable_interrupts();
+extern void disable_interrupts();
 void fill_interrupts();
+extern void set_isr(uint32_t handler, uint16_t index);
+void default_interrupt();
+extern void trigger_int();

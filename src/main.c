@@ -12,7 +12,7 @@ char* primary_framebuffer;
 void cmain() {
 
 
-
+    
 
     
     _kprint("entering main.c\r\n\r\n");
@@ -97,12 +97,13 @@ void cmain() {
 
     _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 
-
-        console_render_partial();
-        copy_framebuffer();
+    fill_interrupts();
 
 
-        //fill_interrupts();
+    console_render_partial();
+    copy_framebuffer();
+
+
     
 
         _kprint("\r\n");
