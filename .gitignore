@@ -4,3 +4,5 @@
 /cross/build-binutils
 /cross/build-gcc
 pinedos.bin
+cross/gcc/
+cross/binutils-gdb/
