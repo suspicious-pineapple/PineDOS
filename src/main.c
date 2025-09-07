@@ -99,8 +99,9 @@ void cmain() {
 
     fill_interrupts();
 
+    _kprint("\r\nIDT ok!\r\n");
 
-    console_render_partial();
+    _console_render();
     copy_framebuffer();
 
 
