@@ -94,6 +94,10 @@ void handle_interrupt(uint32_t isr){
     _blank_screen();
 }
 
-void acknowledge_master_interrupt(){
-    
+void end_irq(uint8_t irq){
+    	if(irq>=8){
+            _outb(PIC2_COMMAND, PIC_EOI);
+        }
+        _outb(PIC1_COMMAND, PIC_EOI);
 }
+

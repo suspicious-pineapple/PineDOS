@@ -9,7 +9,7 @@ void default_interrupt();
 extern void trigger_int();
 extern void test1();
 void handle_interrupt(uint32_t interrupt);
-void acknowledge_master_interrupt();
+void end_irq();
 
 #define PIC1		0x20		//IO address for master PIC
 #define PIC2		0xA0		//IO address for slave PIC
@@ -17,7 +17,7 @@ void acknowledge_master_interrupt();
 #define PIC1_DATA	(PIC1+1)
 #define PIC2_COMMAND	PIC2
 #define PIC2_DATA	(PIC2+1)
-
+#define PIC_EOI		0x20
 extern void generic_isr_0(void);
 extern void generic_isr_1(void);
 extern void generic_isr_2(void);
