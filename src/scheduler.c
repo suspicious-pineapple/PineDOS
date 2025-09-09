@@ -1,34 +1,9 @@
 #include "scheduler.h"
 #include "libc_freestanding/kmalloc.h"
+#include "libc_freestanding/string.h"
 #include <stdint.h>
 
-
-typedef struct Registers {
-    uint32_t eax;
-    uint32_t ebx;
-    uint32_t ecx;
-    uint32_t edx;
-    uint32_t esi;
-    uint32_t edi;
-    uint32_t ebp;
-    uint32_t eflags;
-    uint32_t esp;
-    uint32_t eip;
-
-
-} Registers_t;
-
-
-typedef struct Task {
-    uint32_t stack_base;
-    uint32_t stack_ptr;
-    uint32_t stack_size;
-    Registers_t regs;
-    uint32_t id;
-    uint8_t state;
-} Task_t;
-
-
+#include "asmfunctions.h"
 
 Task_t kernel_tasks[256];
 uint32_t active_task_index = 0;
@@ -36,7 +11,7 @@ uint32_t active_task_index = 0;
 uint32_t PID_current = 0;
 
 
-uint32_t create_task(){
+uint32_t create_task(uint32_t entry){
 
     PID_current++;
 
@@ -55,21 +30,49 @@ uint32_t create_task(){
     kernel_tasks[slot].regs.edi = 0;
     kernel_tasks[slot].regs.ebp = 0;
     kernel_tasks[slot].regs.eflags = 0;
-    kernel_tasks[slot].regs.esp = 0;
     kernel_tasks[slot].regs.eip = 0;
     kernel_tasks[slot].stack_base = (uint32_t) kmalloc(1024); 
     kernel_tasks[slot].stack_size = 1024;
-    kernel_tasks[slot].stack_ptr = kernel_tasks[slot].stack_base + 1024; 
+    kernel_tasks[slot].regs.esp = kernel_tasks[slot].stack_base + 1024; 
     
-    kernel_tasks[slot].stack_ptr -= 4;
-    *(uint32_t*)(kernel_tasks[slot].stack_base+kernel_tasks[slot].stack_ptr) = task_end;
+    kernel_tasks[slot].regs.esp -= 4;
+    *(uint32_t*)(kernel_tasks[slot].regs.esp) = (uint32_t)task_end;
 
     return PID_current;
 }
 uint32_t init_scheduler(){
-
+return 0;
 }
 
+void test_registers(){
+    Registers_t currentState;
+    Registers_t dummyState;
+    switch_task(&currentState,&currentState);
+    _kprint("\r\n");
+    print_hex32(currentState.eax);
+    _kprint("\r\n");
+    print_hex32(currentState.ebx);
+    _kprint("\r\n");
+    print_hex32(currentState.ecx);
+    _kprint("\r\n");
+    print_hex32(currentState.edx);
+    _kprint("\r\n");
+    print_hex32(currentState.esi);
+    _kprint("\r\n");
+    print_hex32(currentState.edi);
+    _kprint("\r\n");
+    print_hex32(currentState.edi);
+    _kprint("\r\n");
+    print_hex32(currentState.ebp);
+    _kprint("\r\n");
+    print_hex32(currentState.esp);
+    _kprint("\r\n");
+    print_hex32(currentState.eflags);
+    _kprint("\r\n");
+   _kprint("\r\n");
+
+
+}
 
 void task_end(){
     kernel_tasks[active_task_index].state = 0;
@@ -84,7 +87,7 @@ void task_end(){
 
 
 void yield(){
-    
+    switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 
 }
 

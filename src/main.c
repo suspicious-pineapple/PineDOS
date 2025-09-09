@@ -3,7 +3,7 @@
 #include "kernel.h"
 #include "libc_freestanding/kmalloc.h"
 #include "interrupt_handlers.h"
-
+#include "scheduler.h"
 
 char* secondary_framebuffer;
 char* primary_framebuffer;
@@ -101,10 +101,11 @@ void cmain() {
 
     _kprint("\r\nIDT ok!\r\n");
 
-    _kprint(__func__);
-    _console_render();
-    copy_framebuffer();
+    
 
+
+
+    test_registers();
 
     
 

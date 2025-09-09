@@ -16,6 +16,7 @@
         "interrupts.h": "c",
         "compare": "c",
         "stdint.h": "c",
-        "interrupt_handlers.h": "c"
+        "interrupt_handlers.h": "c",
+        "kmalloc.h": "c"
     }
 }
