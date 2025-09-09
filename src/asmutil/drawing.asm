@@ -7,8 +7,8 @@ pusha
 
     push eax ;multiplication result
 
-    mov eax, dword [FRAMEBUFFER_BPP]
-    mov eax,4
+    ;mov eax, dword [FRAMEBUFFER_BPP]
+    mov eax,4 ; real BPP
 
     mul ecx
     mov ecx,eax
@@ -38,7 +38,39 @@ ret
 
 
 horizontal_line: ; ECX -> X, EDX -> Y, EBX -> Length, EAX -> Color
+cmp byte [DISPLAY_SCALE], 1
+je horizontal_line_thick
 pusha
+
+    push ebx
+    push eax
+    mov ebx, dword [FRAMEBUFFER]
+    mov eax, dword [FRAMEBUFFER_PITCH]
+    mul edx
+
+    push eax
+
+    ;mov eax, dword [FRAMEBUFFER_BPP]
+    mov eax,4 ; real BPP for some reason
+
+    mul ecx
+    mov ecx,eax
+    pop edx
+    add ebx, edx
+    add ebx, ecx
+    pop eax
+    pop ecx
+    .hlineloop:
+    mov dword [ebx], eax
+    add ebx, 4 ; real BPP for some reason
+    loop .hlineloop
+
+popa
+ret
+
+horizontal_line_thick:
+pusha
+
     push ebx
     push eax
     mov ebx, dword [FRAMEBUFFER]
@@ -57,13 +89,19 @@ pusha
     add ebx, ecx
     pop eax
     pop ecx
+    mov edx, dword [FRAMEBUFFER_PITCH]
     .hlineloop:
     mov dword [ebx], eax
+    mov dword [ebx+edx], eax
     add ebx, 4 ; real BPP for some reason
     loop .hlineloop
 
 popa
 ret
+
+
+
+
 
 global _blank_screen
 _blank_screen: ; EAX -> Color
@@ -79,7 +117,7 @@ pusha
     mov edi, dword [FRAMEBUFFER] 
     rep stosd
     pop edi
-    
+
 
 popa
 ret

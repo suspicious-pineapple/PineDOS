@@ -317,8 +317,8 @@ ret
 
 extern scroll_console
 
-global _outb
-_outb:
+global outb
+outb:
 
 mov dx, word [esp+4]
 xor eax,eax
@@ -327,8 +327,8 @@ out dx,al
 
 ret
 
-global _outw
-_outw:
+global outw
+outw:
 
 mov dx, word [esp+4]
 xor eax,eax
@@ -337,8 +337,8 @@ out dx,ax
 
 ret
 
-global _outd
-_outd:
+global outd
+outd:
 
 mov dx, word [esp+4]
 xor eax,eax
@@ -528,7 +528,7 @@ DISPLAY_SCALE dd 0
 global CHARACTER_HEIGHT
 CHARACTER_HEIGHT dd 7+3
 global CHARACTER_WIDTH
-CHARACTER_WIDTH dd 5+2
+CHARACTER_WIDTH dd 5+1
 
 global CONSOLE_BUFFER
 

@@ -188,15 +188,6 @@ let circle5 = new pattern([
 
 
 
-
-let rect1 = new pattern([
-    [1,1,1,1],
-]
-, function(x,y){
-    return `
-    draw rect gridX${x} gridY${y} 4 1
-`;})
-
 let rect2 = new pattern([
     [1],
     [1],
@@ -431,7 +422,6 @@ let dot1 = new pattern([
 ]
 , function(x,y){
     return `
-    mov eax, dword [color]
     mov ecx, dword [gridX${x}]
     mov edx, dword [gridY${y}]
     call put_pixel
@@ -439,9 +429,26 @@ let dot1 = new pattern([
 `;})
 
 
+let rect1 = new pattern([
+    [1,1,1],
+]
+, function(x,y){
+    return `
+    mov ebx, 3
+    mov cl, byte [scale]
+    shl ebx,cl
+    mov ecx, dword [gridX${x}]
+    mov edx, dword [gridY${y}]
+    ; ECX -> X, EDX -> Y, EBX -> Length, EAX -> Color
+    call horizontal_line
+    ;draw rect gridX${x} gridY${y} 4 1
+    
+`;})
+
+
 
 //sort by area, largest first
 //let patterns = [cross1, cross2, shape1, circle5, shape2, square1, circle1, circle2, circle3, circle4, rect1, rect2, rect3, rect4, rect5, rect6, diag1, diag2, diag3, diag4, diag5, diag6,diag7,diag8, rect7, rect8, rect9, dot1].sort((a,b) => b.getArea() - a.getArea());
-let patterns = [dot1];
+let patterns = [dot1,rect1];
 
 

@@ -101,6 +101,7 @@ void cmain() {
 
     _kprint("\r\nIDT ok!\r\n");
 
+    _kprint(__func__);
     _console_render();
     copy_framebuffer();
 

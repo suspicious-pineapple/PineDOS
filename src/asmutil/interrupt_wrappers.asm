@@ -76,6 +76,10 @@ int 49
 ret
 
 
+
+
+
+
 interrupt_table:
 ;times 8*256 db 0
 resd 50*2

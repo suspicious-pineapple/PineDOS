@@ -15,7 +15,16 @@ void default_interrupt(){
 
 
 
+void* interrupt_hooks[255] = {0};
+    void testHook(uint32_t isr){
+        _kprint("\r\nhook works! received ISR:");
+        print_hex32(isr);
+        _kprint("\r\n");
+        _console_render();
+        copy_framebuffer();
 
+
+    }
 void fill_interrupts(){
 
     load_interrupts();
@@ -74,6 +83,12 @@ void fill_interrupts(){
 
     //enable_interrupts();
     //disable_interrupts();
+
+
+
+    interrupt_hooks[49]=&testHook;
+
+
     trigger_int();
     trigger_int();
     //print_hex32(25/0);
@@ -81,23 +96,37 @@ void fill_interrupts(){
     //test1();
 }
 
+static inline void io_wait(void)
+{
+    outb(0x80, 0);
+}
+
+
+
 
 
 
 void handle_interrupt(uint32_t isr){
-    
-    _kprint("\r\nInterrupt received: ");
+    if(interrupt_hooks[isr]!=0){
+        int (*hookFunc)(uint32_t isr) = interrupt_hooks[isr];
+        hookFunc(isr);
+
+
+    } else {
+
+    _kprint("\r\nUnhandled interrupt received: ");
     print_hex32(isr);
     _kprint("\r\n");
     _console_render();
     copy_framebuffer();
     _blank_screen();
+    }
 }
 
 void end_irq(uint8_t irq){
     	if(irq>=8){
-            _outb(PIC2_COMMAND, PIC_EOI);
+            outb(PIC2_COMMAND, PIC_EOI);
         }
-        _outb(PIC1_COMMAND, PIC_EOI);
+        outb(PIC1_COMMAND, PIC_EOI);
 }
 
