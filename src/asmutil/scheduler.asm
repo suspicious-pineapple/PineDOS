@@ -13,19 +13,20 @@ mov edi, dword [40+esp]
 mov esi, esp
 mov ecx, 10
 rep movsd
-
+popf
+popa
 
 ;mov eax, dword [40+esp]
 ;
-;push dword [eax] ; eflags
-;push dword [eax+4] ;edi
-;push dword [eax+8] ;esi
-;push dword [eax+12] ;ebp
-;push dword [eax+16] ; esp
-;push dword [eax+20] ; ebx
-;push dword [eax+24] ; edx
-;push dword [eax+28] ; ecx
-;push dword [eax+32] ;eax
+push dword [eax+32] ;eax
+push dword [eax+28] ; ecx
+push dword [eax+24] ; edx
+push dword [eax+20] ; ebx
+push dword [eax+16] ; esp
+push dword [eax+12] ;ebp
+push dword [eax+8] ;esi
+push dword [eax+4] ;edi
+push dword [eax] ; eflags
 ;
 popf
 popa
