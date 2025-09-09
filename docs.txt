@@ -49,4 +49,22 @@ roadmap:
 	- make font less ugly	
 	
 
+conventions:
+add new c files to the create-image thingy as an individual gcc command (dont forget to add the object files to the linker)
+add new assembly files to the %include list in kernel32.asm
+
+todo: use makefiles instead, ffs
+
+calling convention is cdecl -> caller puts arguments on stack, 4 bytes for each argument, regardless of size (-> aligned)
+caller is expected to clean up stack
+
+
+
+
+
+magic numbers:
+
+
+
+
 

@@ -490,6 +490,7 @@ times 100 db 0
 %include "src/colors.asm"
 %include "src/asmutil/drawing.asm"
 %include "src/asmutil/interrupt_wrappers.asm"
+%include "src/asmutil/scheduler.asm"
 
 times 100 db 0
 
