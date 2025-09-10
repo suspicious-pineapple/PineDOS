@@ -1,6 +1,5 @@
 global switch_task
 switch_task:
-
 pusha
 pushf
 
@@ -13,11 +12,15 @@ mov edi, dword [40+esp]
 mov esi, esp
 mov ecx, 10
 rep movsd
-popf
-popa
+;popf
+;popa
 
-;mov eax, dword [40+esp]
+mov eax, dword [44+esp]
 ;
+mov esp, dword [eax+16] ; esp
+
+push dword [eax+36] ;return addr
+
 push dword [eax+32] ;eax
 push dword [eax+28] ; ecx
 push dword [eax+24] ; edx
@@ -30,8 +33,8 @@ push dword [eax] ; eflags
 ;
 popf
 popa
-;mov esp, dword [eax+16] ; esp
-
+;add esp,4 ;goodbye return pointy
+;push dword []
 
 
 

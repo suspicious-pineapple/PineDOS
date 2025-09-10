@@ -27,8 +27,12 @@ typedef struct Task {
 
 void task_end();
 void yield();
-void main_loop();
+void sched_main_loop();
 void test_registers();
 uint32_t init_scheduler();
 uint32_t create_task(uint32_t entry);
 extern void switch_task(Registers_t *old, Registers_t *new);
+void example_task_1();
+void refresh_screen_task();
+
+//void example_task_2();
