@@ -326,6 +326,17 @@ mov al, byte [esp+8]
 out dx,al
 
 ret
+global inb
+inb:
+
+mov dx, word [esp+4]
+xor eax,eax
+mov al, byte [esp+8]
+in dx,al
+
+ret
+
+
 
 global outw
 outw:

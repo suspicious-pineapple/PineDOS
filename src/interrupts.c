@@ -26,11 +26,11 @@ void* interrupt_hooks[255] = {0};
 
     }
     void yieldHook(uint32_t isr){
-        _kprint("\r\nentering yielding interrupt handler");
-        print_hex32(isr);
-        _kprint("\r\n");
+        //_kprint("\r\nentering yielding interrupt handler");
+        //print_hex32(isr);
+        //_kprint("\r\n");
         yield();
-        _kprint("\r\nexiting yielding interrupt handler\r\n");
+        //_kprint("\r\nexiting yielding interrupt handler\r\n");
     }
 void fill_interrupts(){
 
@@ -89,6 +89,26 @@ void fill_interrupts(){
     set_isr((uint32_t)generic_isr_48,(uint16_t)48);
     set_isr((uint32_t)generic_isr_49,(uint16_t)49);
 
+    set_isr((uint32_t)generic_isr_127,(uint16_t)127);
+    set_isr((uint32_t)generic_isr_128,(uint16_t)128);
+    set_isr((uint32_t)generic_isr_129,(uint16_t)129);
+    set_isr((uint32_t)generic_isr_130,(uint16_t)130);
+    set_isr((uint32_t)generic_isr_131,(uint16_t)131);
+    set_isr((uint32_t)generic_isr_132,(uint16_t)132);
+    set_isr((uint32_t)generic_isr_133,(uint16_t)133);
+    set_isr((uint32_t)generic_isr_134,(uint16_t)134);
+    set_isr((uint32_t)generic_isr_135,(uint16_t)135);
+    set_isr((uint32_t)generic_isr_136,(uint16_t)136);
+    set_isr((uint32_t)generic_isr_137,(uint16_t)137);
+    set_isr((uint32_t)generic_isr_138,(uint16_t)138);
+    set_isr((uint32_t)generic_isr_139,(uint16_t)139);
+    set_isr((uint32_t)generic_isr_140,(uint16_t)140);
+    set_isr((uint32_t)generic_isr_141,(uint16_t)141);
+    set_isr((uint32_t)generic_isr_142,(uint16_t)142);
+    set_isr((uint32_t)generic_isr_143,(uint16_t)143);
+    set_isr((uint32_t)generic_isr_144,(uint16_t)144);
+
+
     //enable_interrupts();
     //disable_interrupts();
 
@@ -96,8 +116,8 @@ void fill_interrupts(){
 
     interrupt_hooks[49]=&testHook;
     interrupt_hooks[34]=&yieldHook;
+    interrupt_hooks[0x80]=&yieldHook;
 
-    init_irq();
 
     trigger_int();
     trigger_int();
@@ -121,7 +141,6 @@ void handle_interrupt(uint32_t isr){
         int (*hookFunc)(uint32_t isr) = interrupt_hooks[isr];
         hookFunc(isr);
 
-        return;
     } else {
 
     _kprint("\r\nUnhandled interrupt received: ");
@@ -130,6 +149,9 @@ void handle_interrupt(uint32_t isr){
     _console_render();
     copy_framebuffer();
     _blank_screen();
+    }
+    if(isr >= 0x80){
+        end_irq(isr-0x80);
     }
 }
 
@@ -141,6 +163,7 @@ void end_irq(uint8_t irq){
 }
 
 void init_irq(){ //shamelessly stolen from https://wiki.osdev.org/8259_PIC#Programming_the_PIC_chips
+    disable_interrupts();
     //but oh well there are not that many ways to do this anyways
 #define PIC1_OFFSET 0x80
 #define PIC2_OFFSET 0x88
@@ -185,6 +208,10 @@ arguments:
 	io_wait();
 
 	// Unmask both PICs.
-	outb(PIC1_DATA, 0);
-	outb(PIC2_DATA, 0);
+	outb(PIC1_DATA, 0x00);
+	outb(PIC2_DATA, 0x00);
+
+    outb(0x70,0x8B);
+    char prev = 
+
 }

@@ -95,20 +95,28 @@ void cmain() {
     _kprint("\r\n");
     _kprint("\r\n");
 
-    _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
+    _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 
     _kprint("\r\n\r\nI forgot how this goes.. The quick brown Frog jumps over the lazy Fox?\r\n");
-    fill_interrupts();
-
     _kprint("\r\nIDT ok!\r\n");
 
     
 
+    fill_interrupts();
+    
+    void irq_enable_task(){
+    init_irq();
+    enable_interrupts();
+    task_end();    
+    };
 
+    init_scheduler();
+   create_task((uint32_t)example_task_1);
+   create_task((uint32_t)example_task_2);
+   create_task((uint32_t)refresh_screen_task);
+   create_task((uint32_t)irq_enable_task);
+    sched_main_loop();
 
-    test_registers();
-
-    //sched_main_loop();
 
         _kprint("\r\n");
     uint32_t testnum = 0;

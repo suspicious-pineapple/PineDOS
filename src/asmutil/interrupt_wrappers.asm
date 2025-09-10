@@ -84,11 +84,11 @@ ret
 
 interrupt_table:
 ;times 8*256 db 0
-resd 50*2
+resd 255*2
 
 align 4
 interrupt_table_descriptor:
-dw (50*8)-1
+dw (255*8)-1
 dd (interrupt_table)
 
 

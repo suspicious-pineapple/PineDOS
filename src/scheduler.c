@@ -38,8 +38,8 @@ uint32_t create_task(uint32_t entry){
     kernel_tasks[slot].stack_size = 1024;
     kernel_tasks[slot].regs.esp = kernel_tasks[slot].stack_base + 1024; 
     
-    kernel_tasks[slot].regs.esp -= 4;
     *(uint32_t*)(kernel_tasks[slot].regs.esp) = (uint32_t)task_end;
+    kernel_tasks[slot].regs.esp -= 4;
 
 
     return PID_current;
@@ -78,9 +78,7 @@ void test_registers(){
 
 
    yield();
-    init_scheduler();
-   create_task((uint32_t)example_task_1);
-   create_task((uint32_t)refresh_screen_task);
+
 
    
 }
@@ -98,19 +96,20 @@ void task_end(){
 }
 
 void example_task_1(){
-    uint32_t var = 0;
+
     while(1){
-
-        _kprint("\r\nloop ");
-        print_hex32(_get_stacksize());
-        var++;
-        _kprint("\r\n");
-
-        //scheduler_int();
-        yield();
-
+        _kprint("\r\nloop A\r\n");
     }
+
 }
+void example_task_2(){
+
+    while(1){
+        _kprint("\r\nloop B\r\n");
+    }
+
+}
+
 
 
 void yield(){
