@@ -1,7 +1,7 @@
 BITS 32
 
 
-cfg_console_width equ 75
+cfg_console_width equ 72
 cfg_console_height equ 38
 cfg_kernel_heap_size equ 0x4000000
 cfg_kernel_heap_location equ 0x3200000 ; locate kernel at 50MiB for no particular reason. i am sure this will not bite me in the ass later on
@@ -551,7 +551,7 @@ DISPLAY_SCALE dd 0
 global CHARACTER_HEIGHT
 CHARACTER_HEIGHT dd 7+3
 global CHARACTER_WIDTH
-CHARACTER_WIDTH dd 5+0
+CHARACTER_WIDTH dd 5+1
 
 global CONSOLE_BUFFER
 

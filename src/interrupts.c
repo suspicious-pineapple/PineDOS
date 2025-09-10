@@ -158,6 +158,7 @@ void handle_interrupt(uint32_t isr){
     _kprint("\r\nUnhandled interrupt received: ");
     print_hex32(isr);
     _kprint("\r\n");
+    asm("mov $0,%eax");
     _blank_screen();
     _console_render();
     copy_framebuffer();
@@ -190,8 +191,8 @@ void end_irq(uint8_t irq){
 void init_irq(){ //shamelessly stolen from https://wiki.osdev.org/8259_PIC#Programming_the_PIC_chips
     disable_interrupts();
     //but oh well there are not that many ways to do this anyways
-#define PIC1_OFFSET 0x70
-#define PIC2_OFFSET 0x78
+#define PIC1_OFFSET 0x80
+#define PIC2_OFFSET 0x88
 
 #define ICW1_ICW4	0x01		/* Indicates that ICW4 will be present */
 #define ICW1_SINGLE	0x02		/* Single (cascade) mode */
@@ -235,7 +236,7 @@ arguments:
 	// Unmask both PICs.
 	outb(PIC1_DATA, 0x01);
 	outb(PIC2_DATA, 0x00);
-
+    enable_interrupts();
 
 }
 
