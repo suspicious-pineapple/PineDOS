@@ -106,8 +106,8 @@ void example_task_1(){
         var++;
         _kprint("\r\n");
 
-        scheduler_int();
-        //yield();
+        //scheduler_int();
+        yield();
 
     }
 }
@@ -121,7 +121,9 @@ void yield(){
 
 void refresh_screen_task(){
     while(1){
-        scheduler_int();
+        //scheduler_int();
+        yield();
+        
         asm("mov $0, %eax");
         _blank_screen();
         _console_render();

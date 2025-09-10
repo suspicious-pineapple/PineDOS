@@ -19,6 +19,7 @@ mov eax, dword [44+esp]
 ;
 mov esp, dword [eax+16] ; esp
 
+add esp,4
 push dword [eax+36] ;return addr
 
 push dword [eax+32] ;eax

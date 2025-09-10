@@ -71,7 +71,8 @@ void fill_interrupts(){
     set_isr((uint32_t)generic_isr_30,(uint16_t)30);
     set_isr((uint32_t)generic_isr_31,(uint16_t)31);
     set_isr((uint32_t)generic_isr_32,(uint16_t)33);
-    set_isr((uint32_t)generic_isr_34,(uint16_t)33);
+    set_isr((uint32_t)generic_isr_33,(uint16_t)33);
+    set_isr((uint32_t)generic_isr_34,(uint16_t)34);
     set_isr((uint32_t)generic_isr_35,(uint16_t)35);
     set_isr((uint32_t)generic_isr_36,(uint16_t)36);
     set_isr((uint32_t)generic_isr_37,(uint16_t)37);

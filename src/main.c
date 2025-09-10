@@ -107,7 +107,7 @@ void cmain() {
 
     test_registers();
 
-    sched_main_loop();
+    //sched_main_loop();
 
         _kprint("\r\n");
     uint32_t testnum = 0;

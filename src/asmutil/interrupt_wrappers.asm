@@ -51,8 +51,6 @@ generic_isr_%[i]:
 %assign i i+1
 %endrep
 
-int_handler_test:
-jmp $
 
 global enable_interrupts
 enable_interrupts:
@@ -78,7 +76,7 @@ ret
 global scheduler_int
 scheduler_int:
 
-int 0x21
+int 0x22
 ret
 
 
