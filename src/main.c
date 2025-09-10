@@ -97,6 +97,7 @@ void cmain() {
 
     _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 
+    _kprint("\r\n\r\nI forgot how this goes.. The quick brown Frog jumps over the lazy Fox?\r\n");
     fill_interrupts();
 
     _kprint("\r\nIDT ok!\r\n");

@@ -63,7 +63,7 @@ caller is expected to clean up stack
 
 
 magic numbers:
-
+int 0x22 -> scheduler yield, defined in src/interrupts.c and interrupt_wrappers.asm
 
 
 
