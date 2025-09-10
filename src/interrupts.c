@@ -3,7 +3,7 @@
 #include "interrupt_handlers.h"
 #include "asmfunctions.h"
 #include "libc_freestanding/string.h"
-
+#include "scheduler.h"
 
 
 void default_interrupt(){
@@ -24,6 +24,13 @@ void* interrupt_hooks[255] = {0};
         copy_framebuffer();
 
 
+    }
+    void yieldHook(uint32_t isr){
+        _kprint("\r\nentering yielding interrupt handler");
+        print_hex32(isr);
+        _kprint("\r\n");
+        yield();
+        _kprint("\r\nexiting yielding interrupt handler\r\n");
     }
 void fill_interrupts(){
 
@@ -87,7 +94,9 @@ void fill_interrupts(){
 
 
     interrupt_hooks[49]=&testHook;
+    interrupt_hooks[34]=&yieldHook;
 
+    init_irq();
 
     trigger_int();
     trigger_int();
@@ -111,7 +120,7 @@ void handle_interrupt(uint32_t isr){
         int (*hookFunc)(uint32_t isr) = interrupt_hooks[isr];
         hookFunc(isr);
 
-
+        return;
     } else {
 
     _kprint("\r\nUnhandled interrupt received: ");
@@ -130,3 +139,6 @@ void end_irq(uint8_t irq){
         outb(PIC1_COMMAND, PIC_EOI);
 }
 
+void init_irq(){
+
+}

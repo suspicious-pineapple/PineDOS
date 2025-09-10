@@ -75,7 +75,11 @@ trigger_int:
 int 49
 ret
 
+global scheduler_int
+scheduler_int:
 
+int 0x21
+ret
 
 
 

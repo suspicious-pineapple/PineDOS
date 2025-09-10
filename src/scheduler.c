@@ -1,5 +1,6 @@
 #include "scheduler.h"
 #include "kernel.h"
+#include "interrupt_handlers.h"
 #include "libc_freestanding/kmalloc.h"
 #include "libc_freestanding/string.h"
 #include <stdint.h>
@@ -81,8 +82,7 @@ void test_registers(){
    create_task((uint32_t)example_task_1);
    create_task((uint32_t)refresh_screen_task);
 
-   sched_main_loop();
-
+   
 }
 
 void task_end(){
@@ -98,11 +98,17 @@ void task_end(){
 }
 
 void example_task_1(){
+    uint32_t var = 0;
     while(1){
-        _kprint("loop\r\n");
-        _console_render();
-        copy_framebuffer();
-        yield();
+
+        _kprint("\r\nloop ");
+        print_hex32(_get_stacksize());
+        var++;
+        _kprint("\r\n");
+
+        scheduler_int();
+        //yield();
+
     }
 }
 
@@ -115,10 +121,12 @@ void yield(){
 
 void refresh_screen_task(){
     while(1){
-    _blank_screen();
-    _console_render();
-    copy_framebuffer();
-    yield();
+        scheduler_int();
+        asm("mov $0, %eax");
+        _blank_screen();
+        _console_render();
+        copy_framebuffer();
+
     }
 }
 
@@ -127,7 +135,11 @@ void sched_main_loop(){
     while(1){
     active_task_index++;
     if(kernel_tasks[active_task_index].state!=0){
-    _kprint("\r\n switching to next task\r\n");
+        
+    print_hex32(_get_stacksize());
+    _kprint("\r\n");
+    //_kprint("switching to next task\r\n");
+    //_kprint("\r\n");
     switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
     }
     if(active_task_index>=255){
