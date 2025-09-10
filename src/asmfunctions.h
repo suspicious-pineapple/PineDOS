@@ -5,6 +5,9 @@ extern void _console_render(void); //update the kernel console
 extern void outb(uint16_t, uint8_t);
 extern void outw(uint16_t, uint16_t);
 extern void outd(uint16_t, uint32_t);
+extern uint8_t inb(uint16_t);
+extern uint16_t inw(uint16_t);
+extern uint32_t ind(uint16_t);
 extern void _set_console_color(uint8_t);
 extern void _fault();
 extern void _default_interrupt_handler();

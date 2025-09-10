@@ -104,35 +104,31 @@ void cmain() {
 
     fill_interrupts();
     
-    void irq_enable_task(){
-    init_irq();
-    enable_interrupts();
-    task_end();    
-    };
 
     init_scheduler();
-   create_task((uint32_t)example_task_1);
-   create_task((uint32_t)example_task_2);
+   //create_task((uint32_t)example_task_1);
+   //create_task((uint32_t)example_task_2);
+   
    create_task((uint32_t)refresh_screen_task);
-   create_task((uint32_t)irq_enable_task);
+   create_task((uint32_t)heartbeat);
+
     sched_main_loop();
 
 
-        _kprint("\r\n");
-    uint32_t testnum = 0;
-    while(1) {
-        _kprint("\r");
-        print_hex32(testnum);
-        testnum++;
-        _console_render();
-        copy_framebuffer();
-        _blank_screen();
     
-    }
- 
 
 }
+void heartbeat(){
+        uint32_t testnum = 0;
+    while(1) {
+        yield();
+        _kprint("\r");
+        print_hex32(inb(0x60));
+        testnum++;
 
+    
+    }
+ }
 void console_render_partial(){
     //for(uint32_t i; i < kglobals.CONSOLE_ROWS)
     
@@ -142,7 +138,7 @@ void console_render_partial(){
 
 
 void scroll_console(){
-    memmove(kglobals.CONSOLE_BUFFER, kglobals.CONSOLE_BUFFER + (69*2), (38*69*2));
+    memmove(kglobals.CONSOLE_BUFFER, kglobals.CONSOLE_BUFFER + (kglobals.CONSOLE_COLUMNS*2), (kglobals.CONSOLE_ROWS*kglobals.CONSOLE_COLUMNS*2));
     for(int i = 0; i < 10; i++){
         //scroll_framebuffer();
     }

@@ -25,7 +25,7 @@ typedef struct Task {
     uint8_t state;
 } Task_t;
 
-void task_end();
+void task_end(uint32_t exit_code);
 void yield();
 void sched_main_loop();
 void test_registers();
@@ -35,5 +35,4 @@ extern void switch_task(Registers_t *old, Registers_t *new);
 void example_task_1();
 void example_task_2();
 void refresh_screen_task();
-
-//void example_task_2();
+void irq_enable_task();

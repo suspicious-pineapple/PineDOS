@@ -5,3 +5,4 @@ void scroll_console();
 void copy_framebuffer();
 void scroll_framebuffer();
 void console_render_partial();
+void heartbeat();

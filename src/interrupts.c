@@ -25,7 +25,7 @@ void* interrupt_hooks[255] = {0};
 
 
     }
-    void yieldHook(uint32_t isr){
+    volatile void yieldHook(uint32_t isr){
         //_kprint("\r\nentering yielding interrupt handler");
         //print_hex32(isr);
         //_kprint("\r\n");
@@ -114,9 +114,12 @@ void fill_interrupts(){
 
 
 
+    interrupt_hooks[0xd]=&task_end;
     interrupt_hooks[49]=&testHook;
     interrupt_hooks[34]=&yieldHook;
-    interrupt_hooks[0x80]=&yieldHook;
+    interrupt_hooks[0x88]=&testHook;
+    interrupt_hooks[0x80]=&testHook;
+    //interrupt_hooks[0x88]=&yieldHook;
 
 
     trigger_int();
@@ -137,36 +140,58 @@ static inline void io_wait(void)
 
 
 void handle_interrupt(uint32_t isr){
+
+
+    if(isr >= 0x80){
+        _kprint("\r\n received IRQ, sending EOI:");
+        print_hex32(isr-0x80);
+        _kprint("\r\n");
+        end_irq(isr-0x80);
+    }
+
     if(interrupt_hooks[isr]!=0){
         int (*hookFunc)(uint32_t isr) = interrupt_hooks[isr];
         hookFunc(isr);
 
-    } else {
+    } 
 
     _kprint("\r\nUnhandled interrupt received: ");
     print_hex32(isr);
     _kprint("\r\n");
+    _blank_screen();
     _console_render();
     copy_framebuffer();
-    _blank_screen();
-    }
-    if(isr >= 0x80){
-        end_irq(isr-0x80);
-    }
+    
+    
 }
 
 void end_irq(uint8_t irq){
-    	if(irq>=8){
-            outb(PIC2_COMMAND, PIC_EOI);
+    	
+        if(irq==0x8){
+            outb(0x70, 0x0C);	// select register C of the RTC because we need to clear it
+            print_hex32(inb(0x71));		// clear it by reading it
         }
+        if(irq==0x1){
+            inb(0x60);
+        }
+        
+    
+        if(irq>=8){
+            outb(PIC1_COMMAND, PIC_EOI);
+            outb(PIC2_COMMAND, PIC_EOI);
+        } else {
         outb(PIC1_COMMAND, PIC_EOI);
-}
+        }
+        
+        enable_interrupts();
+
+    }
 
 void init_irq(){ //shamelessly stolen from https://wiki.osdev.org/8259_PIC#Programming_the_PIC_chips
     disable_interrupts();
     //but oh well there are not that many ways to do this anyways
-#define PIC1_OFFSET 0x80
-#define PIC2_OFFSET 0x88
+#define PIC1_OFFSET 0x70
+#define PIC2_OFFSET 0x78
 
 #define ICW1_ICW4	0x01		/* Indicates that ICW4 will be present */
 #define ICW1_SINGLE	0x02		/* Single (cascade) mode */
@@ -208,10 +233,19 @@ arguments:
 	io_wait();
 
 	// Unmask both PICs.
-	outb(PIC1_DATA, 0x00);
+	outb(PIC1_DATA, 0x01);
 	outb(PIC2_DATA, 0x00);
 
-    outb(0x70,0x8B);
-    char prev = 
 
+}
+
+void init_rtc(){
+    disable_interrupts();
+    outb(0x70,0x8B); //0x80 = disable non-maskable interrupts, 0x0B = select register B of the RTC
+    uint8_t previous_regb = inb(0x71);
+    outb(0x70, 0x8B); //previous register selection has been reset by the read
+    outb(0x71, previous_regb | 0x40); //sets bit 6
+    
+
+    //enable_interrupts();
 }

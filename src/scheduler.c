@@ -47,7 +47,9 @@ uint32_t create_task(uint32_t entry){
 uint32_t init_scheduler(){
         kernel_tasks[0].state=1;
         switch_task(&kernel_tasks[0].regs,&kernel_tasks[0].regs);
-return 0;
+
+        create_task((uint32_t)irq_enable_task);
+        return 0;
 }
 
 void test_registers(){
@@ -83,12 +85,14 @@ void test_registers(){
    
 }
 
-void task_end(){
+void task_end(uint32_t exit_code){
     kernel_tasks[active_task_index].state = 0;
     _kprint("\r\n Task finished with ID: ");
     print_hex32(kernel_tasks[active_task_index].id);
     _kprint(" in slot: ");
     print_hex32(active_task_index);
+    _kprint(" with code: ");
+    print_hex32(exit_code);
     _kprint("\r\n");
     yield();
 
@@ -98,6 +102,7 @@ void task_end(){
 void example_task_1(){
 
     while(1){
+        yield();
         _kprint("\r\nloop A\r\n");
     }
 
@@ -105,11 +110,17 @@ void example_task_1(){
 void example_task_2(){
 
     while(1){
+        yield();
         _kprint("\r\nloop B\r\n");
     }
 
 }
-
+  void irq_enable_task(){
+    init_irq();
+    init_rtc();
+    enable_interrupts();
+    task_end(0);    
+    };
 
 
 void yield(){
@@ -137,8 +148,8 @@ void sched_main_loop(){
     active_task_index++;
     if(kernel_tasks[active_task_index].state!=0){
         
-    print_hex32(_get_stacksize());
-    _kprint("\r\n");
+    //print_hex32(_get_stacksize());
+    //_kprint("\r\n");
     //_kprint("switching to next task\r\n");
     //_kprint("\r\n");
     switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
