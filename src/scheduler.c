@@ -106,7 +106,7 @@ void example_task_1(){
 
     while(1){
         yield();
-        _kprint("\r\nloop A\r\n");
+        //_kprint("\r\nloop A\r\n");
     }
 
 }
@@ -114,7 +114,7 @@ void example_task_2(){
 
     while(1){
         yield();
-        _kprint("\r\nloop B\r\n");
+        //_kprint("\r\nloop B\r\n");
     }
 
 }
@@ -137,7 +137,7 @@ void refresh_screen_task(){
         //scheduler_int();
         yield();
         
-        asm("mov $0, %eax");
+        //asm("mov $0, %eax");
         _blank_screen();
         _console_render();
         copy_framebuffer();
@@ -148,14 +148,15 @@ void refresh_screen_task(){
 
 void sched_main_loop(){
     while(1){
+        
     active_task_index++;
     if(kernel_tasks[active_task_index].state!=0){
         
     //print_hex32(_get_stacksize());
     //_kprint("\r\n");
-    _kprint("switching to next task\r\n");
-    //_kprint("\r\n");
-    switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
+     _kprint("switching to next task\r\n");
+    
+     switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
     }
     if(active_task_index>=255){
         active_task_index=0;
@@ -167,9 +168,9 @@ void sched_main_loop(){
 }
 
 
-void timer_tick(uint16_t isr){
-    kglobals.KERNEL_TIME++;
-}
+//void timer_tick(uint16_t isr){
+//    kglobals.KERNEL_TIME++;
+//}
 
 
 

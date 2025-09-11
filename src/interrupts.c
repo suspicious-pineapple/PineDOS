@@ -6,12 +6,6 @@
 #include "scheduler.h"
 
 
-void default_interrupt(){
-    //disable_interrupts();
-    _kprint("Received some kind of interrupt!\r\n");
-    _console_render();
-   
-}
 
 
 
@@ -122,8 +116,10 @@ void fill_interrupts(){
     //interrupt_hooks[0x88]=&testHook;
     //interrupt_hooks[0x80]=&yieldHook;
     //interrupt_hooks[0x88]=&yieldHook;
-
-
+    
+    
+    //interrupt_hooks[0x80]=&timer_tick; note: timer_tick is an ISR, not a regular function!
+    set_isr((uint32_t)timer_tick,0x80);
     trigger_int();
     trigger_int();
     //print_hex32(25/0);
@@ -161,9 +157,9 @@ void handle_interrupt(uint32_t isr){
     //
     }
         if(isr >= 0x80){
-        _kprint("\r\n received IRQ, sending EOI:");
-        print_hex32(isr-0x80);
-        _kprint("\r\n");
+        //_kprint("\r\n received IRQ, sending EOI:");
+        //print_hex32(isr-0x80);
+        //_kprint("\r\n");
         end_irq(isr-0x80);
     }
 
@@ -238,7 +234,7 @@ arguments:
 	io_wait();
 
 	// Unmask both PICs.
-	outb(PIC1_DATA, 0x01);
+	outb(PIC1_DATA, 0x00);
 	outb(PIC2_DATA, 0x01);
     enable_interrupts();
 

@@ -40,6 +40,7 @@ typedef struct kvals {
     uint32_t FRAMEBUFFER_BPP;
     uint32_t FRAMEBUFFER_TYPE;
     
+    uint32_t KERNEL_TIME;
     uint32_t CONSOLE_COLUMNS;
     uint32_t CONSOLE_ROWS;
     uint32_t CONSOLE_CURRENT_ROW;
@@ -49,7 +50,6 @@ typedef struct kvals {
     uint32_t CHARACTER_HEIGHT;
     uint32_t CHARACTER_WIDTH;
     uint8_t CONSOLE_BUFFER[42*69*2];
-    uint64_t KERNEL_TIME;
 
 } kvals;
 

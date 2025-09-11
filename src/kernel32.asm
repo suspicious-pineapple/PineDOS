@@ -523,6 +523,7 @@ times 100 db 0
 global kglobals
 kglobals:
 
+
 MULTIBOOT_INFO_ADDR: dd 0
 global FRAMEBUFFER
 FRAMEBUFFER dd 0
@@ -536,6 +537,10 @@ global FRAMEBUFFER_BPP
 FRAMEBUFFER_BPP dd 0
 global FRAMEBUFFER_TYPE
 FRAMEBUFFER_TYPE dd 0
+
+
+global KERNEL_TIME
+KERNEL_TIME dd 0
 
 ;global CONSOLE_TEXT
 global CONSOLE_COLUMNS
@@ -553,11 +558,12 @@ CHARACTER_HEIGHT dd 7+3
 global CHARACTER_WIDTH
 CHARACTER_WIDTH dd 5+1
 
+
+
+
 global CONSOLE_BUFFER
 
 CONSOLE_BUFFER: times ((cfg_console_height+1)*cfg_console_width*2) db 0
-global KERNEL_TIME
-KERNEL_TIME dq 0
 
 TEST_STRING: db "String printing works",0dh,0ah,0
 

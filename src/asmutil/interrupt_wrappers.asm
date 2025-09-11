@@ -82,6 +82,39 @@ ret
 
 
 
+global timer_tick
+timer_tick:
+add dword [KERNEL_TIME],1
+;jnc .tickend
+;add dword [KERNEL_TIME+4],1
+.tickend:
+push dx
+push ax
+mov dx, 0x20
+mov al,dl
+out dx,al
+pop ax
+pop dx
+iret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 interrupt_table:
 ;times 8*256 db 0
 resd 255*2

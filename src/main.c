@@ -112,7 +112,7 @@ void cmain() {
    create_task((uint32_t)refresh_screen_task);
    create_task((uint32_t)heartbeat);
     enable_interrupts();
-    
+
     sched_main_loop();
     
     
@@ -131,8 +131,13 @@ void heartbeat(){
         uint32_t testnum = 0;
     while(1) {
         yield();
-        _kprint("\r");
-        print_hex32(inb(0x60));
+        //_kprint("\r");
+        //print_hex32(inb(0x60));
+        //_kprint(" time: ");
+        //print_hex32((kglobals.KERNEL_TIME));
+        
+        
+        
         //_console_render();
         //copy_framebuffer();
         //_blank_screen();
