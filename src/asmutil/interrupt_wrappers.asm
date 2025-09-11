@@ -76,7 +76,7 @@ ret
 global scheduler_int
 scheduler_int:
 
-int 0x22
+int 0x88
 ret
 
 

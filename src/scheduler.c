@@ -24,6 +24,10 @@ uint32_t create_task(uint32_t entry){
             break;
         }
     }
+    kernel_tasks[slot].id=PID_current;
+    kernel_tasks[slot].sleep_until;
+
+
     kernel_tasks[slot].state=1;
     kernel_tasks[slot].regs.eax = 0;
     kernel_tasks[slot].regs.ebx = 0;
@@ -32,7 +36,7 @@ uint32_t create_task(uint32_t entry){
     kernel_tasks[slot].regs.esi = 0;
     kernel_tasks[slot].regs.edi = 0;
     kernel_tasks[slot].regs.ebp = 0;
-    kernel_tasks[slot].regs.eflags = 0x00200002;
+    kernel_tasks[slot].regs.eflags = 0x00200002; //no idea where this value comes from, i took it from qemu. its probably good
     kernel_tasks[slot].regs.eip = entry;
     kernel_tasks[slot].stack_base = (uint32_t) kmalloc(1024); 
     kernel_tasks[slot].stack_size = 1024;
@@ -54,7 +58,6 @@ uint32_t init_scheduler(){
 
 void test_registers(){
     Registers_t currentState;
-    Registers_t dummyState;
     switch_task(&currentState,&currentState);
     _kprint("\r\n");
     print_hex32(currentState.eax);
@@ -150,7 +153,7 @@ void sched_main_loop(){
         
     //print_hex32(_get_stacksize());
     //_kprint("\r\n");
-    //_kprint("switching to next task\r\n");
+    _kprint("switching to next task\r\n");
     //_kprint("\r\n");
     switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
     }
@@ -163,6 +166,10 @@ void sched_main_loop(){
 
 }
 
+
+void timer_tick(uint16_t isr){
+    kglobals.KERNEL_TIME++;
+}
 
 
 

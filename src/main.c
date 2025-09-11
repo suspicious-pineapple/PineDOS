@@ -106,27 +106,36 @@ void cmain() {
     
 
     init_scheduler();
-   //create_task((uint32_t)example_task_1);
-   //create_task((uint32_t)example_task_2);
+   create_task((uint32_t)example_task_1);
+   create_task((uint32_t)example_task_2);
    
    create_task((uint32_t)refresh_screen_task);
    create_task((uint32_t)heartbeat);
-
-    //sched_main_loop();
+    enable_interrupts();
+    
+    sched_main_loop();
+    
+    
     init_irq();
-    heartbeat();
+    //init_rtc();
+
+    scheduler_int();
+    scheduler_int();
+    scheduler_int();
+
+    //heartbeat();
     
 
 }
 void heartbeat(){
         uint32_t testnum = 0;
     while(1) {
-        //yield();
+        yield();
         _kprint("\r");
         print_hex32(inb(0x60));
-        _console_render();
-        copy_framebuffer();
-        _blank_screen();
+        //_console_render();
+        //copy_framebuffer();
+        //_blank_screen();
         testnum++;
 
     

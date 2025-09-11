@@ -23,6 +23,7 @@ typedef struct Task {
     Registers_t regs;
     uint32_t id;
     uint8_t state;
+    uint64_t sleep_until;
 } Task_t;
 
 void task_end(uint32_t exit_code);
@@ -36,3 +37,4 @@ void example_task_1();
 void example_task_2();
 void refresh_screen_task();
 void irq_enable_task();
+void timer_tick(uint16_t isr);

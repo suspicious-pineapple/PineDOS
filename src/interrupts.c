@@ -29,6 +29,8 @@ void* interrupt_hooks[255] = {0};
         //_kprint("\r\nentering yielding interrupt handler");
         //print_hex32(isr);
         //_kprint("\r\n");
+        //end_irq(isr-0x80);
+        //enable_interrupts();
         yield();
         //_kprint("\r\nexiting yielding interrupt handler\r\n");
     }
@@ -114,11 +116,11 @@ void fill_interrupts(){
 
 
 
-    interrupt_hooks[0xd]=&task_end;
-    interrupt_hooks[49]=&testHook;
-    interrupt_hooks[34]=&yieldHook;
-    interrupt_hooks[0x88]=&testHook;
-    interrupt_hooks[0x80]=&testHook;
+    //interrupt_hooks[0xd]=&task_end;
+    //interrupt_hooks[49]=&testHook;
+    //interrupt_hooks[34]=&yieldHook;
+    //interrupt_hooks[0x88]=&testHook;
+    //interrupt_hooks[0x80]=&yieldHook;
     //interrupt_hooks[0x88]=&yieldHook;
 
 
@@ -142,35 +144,38 @@ static inline void io_wait(void)
 void handle_interrupt(uint32_t isr){
 
 
-    if(isr >= 0x80){
+
+    if(interrupt_hooks[isr]!=0){
+        int (*hookFunc)(uint32_t isr) = interrupt_hooks[isr];
+        hookFunc(isr);
+
+    } else {
+
+    _kprint("\r\nUnhandled interrupt received: ");
+    print_hex32(isr);
+    _kprint("\r\n");
+    //asm("mov $0,%eax");
+    //_blank_screen();
+    //_console_render();
+    //copy_framebuffer();
+    //
+    }
+        if(isr >= 0x80){
         _kprint("\r\n received IRQ, sending EOI:");
         print_hex32(isr-0x80);
         _kprint("\r\n");
         end_irq(isr-0x80);
     }
 
-    if(interrupt_hooks[isr]!=0){
-        int (*hookFunc)(uint32_t isr) = interrupt_hooks[isr];
-        hookFunc(isr);
 
-    } 
-
-    _kprint("\r\nUnhandled interrupt received: ");
-    print_hex32(isr);
-    _kprint("\r\n");
-    asm("mov $0,%eax");
-    _blank_screen();
-    _console_render();
-    copy_framebuffer();
-    
-    
 }
 
 void end_irq(uint8_t irq){
     	
         if(irq==0x8){
             outb(0x70, 0x0C);	// select register C of the RTC because we need to clear it
-            print_hex32(inb(0x71));		// clear it by reading it
+            //print_hex32();		// clear it by reading it
+            inb(0x71);
         }
         if(irq==0x1){
             inb(0x60);
@@ -184,7 +189,6 @@ void end_irq(uint8_t irq){
         outb(PIC1_COMMAND, PIC_EOI);
         }
         
-        enable_interrupts();
 
     }
 
@@ -235,7 +239,7 @@ arguments:
 
 	// Unmask both PICs.
 	outb(PIC1_DATA, 0x01);
-	outb(PIC2_DATA, 0x00);
+	outb(PIC2_DATA, 0x01);
     enable_interrupts();
 
 }
