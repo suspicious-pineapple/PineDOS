@@ -42,6 +42,51 @@ popa
 
 ret
 
+global switch_task_int
+switch_task_int:
+pusha
+pushf
+
+mov eax, dword [40+esp]
+; pusha -> 8 regs * 4 bytes = 32 bytes
+; pushf -> 4 bytes = 36 bytes
+;return address -> 4 bytes = 44 bytes
+; args here
+mov edi, dword [40+esp]
+mov esi, esp
+mov ecx, 10
+rep movsd
+;popf
+;popa
+
+mov eax, dword [44+esp]
+;
+mov esp, dword [eax+16] ; esp
+
+add esp,4
+push dword [eax+36] ;return addr
+
+push dword [eax+32] ;eax
+push dword [eax+28] ; ecx
+push dword [eax+24] ; edx
+push dword [eax+20] ; ebx
+push dword [eax+16] ; esp
+push dword [eax+12] ;ebp
+push dword [eax+8] ;esi
+push dword [eax+4] ;edi
+push dword [eax] ; eflags
+;
+popf
+popa
+;add esp,4 ;goodbye return pointy
+;push dword []
+
+
+
+ret
+;iret
+
+
 
 ;    uint32_t eflags;
 ;    uint32_t edi;

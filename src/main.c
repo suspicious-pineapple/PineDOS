@@ -116,7 +116,6 @@ void cmain() {
     sched_main_loop();
     
     
-    init_irq();
     //init_rtc();
 
     scheduler_int();
@@ -131,10 +130,10 @@ void heartbeat(){
         uint32_t testnum = 0;
     while(1) {
         yield();
-        //_kprint("\r");
-        //print_hex32(inb(0x60));
-        //_kprint(" time: ");
-        //print_hex32((kglobals.KERNEL_TIME));
+        _kprint("\r");
+        print_hex32(inb(0x60));
+        _kprint(" time: ");
+        print_hex32((kglobals.KERNEL_TIME));
         
         
         

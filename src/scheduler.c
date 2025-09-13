@@ -9,7 +9,7 @@
 
 Task_t kernel_tasks[256];
 uint32_t active_task_index = 0;
-
+uint32_t interrupt_task_num;
 uint32_t PID_current = 0;
 
 
@@ -36,7 +36,7 @@ uint32_t create_task(uint32_t entry){
     kernel_tasks[slot].regs.esi = 0;
     kernel_tasks[slot].regs.edi = 0;
     kernel_tasks[slot].regs.ebp = 0;
-    kernel_tasks[slot].regs.eflags = 0x00200002; //no idea where this value comes from, i took it from qemu. its probably good
+    kernel_tasks[slot].regs.eflags = 0x00200202; //no idea where this value comes from, i took it from qemu. its probably good
     kernel_tasks[slot].regs.eip = entry;
     kernel_tasks[slot].stack_base = (uint32_t) kmalloc(1024); 
     kernel_tasks[slot].stack_size = 1024;
@@ -46,13 +46,14 @@ uint32_t create_task(uint32_t entry){
     kernel_tasks[slot].regs.esp -= 4;
 
 
-    return PID_current;
+    return slot;
 }
 uint32_t init_scheduler(){
         kernel_tasks[0].state=1;
         switch_task(&kernel_tasks[0].regs,&kernel_tasks[0].regs);
 
         create_task((uint32_t)irq_enable_task);
+        //create_task((uint32_t)interrupt_task);
         return 0;
 }
 
@@ -105,16 +106,14 @@ void task_end(uint32_t exit_code){
 void example_task_1(){
 
     while(1){
-        yield();
-        //_kprint("\r\nloop A\r\n");
+        _kprint("\r\nloop A\r\n");
     }
 
 }
 void example_task_2(){
 
     while(1){
-        yield();
-        //_kprint("\r\nloop B\r\n");
+        _kprint("\r\nloop B\r\n");
     }
 
 }
@@ -126,6 +125,8 @@ void example_task_2(){
     };
 
 
+
+
 void yield(){
     switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 
@@ -135,12 +136,11 @@ void yield(){
 void refresh_screen_task(){
     while(1){
         //scheduler_int();
-        yield();
-        
         //asm("mov $0, %eax");
         _blank_screen();
         _console_render();
         copy_framebuffer();
+        //yield();
 
     }
 }
@@ -148,14 +148,22 @@ void refresh_screen_task(){
 
 void sched_main_loop(){
     while(1){
-        
+    disable_interrupts();
     active_task_index++;
     if(kernel_tasks[active_task_index].state!=0){
-        
+    
+    if(kernel_tasks[active_task_index].stack_base)
+
     //print_hex32(_get_stacksize());
     //_kprint("\r\n");
-     _kprint("switching to next task\r\n");
+    _kprint("\r\ntask : ");
+    print_hex32(active_task_index);
+    _kprint("\r\nremaining stack: ");
+    uint32_t remaining_stack = kernel_tasks[active_task_index].regs.esp - kernel_tasks[active_task_index].stack_base;
+    print_hex32(remaining_stack);
+     _kprint(" \r\nswitching to next task\r\n");
     
+
      switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
     }
     if(active_task_index>=255){
@@ -167,10 +175,16 @@ void sched_main_loop(){
 
 }
 
+void timer_tick(uint16_t isr){
+    kglobals.KERNEL_TIME++;
+    if(kglobals.KERNEL_TIME%2 == 0){
+        end_irq(isr-0x80);
+        yield();
+    //switch_task_int(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 
-//void timer_tick(uint16_t isr){
-//    kglobals.KERNEL_TIME++;
-//}
+    }
+
+}
 
 
 

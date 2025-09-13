@@ -1,12 +1,12 @@
 #$HOME/opt/cross/i686-elf/bin/gcc -T ./linker.ld -o tmp/pinedos.bin -ffreestanding -O2 -nostdlib tmp/boot.o tmp/kernel.o -lgcc
 
 echo "Compiling C thingys"
-$HOME/opt/cross/bin/i686-elf-gcc -o tmp/main.o -ffreestanding -O2 -nostdlib -c src/main.c  -Wall -Wextra
-$HOME/opt/cross/bin/i686-elf-gcc -o tmp/string.o -ffreestanding -O2 -nostdlib -c src/libc_freestanding/string.c  -Wall -Wextra
-$HOME/opt/cross/bin/i686-elf-gcc -o tmp/kmalloc.o -ffreestanding -O2 -nostdlib -c src/libc_freestanding/kmalloc.c  -Wall -Wextra
-$HOME/opt/cross/bin/i686-elf-gcc -o tmp/scheduler.o -ffreestanding -O2 -nostdlib -c src/scheduler.c  -Wall -Wextra
+$HOME/opt/cross/bin/i686-elf-gcc -mno-red-zone -o tmp/main.o -ffreestanding -O2 -nostdlib -c src/main.c  -Wall -Wextra
+$HOME/opt/cross/bin/i686-elf-gcc -mno-red-zone -o tmp/string.o -ffreestanding -O2 -nostdlib -c src/libc_freestanding/string.c  -Wall -Wextra
+$HOME/opt/cross/bin/i686-elf-gcc -mno-red-zone -o tmp/kmalloc.o -ffreestanding -O2 -nostdlib -c src/libc_freestanding/kmalloc.c  -Wall -Wextra
+$HOME/opt/cross/bin/i686-elf-gcc -mno-red-zone -o tmp/scheduler.o -ffreestanding -O2 -nostdlib -c src/scheduler.c  -Wall -Wextra
 
-$HOME/opt/cross/bin/i686-elf-gcc -o tmp/interrupts.o -ffreestanding -O2 -nostdlib -c src/interrupts.c  -Wall -Wextra  -mgeneral-regs-only  # general-regs-only needed here
+$HOME/opt/cross/bin/i686-elf-gcc -mno-red-zone -o tmp/interrupts.o -ffreestanding -O2 -nostdlib -c src/interrupts.c  -Wall -Wextra  -mgeneral-regs-only  # general-regs-only needed here
 	
 echo "Linking.."
 $HOME/opt/cross/bin/i686-elf-gcc -T ./linker.ld -o tmp/pinedos.bin -lgcc -ffreestanding -O2 -nostdlib tmp/boot.o tmp/kernel.o tmp/main.o tmp/string.o tmp/interrupts.o tmp/kmalloc.o tmp/scheduler.o

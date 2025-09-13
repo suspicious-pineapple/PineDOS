@@ -114,12 +114,9 @@ void fill_interrupts(){
     //interrupt_hooks[49]=&testHook;
     //interrupt_hooks[34]=&yieldHook;
     //interrupt_hooks[0x88]=&testHook;
-    //interrupt_hooks[0x80]=&yieldHook;
+    interrupt_hooks[0x80]=&timer_tick;
     //interrupt_hooks[0x88]=&yieldHook;
     
-    
-    //interrupt_hooks[0x80]=&timer_tick; note: timer_tick is an ISR, not a regular function!
-    set_isr((uint32_t)timer_tick,0x80);
     trigger_int();
     trigger_int();
     //print_hex32(25/0);
