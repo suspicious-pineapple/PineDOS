@@ -247,3 +247,19 @@ void init_rtc(){
 
     //enable_interrupts();
 }
+
+
+void set_PIT(){
+    disable_interrupts();
+    uint16_t divider = 12000;
+    uint8_t divider_low = (divider & 0b11111111 ); 
+    uint8_t divider_high = ((divider>>8) &
+     0b11111111 ); 
+    uint8_t command = 0b00110100;
+    outb(0x43,command);
+    outb(0x40,divider_low);
+    outb(0x40,divider_high);
+    enable_interrupts();
+}
+
+

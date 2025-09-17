@@ -7,7 +7,7 @@
 
 char* secondary_framebuffer;
 char* primary_framebuffer;
-
+uint8_t random_byte();
 
 void cmain() {
 
@@ -15,7 +15,7 @@ void cmain() {
     
 
     
-    _kprint("entering main.c\r\n\r\n");
+    _kprint("ENTERING MAIN.C\r\n\r\n");
     
     _kprint("\r\n");
     _kprint("FRAMEBUFFER ");
@@ -50,17 +50,17 @@ void cmain() {
     _set_console_color(0);
     _kprint("GDT..");
     _set_console_color(7);
-    _kprint("whatever grub sets by default lmao\r\n");
+    _kprint("OK!\r\n");
     _set_console_color(0);
     _kprint("IDT..");
     _set_console_color(7);
-    _kprint("not implemented yet lol\r\n\n");
+    _kprint("OK!\r\n\n");
     
     _set_console_color(0);
 
 
 
-    char* teststring = "Testing a string!";
+    char* teststring = "TESTING A STRING!";
     
     uint32_t teststr_len = strlen(teststring);
 
@@ -72,7 +72,7 @@ void cmain() {
     
     memcpy(newstr, teststring, teststr_len+1);
     
-    char* teststring2 = "Snails!!";
+    char* teststring2 = "SNAILS!!!";
     char* newstring2 = kmalloc(strlen(teststring2)+1);
     memcpy(newstring2,teststring2,strlen(teststring2));
     
@@ -97,8 +97,8 @@ void cmain() {
 
     _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 
-    _kprint("\r\n\r\nI forgot how this goes.. The quick brown Frog jumps over the lazy Fox?\r\n");
-    _kprint("\r\nIDT ok!\r\n");
+    //_kprint("\r\n\r\nI forgot how this goes.. The quick brown Frog jumps over the lazy Fox?\r\n");
+    _kprint("\r\n\r\nI FORGOT HOW THIS GOES.. THE QUICK BROWN FROG JUMPS OVER THE LAZY FOX?\r\n");
 
     
 
@@ -130,8 +130,9 @@ void heartbeat(){
         uint32_t testnum = 0;
     while(1) {
         yield();
-        _kprint("\r");
-        print_hex32(inb(0x60));
+        _kprint("\r\n");
+        //print_hex32(inb(0x60));
+        print_hex32(random_byte());
         _kprint(" time: ");
         print_hex32((kglobals.KERNEL_TIME));
         
@@ -172,3 +173,12 @@ void copy_framebuffer(){
 
 
 }
+
+uint8_t random_seed = 8;
+uint8_t random_bytes[256] = {52,158,135,33,233,88,218,143,64,15,103,55,6,209,15,107,178,126,59,62,173,171,89,92,213,34,214,95,48,9,138,118,171,164,180,42,75,91,42,132,85,244,168,252,98,2,154,57,44,144,99,109,118,57,57,203,25,4,213,106,22,194,169,139,32,70,251,141,220,22,16,0,119,212,134,143,186,219,12,195,45,55,79,77,138,87,91,22,208,183,142,113,79,236,216,149,163,25,10,14,240,171,234,201,129,154,197,201,207,155,31,111,10,254,223,203,41,18,113,237,75,250,223,116,114,53,23,22,2,124,100,56,27,252,241,131,254,101,40,201,175,51,102,52,62,7,135,36,130,57,44,213,66,43,212,146,228,198,12,12,156,93,86,13,207,146,199,39,126,152,165,61,35,136,189,13,235,66,131,158,53,33,60,117,217,121,228,241,222,251,121,213,17,208,25,49,165,110,198,227,83,184,104,185,101,107,186,188,76,200,227,210,90,92,115,84,3,50,70,225,139,157,162,70,228,111,106,55,198,10,172,254,190,117,93,18,118,148,227,130,12,174,222,144,149,112,202,82,131,1,233,134,59,60,233,69};
+uint8_t random_byte(){
+    random_seed += random_bytes[random_seed];
+    return random_seed;
+
+}
+

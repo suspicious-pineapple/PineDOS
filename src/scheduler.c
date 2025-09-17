@@ -106,20 +106,21 @@ void task_end(uint32_t exit_code){
 void example_task_1(){
 
     while(1){
-        _kprint("\r\nloop A\r\n");
+        //_kprint("\r\nloop A\r\n");
     }
 
 }
 void example_task_2(){
 
     while(1){
-        _kprint("\r\nloop B\r\n");
+        //_kprint("\r\nloop B\r\n");
     }
 
 }
   void irq_enable_task(){
     init_irq();
     init_rtc();
+    set_PIT();
     enable_interrupts();
     task_end(0);    
     };
@@ -136,11 +137,12 @@ void yield(){
 void refresh_screen_task(){
     while(1){
         //scheduler_int();
-        //asm("mov $0, %eax");
+        
+        asm("mov $0x210548, %eax");
         _blank_screen();
         _console_render();
         copy_framebuffer();
-        //yield();
+        yield();
 
     }
 }
@@ -156,12 +158,12 @@ void sched_main_loop(){
 
     //print_hex32(_get_stacksize());
     //_kprint("\r\n");
-    _kprint("\r\ntask : ");
-    print_hex32(active_task_index);
-    _kprint("\r\nremaining stack: ");
-    uint32_t remaining_stack = kernel_tasks[active_task_index].regs.esp - kernel_tasks[active_task_index].stack_base;
-    print_hex32(remaining_stack);
-     _kprint(" \r\nswitching to next task\r\n");
+    //_kprint("\r\ntask : ");
+    //print_hex32(active_task_index);
+    //_kprint("\r\nremaining stack: ");
+    //uint32_t remaining_stack = kernel_tasks[active_task_index].regs.esp - kernel_tasks[active_task_index].stack_base;
+    //print_hex32(remaining_stack);
+    // _kprint(" \r\nswitching to next task\r\n");
     
 
      switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
@@ -177,7 +179,7 @@ void sched_main_loop(){
 
 void timer_tick(uint16_t isr){
     kglobals.KERNEL_TIME++;
-    if(kglobals.KERNEL_TIME%2 == 0){
+    if(kglobals.KERNEL_TIME%5 == 0){
         end_irq(isr-0x80);
         yield();
     //switch_task_int(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);

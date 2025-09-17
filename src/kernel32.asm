@@ -32,36 +32,16 @@ mov dword [FRAMEBUFFER_BPP], ecx
 
 
 
-;int 10h
 
 
 
 
-
-
-;pusha
-;extern setup_interrupts
-;call setup_interrupts
-;popa
 
 
 
 
 mov byte [DISPLAY_SCALE],1
 
-
-
-
-;mov al, "r"
-;call print_char
-;mov al, "o"
-;call print_char
-;mov al, "g"
-;call print_char
-
-;mov ah, 0 ;default color
-;mov ESI, TEST_STRING ;ESI is the pointer for the string to be printed
-;call print_string
 
 
 
