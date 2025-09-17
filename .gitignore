@@ -6,3 +6,4 @@
 pinedos.bin
 cross/gcc/
 cross/binutils-gdb/
+/cross/bin

@@ -1,4 +1,4 @@
-export PREFIX="$HOME/opt/cross"
+export PREFIX="$HOME/repos/PineDOS/cross/bin"
 export TARGET=i686-elf
 export PATH="$PREFIX/bin:$PATH"
 
