@@ -7,9 +7,9 @@
 
 #include "asmfunctions.h"
 
-Task_t kernel_tasks[256];
+task_t kernel_tasks[256];
+
 uint32_t active_task_index = 0;
-uint32_t interrupt_task_num;
 uint32_t PID_current = 0;
 
 
@@ -18,7 +18,7 @@ uint32_t create_task(uint32_t entry){
     PID_current++;
 
     uint32_t slot=0;
-    for(uint32_t i = 1; i < sizeof(kernel_tasks)/sizeof(Task_t);i++){
+    for(uint32_t i = 1; i < sizeof(kernel_tasks)/sizeof(task_t);i++){
         if(kernel_tasks[i].state==0){
             slot=i;
             break;
@@ -152,10 +152,19 @@ void sched_main_loop(){
     while(1){
     disable_interrupts();
     active_task_index++;
-    if(kernel_tasks[active_task_index].state!=0){
-    
-    if(kernel_tasks[active_task_index].stack_base)
+    task_t current_task = kernel_tasks[active_task_index];
+    if(current_task.state!=0){
+        
+        /*
+    if((current_task.regs.esp - current_task.stack_base)<32){
+        _kprint("\r\nThe stack fell over! task killed");
+        _console_render();
+        copy_framebuffer();
+        current_task.state=0;
 
+
+    }
+    */
     //print_hex32(_get_stacksize());
     //_kprint("\r\n");
     //_kprint("\r\ntask : ");
@@ -166,7 +175,7 @@ void sched_main_loop(){
     // _kprint(" \r\nswitching to next task\r\n");
     
 
-     switch_task(&kernel_tasks[0].regs,&kernel_tasks[active_task_index].regs);
+     switch_task(&kernel_tasks[0].regs,&current_task.regs);
     }
     if(active_task_index>=255){
         active_task_index=0;

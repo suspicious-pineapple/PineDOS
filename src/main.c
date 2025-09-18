@@ -131,8 +131,8 @@ void heartbeat(){
     while(1) {
         yield();
         _kprint("\r\n");
-        //print_hex32(inb(0x60));
-        print_hex32(random_byte());
+        print_hex32(inb(0x60));
+        //print_hex32(random_byte());
         _kprint(" time: ");
         print_hex32((kglobals.KERNEL_TIME));
         

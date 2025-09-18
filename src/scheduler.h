@@ -24,7 +24,8 @@ typedef struct Task {
     uint32_t id;
     uint8_t state;
     uint64_t sleep_until;
-} Task_t;
+    struct Task *next;
+} task_t;
 
 void task_end(uint32_t exit_code);
 void yield();
