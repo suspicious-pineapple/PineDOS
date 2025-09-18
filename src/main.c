@@ -106,8 +106,8 @@ void cmain() {
     
 
     init_scheduler();
-   create_task((uint32_t)example_task_1);
-   create_task((uint32_t)example_task_2);
+   //create_task((uint32_t)example_task_1);
+   //create_task((uint32_t)example_task_2);
    
    create_task((uint32_t)refresh_screen_task);
    create_task((uint32_t)heartbeat);
@@ -136,7 +136,7 @@ void heartbeat(){
         _kprint(" time: ");
         print_hex32((kglobals.KERNEL_TIME));
         
-        
+        sleep(400);
         
         //_console_render();
         //copy_framebuffer();

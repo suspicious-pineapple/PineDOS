@@ -29,6 +29,7 @@ uint32_t create_task(uint32_t entry){
 
 
     kernel_tasks[slot].state=1;
+    kernel_tasks[slot].regs.cr3 = 0;
     kernel_tasks[slot].regs.eax = 0;
     kernel_tasks[slot].regs.ebx = 0;
     kernel_tasks[slot].regs.edx = 0;
@@ -147,13 +148,16 @@ void refresh_screen_task(){
     }
 }
 
-
+void sleep(uint32_t time){
+    kernel_tasks[active_task_index].sleep_until = kglobals.KERNEL_TIME+time;
+    yield();
+}
 void sched_main_loop(){
     while(1){
     disable_interrupts();
     active_task_index++;
     task_t current_task = kernel_tasks[active_task_index];
-    if(current_task.state!=0){
+    if(current_task.state!=0  && (kglobals.KERNEL_TIME > current_task.sleep_until)){
         
         /*
     if((current_task.regs.esp - current_task.stack_base)<32){

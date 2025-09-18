@@ -2,35 +2,38 @@ global switch_task
 switch_task:
 pusha
 pushf
-
-mov eax, dword [40+esp]
+mov eax,cr3
+push eax
+mov eax, dword [44+esp]
 ; pusha -> 8 regs * 4 bytes = 32 bytes
 ; pushf -> 4 bytes = 36 bytes
 ;return address -> 4 bytes = 44 bytes
 ; args here
-mov edi, dword [40+esp]
+mov edi, dword [44+esp]
 mov esi, esp
-mov ecx, 10
+mov ecx, 11
 rep movsd
 ;popf
 ;popa
 
-mov eax, dword [44+esp]
+mov eax, dword [48+esp]
 ;
-mov esp, dword [eax+16] ; esp
+mov esp, dword [eax+20] ; esp
 
 add esp,4
-push dword [eax+36] ;return addr
+push dword [eax+40] ;return addr
 
-push dword [eax+32] ;eax
-push dword [eax+28] ; ecx
-push dword [eax+24] ; edx
-push dword [eax+20] ; ebx
-push dword [eax+16] ; esp
-push dword [eax+12] ;ebp
-push dword [eax+8] ;esi
-push dword [eax+4] ;edi
-push dword [eax] ; eflags
+push dword [eax+36] ;eax
+push dword [eax+32] ; ecx
+push dword [eax+28] ; edx
+push dword [eax+24] ; ebx
+push dword [eax+20] ; esp
+push dword [eax+16] ;ebp
+push dword [eax+12] ;esi
+push dword [eax+8] ;edi
+push dword [eax+4] ; eflags
+mov eax, dword [eax]
+mov cr3, eax
 ;
 popf
 popa
@@ -42,60 +45,3 @@ popa
 
 ret
 
-global switch_task_int
-switch_task_int:
-pusha
-pushf
-
-mov eax, dword [40+esp]
-; pusha -> 8 regs * 4 bytes = 32 bytes
-; pushf -> 4 bytes = 36 bytes
-;return address -> 4 bytes = 44 bytes
-; args here
-mov edi, dword [40+esp]
-mov esi, esp
-mov ecx, 10
-rep movsd
-;popf
-;popa
-
-mov eax, dword [44+esp]
-;
-mov esp, dword [eax+16] ; esp
-
-add esp,4
-push dword [eax+36] ;return addr
-
-push dword [eax+32] ;eax
-push dword [eax+28] ; ecx
-push dword [eax+24] ; edx
-push dword [eax+20] ; ebx
-push dword [eax+16] ; esp
-push dword [eax+12] ;ebp
-push dword [eax+8] ;esi
-push dword [eax+4] ;edi
-push dword [eax] ; eflags
-;
-popf
-popa
-;add esp,4 ;goodbye return pointy
-;push dword []
-
-
-
-ret
-;iret
-
-
-
-;    uint32_t eflags;
-;    uint32_t edi;
-;    uint32_t esi;
-;    uint32_t ebp;
-;    uint32_t esp;
-;    uint32_t ebx;
-;    uint32_t edx;
-;    uint32_t ecx;
-;    uint32_t eax;
-;    uint32_t eip;
-;

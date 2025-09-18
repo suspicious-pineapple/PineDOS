@@ -2,6 +2,7 @@
 
 
 typedef struct Registers {
+    uint32_t cr3;
     uint32_t eflags;
     uint32_t edi;
     uint32_t esi;
@@ -34,9 +35,9 @@ void test_registers();
 uint32_t init_scheduler();
 uint32_t create_task(uint32_t entry);
 extern void switch_task(Registers_t *old, Registers_t *new);
-extern void switch_task_int(Registers_t *old, Registers_t *new);
 void example_task_1();
 void example_task_2();
 void refresh_screen_task();
 void irq_enable_task();
 void timer_tick(uint16_t isr);
+void sleep(uint32_t time);
