@@ -4,12 +4,12 @@
 #include "asmfunctions.h"
 #include "libc_freestanding/string.h"
 #include "scheduler.h"
+#include "drivers/keyboard.h" //todo figure out how to share the interrupt_hooks array properly
 
 
 
 
-
-void* interrupt_hooks[255] = {0};
+void* interrupt_hooks[256] = {0};
     void testHook(uint32_t isr){
         _kprint("\r\nhook works! received ISR:");
         print_hex32(isr);
@@ -115,6 +115,7 @@ void fill_interrupts(){
     //interrupt_hooks[34]=&yieldHook;
     //interrupt_hooks[0x88]=&testHook;
     interrupt_hooks[0x80]=&timer_tick;
+    interrupt_hooks[0x81]=&keyboard_int_handler;
     //interrupt_hooks[0x88]=&yieldHook;
     
     trigger_int();

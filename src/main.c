@@ -4,6 +4,7 @@
 #include "libc_freestanding/kmalloc.h"
 #include "interrupt_handlers.h"
 #include "scheduler.h"
+#include "drivers/keyboard.h"
 
 char* secondary_framebuffer;
 char* primary_framebuffer;
@@ -106,7 +107,8 @@ void cmain() {
     
 
     init_scheduler();
-   //create_task((uint32_t)example_task_1);
+    init_keyboard();
+    //create_task((uint32_t)example_task_1);
    //create_task((uint32_t)example_task_2);
    
    create_task((uint32_t)refresh_screen_task);
@@ -131,12 +133,12 @@ void heartbeat(){
     while(1) {
         yield();
         _kprint("\r\n");
-        print_hex32(inb(0x60));
+        print_hex32(keybuffer_read());
         //print_hex32(random_byte());
         _kprint(" time: ");
         print_hex32((kglobals.KERNEL_TIME));
         
-        sleep(400);
+        sleep(100);
         
         //_console_render();
         //copy_framebuffer();

@@ -1,3 +1,5 @@
+#ifndef INT_HEADER
+#define INT_HEADER
 #include <stdint.h>
 extern void set_interrupt_routine(uint32_t function,uint16_t interrupt_number);
 extern void load_interrupts();
@@ -91,3 +93,4 @@ extern void generic_isr_141(void);
 extern void generic_isr_142(void);
 extern void generic_isr_143(void);
 extern void generic_isr_144(void);
+#endif
