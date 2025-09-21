@@ -49,7 +49,7 @@ typedef struct kvals {
     uint32_t DISPLAY_SCALE;
     uint32_t CHARACTER_HEIGHT;
     uint32_t CHARACTER_WIDTH;
-    uint8_t CONSOLE_BUFFER[42*69*2];
+    uint8_t CONSOLE_BUFFER[38*72*2];
 
 } kvals;
 

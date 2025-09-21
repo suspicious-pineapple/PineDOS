@@ -137,7 +137,6 @@ void yield(){
 
 void refresh_screen_task(){
     while(1){
-        //scheduler_int();
         
         asm("mov $0x210548, %eax");
         _blank_screen();
@@ -147,6 +146,9 @@ void refresh_screen_task(){
 
     }
 }
+
+
+
 
 void sleep(uint32_t time){
     kernel_tasks[active_task_index].sleep_until = kglobals.KERNEL_TIME+time;

@@ -545,6 +545,7 @@ global CONSOLE_BUFFER
 
 CONSOLE_BUFFER: times ((cfg_console_height+1)*cfg_console_width*2) db 0
 
+
 TEST_STRING: db "String printing works",0dh,0ah,0
 
 

@@ -115,6 +115,7 @@ void cmain() {
    create_task((uint32_t)heartbeat);
     enable_interrupts();
 
+    panic(0);
     sched_main_loop();
     
     

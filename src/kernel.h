@@ -6,3 +6,4 @@ void copy_framebuffer();
 void scroll_framebuffer();
 void console_render_partial();
 void heartbeat();
+void panic(uint32_t err);
