@@ -132,15 +132,15 @@ void cmain() {
 void heartbeat(){
         uint32_t testnum = 0;
     while(1) {
-        yield();
         _kprint("\r\n");
+        wait_for_key();
+
         print_hex32(keybuffer_read());
         //print_hex32(random_byte());
         _kprint(" time: ");
         print_hex32((kglobals.KERNEL_TIME));
         
-        sleep(100);
-        
+        //sleep(100);
         //_console_render();
         //copy_framebuffer();
         //_blank_screen();
@@ -173,6 +173,10 @@ void scroll_framebuffer(){
 
 void copy_framebuffer(){
     memcpy_4byte(primary_framebuffer,secondary_framebuffer,kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
+
+}
+uint32_t get_line_length(uint32_t line){
+    
 
 
 }

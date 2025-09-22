@@ -4,7 +4,7 @@
 #include "libc_freestanding/kmalloc.h"
 #include "libc_freestanding/string.h"
 #include <stdint.h>
-
+#include "drivers/keyboard.h"
 #include "asmfunctions.h"
 
 task_t kernel_tasks[256];
@@ -133,7 +133,12 @@ void yield(){
     switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 
 }
-
+void wait_for_key(){
+    kernel_tasks[active_task_index].state=2;
+    yield();
+    kernel_tasks[active_task_index].state=1;
+    
+}
 
 void refresh_screen_task(){
     while(1){
@@ -159,7 +164,11 @@ void sched_main_loop(){
     disable_interrupts();
     active_task_index++;
     task_t current_task = kernel_tasks[active_task_index];
-    if(current_task.state!=0  && (kglobals.KERNEL_TIME > current_task.sleep_until)){
+    
+    int should_run = (current_task.state==2&&check_keybuffer()) || current_task.state == 1;
+    should_run = should_run && (kglobals.KERNEL_TIME > current_task.sleep_until);
+
+    if(should_run){
         
         /*
     if((current_task.regs.esp - current_task.stack_base)<32){

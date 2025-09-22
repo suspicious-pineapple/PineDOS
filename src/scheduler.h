@@ -41,3 +41,4 @@ void refresh_screen_task();
 void irq_enable_task();
 void timer_tick(uint16_t isr);
 void sleep(uint32_t time);
+void wait_for_key();

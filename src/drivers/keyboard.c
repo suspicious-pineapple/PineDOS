@@ -37,3 +37,6 @@ void keybuffer_write(uint8_t key){
         keybuffer_read_position++;
     }
 }
+int check_keybuffer(){
+    return keybuffer_read_position!=keybuffer_write_position;
+}

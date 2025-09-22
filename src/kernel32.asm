@@ -3,8 +3,8 @@ BITS 32
 
 cfg_console_width equ 72
 cfg_console_height equ 38
-cfg_kernel_heap_size equ 0x4000000
-cfg_kernel_heap_location equ 0x3200000 ; locate kernel at 50MiB for no particular reason. i am sure this will not bite me in the ass later on
+;cfg_kernel_heap_size equ 0x4000000
+;cfg_kernel_heap_location equ 0x3200000 ; locate kernel at 50MiB for no particular reason. i am sure this will not bite me in the ass later on
 
 global kernel_main
 kernel_main:
