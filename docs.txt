@@ -13,40 +13,47 @@ todo: MOVe things to C. assembly is insanity
 roadmap:
 	- interrupts
 		- asm wrapper for C interrupt functions [Done]
-	- keyboard driver
-		- depends on interrupts i guess
-		- needs remapping of IRQs to ISRs
+	- keyboard driver [Done-ish]
+
 	- more libc functions
 		- actually dont. implement syscalls instead (syscalls could begin to exist now that interrupts work)
 		- libc only for userspace (maybe port newlib? doesnt seem *that* out of scope anymore)
+
 	- bump allocator [done]
 	- improve allocator
-		parse multiboot memory map
+		- linked list of blocks
+		- parse multiboot memory map
 
 	- a shell
-		-> actually no shell. kernel shells bad
+		-> actually no shell. kernel shells are evil
 			do in userspace instead
 
 	- disk driver, primitive file system (-> maybe FAT driver)
 	- userspace programs somehow?
 		- text editor
 		- hex viewer/editor
+		- shell
+
+	- preemptive multitasking: [Done-ish]
+		- see scheduler.c
+		- save/restore segments too
 
 
-	- multitasking (later: preemptive multitasking)
-		-> actually near future goal. not that hard now that interrupts work
-		-> round robin scheduler		
+
 	
 	- ???
 	
 	- IP/TCP stack
 	- Telnet?
+	- Intel HD audio driver?
 	- virtual memory? long mode? paging?
 		-> use segmentation for now, one segment per userspace thread
+		-> actually dont use segmentation for now. it sucks
+		-> maybe there is a reason why everyone says that paging is better
 
 	- stacktrace somehow?
 
-	- make font less ugly	
+	- make font less ugly [Never]
 	
 
 conventions:
