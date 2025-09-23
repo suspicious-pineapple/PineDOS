@@ -135,7 +135,10 @@ void heartbeat(){
         _kprint("\r\n");
         wait_for_key();
 
+        //uint8_t pressed[] = {keybuffer_read(),0};
         print_hex32(keybuffer_read());
+        //_kprint(pressed);
+
         //print_hex32(random_byte());
         _kprint(" time: ");
         print_hex32((kglobals.KERNEL_TIME));
@@ -176,7 +179,7 @@ void copy_framebuffer(){
 
 }
 uint32_t get_line_length(uint32_t line){
-    
+
 
 
 }
