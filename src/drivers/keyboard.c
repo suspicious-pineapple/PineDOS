@@ -1,6 +1,7 @@
 #include "keyboard.h"
 #include "../interrupt_handlers.h"
 #include <stdint.h>
+#include <stdbool.h>
 #include "../asmfunctions.h"
 #include "../libc_freestanding/string.h"
 #include "../kernel.h"
@@ -15,8 +16,11 @@ char scanCodeToAscii_uppercase[256];
 
 
 uint8_t keybuffer[256];
+uint8_t pressed_keys[256];
 uint8_t keybuffer_read_position = 0;
 uint8_t keybuffer_write_position = 0;
+bool shiftstate = 0;
+
 
 void init_keyboard(){
     //todo share the interrupt hooks array properly
@@ -67,15 +71,88 @@ void init_keyboard(){
     scanCodeToAscii_lowercase[0x56]='<';
     scanCodeToAscii_lowercase[0x29]='^';
 
+
+    scanCodeToAscii_uppercase[0x1E]='A';
+    scanCodeToAscii_uppercase[0x30]='B';
+    scanCodeToAscii_uppercase[0x2e]='C';
+    scanCodeToAscii_uppercase[0x20]='D';
+    scanCodeToAscii_uppercase[0x12]='E';
+    scanCodeToAscii_uppercase[0x21]='F';
+    scanCodeToAscii_uppercase[0x22]='G';
+    scanCodeToAscii_uppercase[0x23]='H';
+    scanCodeToAscii_uppercase[0x17]='I';
+    scanCodeToAscii_uppercase[0x24]='J';
+    scanCodeToAscii_uppercase[0x25]='K';
+    scanCodeToAscii_uppercase[0x26]='L';
+    scanCodeToAscii_uppercase[0x32]='M';
+    scanCodeToAscii_uppercase[0x31]='N';
+    scanCodeToAscii_uppercase[0x18]='O';
+    scanCodeToAscii_uppercase[0x19]='P';
+    scanCodeToAscii_uppercase[0x10]='Q';
+    scanCodeToAscii_uppercase[0x13]='R';
+    scanCodeToAscii_uppercase[0x1F]='S';
+    scanCodeToAscii_uppercase[0x14]='T';
+    scanCodeToAscii_uppercase[0x16]='U';
+    scanCodeToAscii_uppercase[0x2F]='V';
+    scanCodeToAscii_uppercase[0x11]='W';
+    scanCodeToAscii_uppercase[0x2D]='X';
+    scanCodeToAscii_uppercase[0x2c]='Y';
+    scanCodeToAscii_uppercase[0x15]='Z';
+    scanCodeToAscii_uppercase[0x02]='!';
+    scanCodeToAscii_uppercase[0x03]='"';
+    scanCodeToAscii_uppercase[0x04]='§';
+    scanCodeToAscii_uppercase[0x05]='$';
+    scanCodeToAscii_uppercase[0x06]='%';
+    scanCodeToAscii_uppercase[0x07]='&';
+    scanCodeToAscii_uppercase[0x08]='/';
+    scanCodeToAscii_uppercase[0x09]='(';
+    scanCodeToAscii_uppercase[0x0A]=')';
+    scanCodeToAscii_uppercase[0x0B]='=';
+    scanCodeToAscii_uppercase[0x39]=' ';
+    scanCodeToAscii_uppercase[0x0F]='\t';
+    scanCodeToAscii_uppercase[0x1C]='\r';
+    scanCodeToAscii_uppercase[0x33]=';';
+    scanCodeToAscii_uppercase[0x34]=':';
+    scanCodeToAscii_uppercase[0x35]='_';
+    scanCodeToAscii_uppercase[0x2B]='\'';
+    scanCodeToAscii_uppercase[0x56]='>';
+    scanCodeToAscii_uppercase[0x29]='°';
+
+
+
+
+
+
+
+
 };
+
+
 
 void keyboard_int_handler(){
     uint8_t scancode = inb(0x60);
     if(scancode==0xE0){return;};
-    keybuffer_write(scancode);
-    
 
+    
+    if(scancode & 0b10000000) { //key release
+        pressed_keys[scancode & 0b01111111] = 0;
+        return;
+    } else {
+        pressed_keys[scancode] = 1;
+    }
+
+    if(scancode==0x2A){shiftstate=true;};
+    if(scancode==0xAA){shiftstate=false;};
+    char decoded = 0;
+
+    if(shiftstate){
+        decoded = scanCodeToAscii_uppercase[scancode];
+    } else {
+        decoded = scanCodeToAscii_lowercase[scancode];
+    }
+    keybuffer_write(decoded);
 }
+
 
 uint8_t keybuffer_read(){
     uint8_t return_val = 0;
