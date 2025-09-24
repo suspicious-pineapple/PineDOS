@@ -433,6 +433,9 @@ div al
 ret
 
 
+global _print_hex_serial
+_print_hex_serial:
+mov eax, dword  [esp+4]
 
 print_hex_serial:
 pusha
