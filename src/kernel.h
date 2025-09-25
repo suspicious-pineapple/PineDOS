@@ -7,3 +7,34 @@ void scroll_framebuffer();
 void console_render_partial();
 void heartbeat();
 void panic(uint32_t err);
+
+
+
+
+
+
+
+
+enum panic_reasons {
+    SOMETHING_WENT_WRONG,
+    KMALLOC_FAILED,
+    INVALID_DRAW,
+
+    
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

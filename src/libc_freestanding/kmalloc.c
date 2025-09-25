@@ -1,7 +1,7 @@
 #include "../asmfunctions.h"
 #include <stdint.h>
 #include "kmalloc.h"
-
+#include "../kernel.h"
 
 typedef struct kmalloc_block {
     uint32_t base;
@@ -59,10 +59,16 @@ void* kmalloc(uint32_t size){
     while(current->next){
         current = current->next;
         
+        if(current->size >= size && current->used==0){
+            return (void*)current->base;
+        }
         
         
     }
 
+    if(current->base+current->size+size+sizeof(kmalloc_block_t) > heap_base+heap_size){
+        panic(1);
+    }
 
     kmalloc_block_t* next = (kmalloc_block_t*)(current->base+current->size);
     next->used=1;
@@ -83,8 +89,21 @@ void* kmalloc(uint32_t size){
 
 }
 
+void kfree(void* ptr){
+    
+    kmalloc_block_t* current = &list_root;
 
+    
+    while(current->next){
+        current = current->next;
+        
+        if(current->base == (uint32_t)ptr){
+            current -> used = 0;
+            return;
+        }
+    }
 
+}
 
 
 

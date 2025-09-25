@@ -99,7 +99,7 @@ void cmain() {
     _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 
     //_kprint("\r\n\r\nI forgot how this goes.. The quick brown Frog jumps over the lazy Fox?\r\n");
-    _kprint("\r\n\r\nI FORGOT HOW THIS GOES.. THE QUICK BROWN FROG JUMPS OVER THE LAZY FOX?\r\n");
+    _kprint("\r\n\r\nI forgot how this goes.. The quick brown fox jumps over the lazy fox?\r\n");
 
     
 
@@ -114,6 +114,8 @@ void cmain() {
    create_task((uint32_t)refresh_screen_task);
    create_task((uint32_t)heartbeat);
     enable_interrupts();
+
+
 
     //panic(0);
     sched_main_loop();
@@ -133,7 +135,11 @@ void heartbeat(){
         uint32_t testnum = 0;
     while(1) {
         _kprint("\r\n");
-        wait_for_key();
+        //wait_for_key();
+
+        void* allocated = kmalloc(320000);
+        //kfree(allocated);
+    
 
         //uint8_t pressed[] = {keybuffer_read(),0};
         print_hex32(keybuffer_read());
