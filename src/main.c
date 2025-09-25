@@ -121,14 +121,6 @@ void cmain() {
     sched_main_loop();
     
     
-    //init_rtc();
-
-    scheduler_int();
-    scheduler_int();
-    scheduler_int();
-
-    //heartbeat();
-    
 
 }
 void heartbeat(){
