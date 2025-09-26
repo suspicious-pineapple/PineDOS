@@ -173,7 +173,7 @@ void sched_main_loop(){
     active_task_index++;
     task_t current_task = kernel_tasks[active_task_index];
     
-    int should_run = (current_task.state==2&&check_keybuffer()) || current_task.state == 1;
+    int should_run = (current_task.state==2&&check_keybuffer()) || current_task.state == TASK_RUNNING;
     should_run = should_run && (kglobals.KERNEL_TIME > current_task.sleep_until);
 
     if(should_run){

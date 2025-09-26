@@ -45,7 +45,10 @@ void wait_for_key();
 
 
 enum TASK_STATES {
+    TASK_DEAD,
     TASK_RUNNING,
     TASK_KEYWAIT,
     TASK_CRITICAL
 };
+void enter_critical();
+void exit_critical();

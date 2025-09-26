@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "kmalloc.h"
 #include "../kernel.h"
+#include "../scheduler.h"
 
 typedef struct kmalloc_block {
     uint32_t base;

@@ -19,7 +19,7 @@ enum panic_reasons {
     SOMETHING_WENT_WRONG,
     KMALLOC_FAILED,
     INVALID_DRAW,
-
+    MISALIGNED_PAGE
     
 
 };
