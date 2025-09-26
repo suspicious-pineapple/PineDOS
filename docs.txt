@@ -42,7 +42,7 @@ roadmap:
 
 	
 	- ???
-	
+	- ACPI
 	- IP/TCP stack
 	- Telnet?
 	- Intel HD audio driver?

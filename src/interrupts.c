@@ -19,15 +19,15 @@ void* interrupt_hooks[256] = {0};
 
 
     }
-    volatile void yieldHook(uint32_t isr){
+    //void yieldHook(uint32_t isr){
         //_kprint("\r\nentering yielding interrupt handler");
         //print_hex32(isr);
         //_kprint("\r\n");
         //end_irq(isr-0x80);
         //enable_interrupts();
-        yield();
+    //    yield();
         //_kprint("\r\nexiting yielding interrupt handler\r\n");
-    }
+    //}
 void fill_interrupts(){
 
     load_interrupts();

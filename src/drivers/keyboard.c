@@ -100,7 +100,7 @@ void init_keyboard(){
     scanCodeToAscii_uppercase[0x15]='Z';
     scanCodeToAscii_uppercase[0x02]='!';
     scanCodeToAscii_uppercase[0x03]='"';
-    scanCodeToAscii_uppercase[0x04]='§';
+//    scanCodeToAscii_uppercase[0x04]='§';
     scanCodeToAscii_uppercase[0x05]='$';
     scanCodeToAscii_uppercase[0x06]='%';
     scanCodeToAscii_uppercase[0x07]='&';
@@ -116,7 +116,7 @@ void init_keyboard(){
     scanCodeToAscii_uppercase[0x35]='_';
     scanCodeToAscii_uppercase[0x2B]='\'';
     scanCodeToAscii_uppercase[0x56]='>';
-    scanCodeToAscii_uppercase[0x29]='°';
+//    scanCodeToAscii_uppercase[0x29]='°';
 
 
 
@@ -130,7 +130,7 @@ void init_keyboard(){
 
 
 void keyboard_int_handler(){
-    uint8_t scancode = inb(0x60);
+    unsigned char scancode = inb(0x60);
     if(scancode==0xE0){return;};
 
     
@@ -143,7 +143,7 @@ void keyboard_int_handler(){
 
     if(scancode==0x2A){shiftstate=true;};
     if(scancode==0xAA){shiftstate=false;};
-    char decoded = 0;
+    unsigned char decoded = 0;
 
     if(shiftstate){
         decoded = scanCodeToAscii_uppercase[scancode];

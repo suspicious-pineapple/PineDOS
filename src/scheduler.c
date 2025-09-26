@@ -25,7 +25,7 @@ uint32_t create_task(uint32_t entry){
         }
     }
     kernel_tasks[slot].id=PID_current;
-    kernel_tasks[slot].sleep_until;
+    kernel_tasks[slot].sleep_until = 0;;
 
 
     kernel_tasks[slot].state=1;
@@ -134,10 +134,17 @@ void yield(){
 
 }
 void wait_for_key(){
-    kernel_tasks[active_task_index].state=2;
+    kernel_tasks[active_task_index].state=TASK_KEYWAIT;
     yield();
-    kernel_tasks[active_task_index].state=1;
+    kernel_tasks[active_task_index].state=TASK_RUNNING;
     
+}
+
+void enter_critical(){
+    kernel_tasks[active_task_index].state=TASK_CRITICAL;
+}
+void exit_critical(){
+    kernel_tasks[active_task_index].state=TASK_RUNNING;
 }
 
 void refresh_screen_task(){
@@ -159,6 +166,7 @@ void sleep(uint32_t time){
     kernel_tasks[active_task_index].sleep_until = kglobals.KERNEL_TIME+time;
     yield();
 }
+
 void sched_main_loop(){
     while(1){
     disable_interrupts();
@@ -205,7 +213,9 @@ void timer_tick(uint16_t isr){
     kglobals.KERNEL_TIME++;
     if(kglobals.KERNEL_TIME%5 == 0){
         end_irq(isr-0x80);
+        if(kernel_tasks[active_task_index].state!=TASK_CRITICAL){
         yield();
+        }
     //switch_task_int(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 
     }
