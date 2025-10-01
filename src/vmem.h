@@ -4,8 +4,8 @@ typedef struct page_table {
 } page_table_t;
 
 typedef struct page_directory {
-    uint32_t page_directory[1024];
     page_table_t tables[1024];
+    uint32_t page_directory[1024];
 
 } page_directory_t;
 

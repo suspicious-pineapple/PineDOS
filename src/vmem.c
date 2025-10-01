@@ -10,18 +10,20 @@
 
 page_directory_t* create_address_space(uint32_t base, uint32_t size){
 
-    page_directory_t* pd = kmalloc(sizeof(page_directory_t));
+    page_directory_t* pd = kmalloc_aligned(sizeof(page_directory_t),4096);
 
     for(uint32_t i=0; i < 1024;i++){
         pd->page_directory[i] = 0x00000002;
     }
 
+    for(uint32_t j = 0; j < 128; j++){
     for(uint32_t i = 0; i < 1024; i++){
-        pd->tables[0].pages[i]=(i*0x1000)|0b11;
+        pd->tables[j].pages[i]=(i*0x1000  +j*0x400000)|0b11;
     }
 
-    pd->page_directory[0] = ((uint32_t) pd->tables[0].pages)|3;
+    pd->page_directory[j] = ((uint32_t) pd->tables[j].pages)|3;
 
+    }
     return pd;
 
 
@@ -40,7 +42,11 @@ page_directory_t* create_address_space(uint32_t base, uint32_t size){
 
 void test_if_paging_catches_fire(){
     page_directory_t* test_pd = create_address_space(0,0);
+    _print_hex_serial((uint32_t)test_pd);
+    //while(1);
     load_cr3(test_pd);
+    enable_paging();
+
 }
 
 
