@@ -5,7 +5,7 @@
 #include "interrupt_handlers.h"
 #include "scheduler.h"
 #include "drivers/keyboard.h"
-
+#include "vmem.h"
 char* secondary_framebuffer;
 char* primary_framebuffer;
 uint8_t random_byte();
@@ -115,7 +115,8 @@ void cmain() {
    create_task((uint32_t)heartbeat);
     enable_interrupts();
 
-
+    test_if_paging_catches_fire();
+    enable_paging();
 
     //panic(0);
     sched_main_loop();
@@ -128,8 +129,8 @@ void heartbeat(){
         _kprint("\r\n");
         //wait_for_key();
             //enter_critical();
-            exit_critical();
-
+            //exit_critical();
+        
 
         //uint8_t pressed[] = {keybuffer_read(),0};
         print_hex32(keybuffer_read());

@@ -1,19 +1,9 @@
 #include "vmem.h"
 #include <stdint.h>
 #include <stdatomic.h>
-#include "kmalloc.h"
+#include "libc_freestanding/kmalloc.h"
 #include "kernel.h"
-
-
-typedef struct page_table {
-    uint32_t pages[1024];
-} page_table_t;
-
-typedef struct page_directory {
-    page_table_t page_directory[1024];
-    
-
-} page_directory_t;
+#include "asmfunctions.h"
 
 
 
@@ -22,6 +12,15 @@ page_directory_t* create_address_space(uint32_t base, uint32_t size){
 
     page_directory_t* pd = kmalloc(sizeof(page_directory_t));
 
+    for(uint32_t i=0; i < 1024;i++){
+        pd->page_directory[i] = 0x00000002;
+    }
+
+    for(uint32_t i = 0; i < 1024; i++){
+        pd->tables[0].pages[i]=(i*0x1000)|0b11;
+    }
+
+    pd->page_directory[0] = ((uint32_t) pd->tables[0].pages)|3;
 
     return pd;
 
@@ -39,21 +38,10 @@ page_directory_t* create_address_space(uint32_t base, uint32_t size){
 
 
 
-
-
-
-void map_page(page_directory_t* pd, void* physical, void* virtual){
-    if((uint32_t)physical%4096 || (uint32_t)virtual%4096){
-        panic(MISALIGNED_PAGE);
-    }
-
-
+void test_if_paging_catches_fire(){
+    page_directory_t* test_pd = create_address_space(0,0);
+    load_cr3(test_pd);
 }
-
-
-
-
-
 
 
 

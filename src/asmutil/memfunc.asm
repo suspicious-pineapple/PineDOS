@@ -54,13 +54,16 @@ jmp memcpy_forward
 
 global memset
 memset:
-mov edx, dword [esp+4] ;dest
-mov al, byte [esp+8] ;byte to set things to
-mov ecx, dword [esp+12] ;number of bytes to set
+pusha
+mov edx, dword [esp+4+16] ;dest
+mov al, byte [esp+8+16] ;byte to set things to
+mov ecx, dword [esp+12+16] ;number of bytes to set
 xchg edx,esi
 rep stosb ;repeat stosb ecx times
 mov eax,edx
-xchg edx,esi ;esi needs to be preservd
+
+popa
+
 ret
 
 
@@ -90,6 +93,20 @@ ret
 
 
 
+global load_cr3
+load_cr3:
+mov eax, dword [esp+4]
+mov cr3, eax
+ret
+
+global enable_paging
+enable_paging:
+pusha
+mov eax,cr0
+or eax, 0x80000000 ; set bit 31
+mov cr0,eax
+popa
+ret
 
 
 

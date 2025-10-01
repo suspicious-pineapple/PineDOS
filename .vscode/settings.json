@@ -19,6 +19,7 @@
         "interrupt_handlers.h": "c",
         "kmalloc.h": "c",
         "keyboard.h": "c",
-        "scheduler.h": "c"
+        "scheduler.h": "c",
+        "vmem.h": "c"
     }
 }
