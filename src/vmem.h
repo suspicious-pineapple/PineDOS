@@ -10,8 +10,8 @@ typedef struct page_directory {
 } page_directory_t;
 
 
-extern uint32_t load_cr3(page_directory_t* pd);
+extern uint32_t load_cr3(uint32_t* pd);
 extern void enable_paging();
-page_directory_t* create_address_space(uint32_t base, uint32_t size);
+uint32_t* create_address_space(uint32_t base, uint32_t size);
 
 void test_if_paging_catches_fire();

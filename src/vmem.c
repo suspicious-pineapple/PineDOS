@@ -8,7 +8,7 @@
 
 
 
-page_directory_t* create_address_space(uint32_t base, uint32_t size){
+uint32_t* create_address_space(uint32_t base, uint32_t size){
 
     page_directory_t* pd = kmalloc_aligned(sizeof(page_directory_t),4096);
 
@@ -24,7 +24,7 @@ page_directory_t* create_address_space(uint32_t base, uint32_t size){
     pd->page_directory[j] = ((uint32_t) pd->tables[j].pages)|3;
 
     }
-    return pd;
+    return pd->page_directory;
 
 
 
@@ -41,7 +41,7 @@ page_directory_t* create_address_space(uint32_t base, uint32_t size){
 
 
 void test_if_paging_catches_fire(){
-    page_directory_t* test_pd = create_address_space(0,0);
+    uint32_t* test_pd = create_address_space(0,0);
     _print_hex_serial((uint32_t)test_pd);
     //while(1);
     load_cr3(test_pd);

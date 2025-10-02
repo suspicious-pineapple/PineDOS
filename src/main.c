@@ -116,7 +116,11 @@ void cmain() {
     enable_interrupts();
 
     test_if_paging_catches_fire();
-
+    while(1){};
+    test_if_paging_catches_fire();
+    test_if_paging_catches_fire();
+    test_if_paging_catches_fire();
+    test_if_paging_catches_fire();
     //panic(0);
     sched_main_loop();
     
