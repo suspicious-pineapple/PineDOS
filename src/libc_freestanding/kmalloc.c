@@ -204,9 +204,13 @@ void kfree(void* ptr){
 
 void kmalloc_torture_test(){
 
-    for(uint32_t i = 0; i < 999999; i++){
+    for(uint32_t i = 0; i < 99999; i++){
         
         void* pointer1 = kmalloc(random_byte());
+        for(uint16_t j = 0; j < random_byte(); j++){
+        random_byte();
+        }
+        
         void* pointer2 = kmalloc(random_byte()*4);
         void* pointer3 = kmalloc_aligned(random_byte(), random_byte());
         void* pointer4 = kmalloc(random_byte());
@@ -217,7 +221,7 @@ void kmalloc_torture_test(){
         kfree(pointer3);
         kfree(pointer4);
 
-        kernel_heap_cleanup();
+        //kernel_heap_cleanup();
 
 
     }

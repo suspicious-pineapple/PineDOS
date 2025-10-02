@@ -116,10 +116,9 @@ void cmain() {
     enable_interrupts();
     
     
-    kmalloc_torture_test();
+    //kmalloc_torture_test();
     
     
-
     //panic(0);
     sched_main_loop();
     

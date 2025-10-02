@@ -6,13 +6,14 @@
 #include <stdint.h>
 #include "drivers/keyboard.h"
 #include "asmfunctions.h"
+#include "vmem.h"
 
 task_t kernel_tasks[256];
 
 uint32_t active_task_index = 0;
 uint32_t PID_current = 0;
 
-
+uint32_t base_cr3;
 uint32_t create_task(uint32_t entry){
 
     PID_current++;
@@ -29,7 +30,7 @@ uint32_t create_task(uint32_t entry){
 
 
     kernel_tasks[slot].state=1;
-    kernel_tasks[slot].regs.cr3 = 0;
+    kernel_tasks[slot].regs.cr3 = base_cr3;
     kernel_tasks[slot].regs.eax = 0;
     kernel_tasks[slot].regs.ebx = 0;
     kernel_tasks[slot].regs.edx = 0;
@@ -50,6 +51,8 @@ uint32_t create_task(uint32_t entry){
     return slot;
 }
 uint32_t init_scheduler(){
+        base_cr3 = test_if_paging_catches_fire();
+
         kernel_tasks[0].state=1;
         switch_task(&kernel_tasks[0].regs,&kernel_tasks[0].regs);
 
