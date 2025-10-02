@@ -7,7 +7,7 @@ void scroll_framebuffer();
 void console_render_partial();
 void heartbeat();
 void panic(uint32_t err);
-
+uint8_t random_byte();
 
 
 

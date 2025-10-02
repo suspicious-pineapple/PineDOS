@@ -62,8 +62,12 @@ void* kmalloc(uint32_t size){
     while(current->next){
         current = current->next;
         
-        if(current->size >= size && current->used==0){
+        if(current->size == size && current->used==0){
+
             return (void*)current->base;
+        }
+        if(current->size > size+sizeof(kmalloc_block_t) && current->used==0){
+            break;
         }
         
         
@@ -73,12 +77,16 @@ void* kmalloc(uint32_t size){
         panic(1);
     }
 
+    if(current->next != 0){
+        current->size -= sizeof(kmalloc_block_t)+size;
+    }
     kmalloc_block_t* next = (kmalloc_block_t*)(current->base+current->size);
+
     next->used=1;
     next->size=size;
     next->base=(current->base+current->size+sizeof(kmalloc_block_t));
-    next->returned_base=(current->base+current->size+sizeof(kmalloc_block_t));
-    next->next = 0;
+    next->returned_base=next->base;
+    next->next = current->next; //if this is the end of the list, this should be 0, due to the initial while loop. if its not the end of the list and breaking up an existing block instead, this holds the next block
 
     current->next=next;
     _print_hex_serial((uint32_t)next);    
@@ -90,6 +98,9 @@ void* kmalloc(uint32_t size){
 
 
 }
+
+
+/*
 
 void* kmalloc_aligned(uint32_t size, uint32_t alignment){
     if(!inited){
@@ -135,7 +146,33 @@ void* kmalloc_aligned(uint32_t size, uint32_t alignment){
 
 
 }
+*/
 
+void* kmalloc_aligned(uint32_t size, uint32_t alignment){
+    uint32_t padded_size = size+alignment;
+    uint32_t base = (uint32_t)kmalloc(padded_size);
+    kmalloc_block_t* returned_block = (kmalloc_block_t*)(base-sizeof(kmalloc_block_t));
+    returned_block->returned_base = (base + alignment) - (base%alignment);
+    return (void*)returned_block->returned_base;
+}
+
+
+void kernel_heap_cleanup(){
+    kmalloc_block_t* current = &list_root;
+    
+    while(current->next && current->next->next){
+
+        
+        if(current->used==0 && current->next->used==0){
+            current->next=current->next->next;
+            current->size = (uint32_t)current->next - current->base;
+        }
+        current = current -> next;
+
+
+    }
+
+}
 
 
 
@@ -158,13 +195,36 @@ void kfree(void* ptr){
         }
     }
 
+
 }
 
 
 
 
 
+void kmalloc_torture_test(){
 
+    for(uint32_t i = 0; i < 999999; i++){
+        
+        void* pointer1 = kmalloc(random_byte());
+        void* pointer2 = kmalloc(random_byte()*4);
+        void* pointer3 = kmalloc_aligned(random_byte(), random_byte());
+        void* pointer4 = kmalloc(random_byte());
+        kfree(pointer2);
+        void* pointer5 = kmalloc(random_byte()*4);
+        kfree(pointer1);
+        kfree(pointer5);
+        kfree(pointer3);
+        kfree(pointer4);
+
+        kernel_heap_cleanup();
+
+
+    }
+
+    _kprint("passed kmalloc torture test, somehow");
+
+}
 
 
 

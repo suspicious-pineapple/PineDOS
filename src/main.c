@@ -8,7 +8,6 @@
 #include "vmem.h"
 char* secondary_framebuffer;
 char* primary_framebuffer;
-uint8_t random_byte();
 
 void cmain() {
 
@@ -109,18 +108,18 @@ void cmain() {
     init_scheduler();
     init_keyboard();
     //create_task((uint32_t)example_task_1);
-   //create_task((uint32_t)example_task_2);
-   
-   create_task((uint32_t)refresh_screen_task);
-   create_task((uint32_t)heartbeat);
+    //create_task((uint32_t)example_task_2);
+    
+    create_task((uint32_t)refresh_screen_task);
+    
+    create_task((uint32_t)heartbeat);
     enable_interrupts();
+    
+    
+    kmalloc_torture_test();
+    
+    
 
-    test_if_paging_catches_fire();
-    while(1){};
-    test_if_paging_catches_fire();
-    test_if_paging_catches_fire();
-    test_if_paging_catches_fire();
-    test_if_paging_catches_fire();
     //panic(0);
     sched_main_loop();
     
@@ -130,7 +129,7 @@ void cmain() {
 void heartbeat(){
     while(1) {
         _kprint("\r\n");
-        //wait_for_key();
+        wait_for_key();
             //enter_critical();
             //exit_critical();
         

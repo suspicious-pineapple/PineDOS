@@ -120,6 +120,7 @@ void fill_interrupts(){
     
     trigger_int();
     trigger_int();
+
     //print_hex32(25/0);
     //while(1){};
     //test1();
