@@ -29,19 +29,12 @@ void* bump_malloc(uint32_t size){
     current_bump_offset+=size;
 
     return return_ptr;
-    
-    //kmalloc_block_t* found_block = search_fitting_block(size);
-    //uint32_t base = found_block->base;
-
-    //return (void*)base;
-    
 
 
 }
 
 
 void init_list(){
-    //list_root = bump_malloc(sizeof(kmalloc_block_t)+16); //if anyone ever finds this, im doing this because i have no idea how to C. sorry Mr. Ritchie
     list_root.base = heap_base+sizeof(kmalloc_block_t);
     list_root.returned_base = heap_base+sizeof(kmalloc_block_t);
     list_root.size = 16; //unused bytes idk
