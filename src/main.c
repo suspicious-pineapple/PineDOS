@@ -6,6 +6,7 @@
 #include "scheduler.h"
 #include "drivers/keyboard.h"
 #include "vmem.h"
+#include "libc_freestanding/mutex.h"
 char* secondary_framebuffer;
 char* primary_framebuffer;
 
@@ -135,13 +136,14 @@ void cmain() {
 }
 
 
-uint8_t testlock = 0;
+mutex testlock = 0;
 uint32_t testvalue = 0;
 
 void mutex_test_1(){
     while(1){
-        while(try_lock_mutex(&testlock)){sleep(0);};
         
+        lock_mutex(&testlock);
+
         uint32_t old_testvalue = testvalue;
         
         testvalue++;
@@ -149,7 +151,6 @@ void mutex_test_1(){
         if(old_testvalue+1 != testvalue){
             _kprint("Mutex test failed! value changed");
         }        
-
         release_mutex(&testlock);
 
     }
@@ -157,7 +158,7 @@ void mutex_test_1(){
 
 void mutex_test_2(){
     while(1){
-        while(try_lock_mutex(&testlock)){sleep(0);};
+        lock_spinlock(&testlock);
         uint32_t old_testvalue = testvalue;
         testvalue++;
         sleep(0);
@@ -165,7 +166,6 @@ void mutex_test_2(){
             _kprint("Mutex test failed! value changed");
         }        
         release_mutex(&testlock);
-
     }
 }
 
