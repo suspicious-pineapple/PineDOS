@@ -9,6 +9,10 @@
 char* secondary_framebuffer;
 char* primary_framebuffer;
 
+
+void mutex_test_1();
+void mutex_test_2();
+
 void cmain() {
 
 
@@ -115,6 +119,8 @@ void cmain() {
     create_task((uint32_t)refresh_screen_task);
     
     create_task((uint32_t)heartbeat);
+    create_task((uint32_t)mutex_test_1);
+    create_task((uint32_t)mutex_test_2);
     enable_interrupts();
     
     
@@ -127,6 +133,47 @@ void cmain() {
     
 
 }
+
+
+uint8_t testlock = 0;
+uint32_t testvalue = 0;
+
+void mutex_test_1(){
+    while(1){
+        while(try_lock_mutex(&testlock)){sleep(0);};
+        
+        uint32_t old_testvalue = testvalue;
+        
+        testvalue++;
+        sleep(0);
+        if(old_testvalue+1 != testvalue){
+            _kprint("Mutex test failed! value changed");
+        }        
+
+        release_mutex(&testlock);
+
+    }
+}
+
+void mutex_test_2(){
+    while(1){
+        while(try_lock_mutex(&testlock)){sleep(0);};
+        uint32_t old_testvalue = testvalue;
+        testvalue++;
+        sleep(0);
+        if(old_testvalue+1 != testvalue){
+            _kprint("Mutex test failed! value changed");
+        }        
+        release_mutex(&testlock);
+
+    }
+}
+
+
+
+
+
+
 void heartbeat(){
     while(1) {
         //_kprint("\r\n");

@@ -456,11 +456,31 @@ print_hex_serial_16:
 
 
 
-global lock_mutex
-lock_mutex:
+global try_lock_mutex
+try_lock_mutex:
+mov al, 0
+mov edx, dword [esp+4]
+mov cl, 1
+lock cmpxchg byte [edx], cl
+
+ret
+
+global lock_spinlock
+lock_spinlock:
+mov al, 0
+mov edx, dword [esp+4]
+mov cl, 1
+lock cmpxchg byte [edx], cl
+jnz lock_spinlock
+ret
 
 
 
+global release_mutex
+release_mutex:
+mov edx, dword [esp+4]
+mov dword [edx], 0
+ret
 
 
 

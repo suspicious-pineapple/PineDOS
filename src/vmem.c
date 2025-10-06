@@ -28,7 +28,7 @@ uint32_t* identity_map(){
         for(uint32_t j = 0; j < 1024; j++){
             page_table[j] = ((j*0x1000) + (i*0x1000 * 0x400)) | 3;
             if(((j*0x1000) + (i*0x1000 * 0x400)) > available_memory){
-                page_table[j] = ((j*0x1000) + (i*0x1000 * 0x400)) | 0;
+                //page_table[j] = ((j*0x1000) + (i*0x1000 * 0x400)) | 0;
                 
             }
         }
