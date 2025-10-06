@@ -141,11 +141,10 @@ void keyboard_int_handler(){
         pressed_keys[scancode] = 1;
     }
 
-    if(scancode==0x2A){shiftstate=true;};
-    if(scancode==0xAA){shiftstate=false;};
+    shiftstate = pressed_keys[0x2A];
     unsigned char decoded = 0;
 
-    if(shiftstate){
+    if(shiftstate && scanCodeToAscii_uppercase[scancode]!=0){
         decoded = scanCodeToAscii_uppercase[scancode];
     } else {
         decoded = scanCodeToAscii_lowercase[scancode];

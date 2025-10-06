@@ -18,7 +18,9 @@ void cmain() {
     _kprint("ENTERING MAIN.C\r\n\r\n");
     
     _kprint("\r\n");
-    _kprint("FRAMEBUFFER ");
+    _kprint("MULTIBOOT_INFO_ADDR ");
+    print_hex32((uint32_t)kglobals.MULTIBOOT_INFO_ADDR);
+    _kprint("\r\nFRAMEBUFFER ");
     print_hex32(kglobals.FRAMEBUFFER);
     _kprint("\r\n");
     _kprint("FRAMEBUFFER_PITCH ");
@@ -98,7 +100,7 @@ void cmain() {
     _kprint("!\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDE\r\nFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 
     //_kprint("\r\n\r\nI forgot how this goes.. The quick brown Frog jumps over the lazy Fox?\r\n");
-    _kprint("\r\n\r\nI forgot how this goes.. The quick brown fox jumps over the lazy fox?\r\n");
+    _kprint("\r\n\r\nI forgot how this goes.. The quick brown frog jumps over the lazy fox?\r\n");
 
     
 
@@ -127,19 +129,23 @@ void cmain() {
 }
 void heartbeat(){
     while(1) {
-        _kprint("\r\n");
+        //_kprint("\r\n");
         wait_for_key();
             //enter_critical();
             //exit_critical();
         
 
-        //uint8_t pressed[] = {keybuffer_read(),0};
-        print_hex32(keybuffer_read());
-        //_kprint(pressed);
+        uint8_t pressed[] = {keybuffer_read(),0};
+        //print_hex32(keybuffer_read());
+        _kprint(pressed);
+        if(pressed[0]=='d'){
+            kglobals.FRAMEBUFFER++;
+        } else if(pressed[0]=='u'){
+            kglobals.FRAMEBUFFER--;
+        }
 
-        //print_hex32(random_byte());
-        _kprint(" time: ");
-        print_hex32((kglobals.KERNEL_TIME));
+        //_kprint(" time: ");
+        //print_hex32((kglobals.KERNEL_TIME));
         
         //sleep(100);
         //_console_render();

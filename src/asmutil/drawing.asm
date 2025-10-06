@@ -1,5 +1,10 @@
 put_pixel: ;eax -> color, ecx = x, edx = y
-pusha
+;pusha
+push eax
+push ebx
+push ecx
+push edx
+
     push eax
     mov ebx, dword [FRAMEBUFFER]
     mov eax, dword [FRAMEBUFFER_PITCH]
@@ -26,7 +31,11 @@ pusha
     sub ebx,4
     mov dword [ebx], eax
     .endplot:
-popa
+;popa
+pop edx
+pop ecx
+pop ebx
+pop eax
 ret
 
 ;put_rect: ; eax -> color, ecx = x, edx = y, 

@@ -50,45 +50,12 @@ call cmain
 
 
 call console_render
+
+cli
 jmp $
 
-mov edx, 150
-mov ecx, 0
-mov eax, 0x0000FF
-mov ebx, 640
-call horizontal_line
-
-xor edx,edx
-.loop:
-;mov eax, 111111111111111111111111b
-
-mov eax, 0xFF00FF
-mov eax,edx
-shl eax, 10
-call put_pixel
-inc ecx
 
 
-mov eax,ecx
-;call print_hex_serial
-cmp ecx, 32
-jle .loop
-inc edx
-xor ecx,ecx
-
-cmp edx, 32
-
-jle .loop
-xor edx,edx
-jmp .loop
-
-
-;jmp $
-
-
-
-
-jmp kernel_main
 
 
 
@@ -422,7 +389,9 @@ ret
 global _anxiety
 anxiety:
 mov eax, 0xDEAD ;RIP :( something went wrong
-call print_hex_serial
+call print_hex_serial_16
+extern panic
+call panic
 jmp $ ;halt
 
 
@@ -481,6 +450,18 @@ print_hex_serial_16:
             mov dx, 0x3F8
             out dx,al
         ret
+
+
+
+
+
+
+global lock_mutex
+lock_mutex:
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include "multiboot.h"
 extern void _kprint(char *); // 
 extern void _console_render(void); //update the kernel console
 extern void outb(uint16_t, uint8_t);
@@ -33,7 +34,7 @@ extern uint32_t KERNEL_HEAP;
 
 
 typedef struct kvals {
-    uint32_t MULTIBOOT_INFO_ADDR;
+    multiboot_info_t* MULTIBOOT_INFO_ADDR;
     uint32_t FRAMEBUFFER;
     uint32_t FRAMEBUFFER_PITCH;
     uint32_t FRAMEBUFFER_WIDTH;

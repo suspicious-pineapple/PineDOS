@@ -214,7 +214,7 @@ void sched_main_loop(){
 
 void timer_tick(uint16_t isr){
     kglobals.KERNEL_TIME++;
-    if(kglobals.KERNEL_TIME%5 == 0){
+    if(kglobals.KERNEL_TIME%3 == 0){
         end_irq(isr-0x80);
         if(kernel_tasks[active_task_index].state!=TASK_CRITICAL){
         yield();
