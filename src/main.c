@@ -158,7 +158,7 @@ void mutex_test_1(){
 
 void mutex_test_2(){
     while(1){
-        lock_spinlock(&testlock);
+        lock_mutex(&testlock);
         uint32_t old_testvalue = testvalue;
         testvalue++;
         sleep(0);

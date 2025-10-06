@@ -15,13 +15,14 @@
 
 
 
+uint32_t* page_directory;
 
 
 uint32_t* identity_map(){
     uint32_t available_memory = kglobals.MULTIBOOT_INFO_ADDR->mem_upper*1024;
 
 
-    uint32_t* page_directory = kmalloc_aligned(sizeof(uint32_t)*1024,4096);
+    page_directory = kmalloc_aligned(sizeof(uint32_t)*1024,4096);
     for(uint32_t i = 0; i < 1024; i++){
         
         uint32_t* page_table = kmalloc_aligned(sizeof(uint32_t)*1024,4096);
@@ -39,7 +40,18 @@ uint32_t* identity_map(){
 
 }
 
+void map_page(uint32_t physical, uint32_t virtual, uint16_t flags){
+    if(physical%4096!=0 || virtual%4096!=0){
+        panic(MISALIGNED_PAGE);
+    }
+    uint32_t page_directory_index = virtual >> 22; //12 bits -> 4096, 10 bits -> 1024
+    uint32_t page_table_index = (virtual >> 12) & 0b1111111111;
 
+    uint32_t* page_table = (uint32_t*)((page_directory[page_directory_index]) & 0xFFFFFC00);
+    
+    page_table[page_table_index] = physical | (flags&0xFFF);
+    
+}
 
 
 
@@ -56,7 +68,6 @@ uint32_t test_if_paging_catches_fire(){
     _print_hex_serial(0000);
     _print_hex_serial((uint32_t)test_pd);
     _print_hex_serial(0000);
-    //while(1);
     load_cr3((uint32_t)test_pd);
     enable_paging();
     return (uint32_t)test_pd;
