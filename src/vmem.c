@@ -12,7 +12,7 @@
 
 
 
-
+uint32_t default_cr3 = 0;
 
 uint32_t* page_directory;
 
@@ -59,7 +59,9 @@ void map_page(uint32_t physical, uint32_t virtual, uint16_t flags){
 
 
 
-
+uint32_t get_default_cr3(){
+    return (uint32_t)page_directory;
+}
 
 
 

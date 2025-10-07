@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
-static uint32_t default_cr3;
-
+extern uint32_t default_cr3;
+uint32_t get_default_cr3();
 extern uint32_t load_cr3(uint32_t pd);
 extern void enable_paging();
 uint32_t* create_address_space();

@@ -51,7 +51,7 @@ uint32_t create_task(uint32_t entry){
     return slot;
 }
 uint32_t init_scheduler(){
-        base_cr3 =test_if_paging_catches_fire();
+        base_cr3 =default_cr3;
         kernel_tasks[0].state=1;
         switch_task(&kernel_tasks[0].regs,&kernel_tasks[0].regs);
 
@@ -156,6 +156,7 @@ void refresh_screen_task(){
         _blank_screen();
         _console_render();
         copy_framebuffer();
+        //kernel_tasks[active_task_index].sleep_until = kglobals.KERNEL_TIME+5;
         yield();
 
     }
