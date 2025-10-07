@@ -81,8 +81,12 @@ ret
 
 
 
-
-
+global wait_for_interrupts
+wait_for_interrupts:
+sti
+hlt
+cli
+ret
 
 
 

@@ -52,11 +52,11 @@ void cmain() {
 
     secondary_framebuffer = (char*)kmalloc(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
     test_if_paging_catches_fire();
-    uint8_t* remapped_framebuffer = kmalloc_aligned(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH,4096);
-    for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH)>>12; i++){
-        map_page(kglobals.FRAMEBUFFER + 4096*i, (uint32_t)remapped_framebuffer+4096*i, 3);
-    }
-    kglobals.FRAMEBUFFER = (uint32_t)remapped_framebuffer;
+    //uint8_t* remapped_framebuffer = kmalloc_aligned(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH,4096);
+    //for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH)>>12; i++){
+    //    map_page(kglobals.FRAMEBUFFER + 4096*i, (uint32_t)remapped_framebuffer+4096*i, 3);
+    //}
+    //kglobals.FRAMEBUFFER = (uint32_t)remapped_framebuffer;
     primary_framebuffer = (char*)kglobals.FRAMEBUFFER;
     kglobals.FRAMEBUFFER = (uint32_t)secondary_framebuffer;
 
@@ -128,9 +128,9 @@ void cmain() {
     
     
     create_task((uint32_t)heartbeat);
-    create_task((uint32_t)refresh_screen_task);
     create_task((uint32_t)mutex_test_1);
     create_task((uint32_t)mutex_test_2);
+    create_task((uint32_t)refresh_screen_task);
     enable_interrupts();
     
     
@@ -156,7 +156,7 @@ void mutex_test_1(){
         uint32_t old_testvalue = testvalue;
         
         testvalue++;
-        sleep(0);
+        sleep(10);
         if(old_testvalue+1 != testvalue){
             _kprint("Mutex test failed! value changed");
         }        

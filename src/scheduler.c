@@ -3,11 +3,11 @@
 #include "interrupt_handlers.h"
 #include "libc_freestanding/kmalloc.h"
 #include "libc_freestanding/string.h"
+#include "libc_freestanding/mutex.h"
 #include <stdint.h>
 #include "drivers/keyboard.h"
 #include "asmfunctions.h"
 #include "vmem.h"
-
 task_t kernel_tasks[256];
 
 uint32_t active_task_index = 0;
@@ -149,16 +149,18 @@ void exit_critical(){
     kernel_tasks[active_task_index].state=TASK_RUNNING;
 }
 
+
+uint32_t refresh_timer = 0;
 void refresh_screen_task(){
     while(1){
-        
         asm("mov $0x210548, %eax");
+        
         _blank_screen();
         _console_render();
         copy_framebuffer();
-        //kernel_tasks[active_task_index].sleep_until = kglobals.KERNEL_TIME+5;
-        yield();
 
+        sleep(10);
+        
     }
 }
 
@@ -170,10 +172,18 @@ void sleep(uint32_t time){
     yield();
 }
 
+  
 void sched_main_loop(){
     while(1){
     disable_interrupts();
-    active_task_index++;
+    if(active_task_index>=255){
+        active_task_index=0;
+        wait_for_interrupts();
+    }
+    active_task_index++;    //task 0 is never valid, thats the scheduler itself
+   
+
+
     task_t current_task = kernel_tasks[active_task_index];
     
     int should_run = (current_task.state==2&&check_keybuffer()) || current_task.state == TASK_RUNNING;
@@ -200,12 +210,9 @@ void sched_main_loop(){
     //print_hex32(remaining_stack);
     // _kprint(" \r\nswitching to next task\r\n");
     
-
      switch_task(&kernel_tasks[0].regs,&current_task.regs);
     }
-    if(active_task_index>=255){
-        active_task_index=0;
-    }
+        
     }
 
 
@@ -214,8 +221,9 @@ void sched_main_loop(){
 
 void timer_tick(uint16_t isr){
     kglobals.KERNEL_TIME++;
-    if(kglobals.KERNEL_TIME%3 == 0){
-        end_irq(isr-0x80);
+    end_irq(isr-0x80);
+    if(kglobals.KERNEL_TIME%5 == 0){
+
         if(kernel_tasks[active_task_index].state!=TASK_CRITICAL){
         yield();
         }

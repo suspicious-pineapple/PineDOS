@@ -16,7 +16,7 @@ void end_irq(uint8_t irq);
 void init_irq();
 void init_rtc();
 void set_PIT();
-
+void wait_for_interrupts();
 #define PIC1		0x20		//IO address for master PIC
 #define PIC2		0xA0		//IO address for slave PIC
 #define PIC1_COMMAND	PIC1
