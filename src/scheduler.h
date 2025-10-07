@@ -39,6 +39,7 @@ extern void switch_task(Registers_t *old, Registers_t *new);
 void example_task_1();
 void example_task_2();
 void refresh_screen_task();
+void idle_task();
 void irq_enable_task();
 void timer_tick(uint16_t isr);
 void sleep(uint32_t time);

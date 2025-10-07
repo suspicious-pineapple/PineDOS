@@ -56,6 +56,7 @@ uint32_t init_scheduler(){
         switch_task(&kernel_tasks[0].regs,&kernel_tasks[0].regs);
 
         create_task((uint32_t)irq_enable_task);
+        create_task((uint32_t)idle_task);
         //create_task((uint32_t)interrupt_task);
         return 0;
 }
@@ -159,11 +160,18 @@ void refresh_screen_task(){
         _console_render();
         copy_framebuffer();
 
-        sleep(10);
+
         
     }
 }
 
+
+void idle_task(){
+    while(1){
+        wait_for_interrupts();
+        yield();
+    }
+}
 
 
 
@@ -178,7 +186,7 @@ void sched_main_loop(){
     disable_interrupts();
     if(active_task_index>=255){
         active_task_index=0;
-        wait_for_interrupts();
+        
     }
     active_task_index++;    //task 0 is never valid, thats the scheduler itself
    

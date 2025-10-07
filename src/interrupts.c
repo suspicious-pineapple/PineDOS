@@ -252,8 +252,10 @@ void init_rtc(){
 
 
 void set_PIT(){
+    //1.193182 MHz
     disable_interrupts();
-    uint16_t divider = 12000;
+    //uint16_t divider = 12000;
+    uint16_t divider = 994; // /994 / 3 = 400 Hz
     uint8_t divider_low = (divider & 0b11111111 ); 
     uint8_t divider_high = ((divider>>8) &
      0b11111111 ); 
