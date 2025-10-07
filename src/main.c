@@ -50,8 +50,15 @@ void cmain() {
     _kprint("\r\n");
 
     secondary_framebuffer = (char*)kmalloc(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
+    uint8_t* remapped_framebuffer = kmalloc_aligned(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH,4096);
+    for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH)>>12; i++){
+        map_page(kglobals.FRAMEBUFFER + 4096*i, (uint32_t)remapped_framebuffer+4096*i, 3);
+    }
+    kglobals.FRAMEBUFFER = (uint32_t)remapped_framebuffer;
     primary_framebuffer = (char*)kglobals.FRAMEBUFFER;
     kglobals.FRAMEBUFFER = (uint32_t)secondary_framebuffer;
+
+
 
 
     _set_console_color(0);

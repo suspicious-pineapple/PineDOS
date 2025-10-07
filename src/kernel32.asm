@@ -49,7 +49,6 @@ extern cmain
 call cmain
 
 
-call console_render
 
 cli
 jmp $

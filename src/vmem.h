@@ -6,3 +6,4 @@ extern void enable_paging();
 uint32_t* create_address_space();
 
 uint32_t test_if_paging_catches_fire();
+void map_page(uint32_t physical, uint32_t virtual, uint16_t flags);
