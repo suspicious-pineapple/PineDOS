@@ -1,5 +1,6 @@
+#pragma once
 #include <stdint.h>
-
+static uint32_t default_cr3;
 
 extern uint32_t load_cr3(uint32_t pd);
 extern void enable_paging();

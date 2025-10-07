@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 #include "../scheduler.h"
 typedef uint8_t mutex;

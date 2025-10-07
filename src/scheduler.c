@@ -51,8 +51,7 @@ uint32_t create_task(uint32_t entry){
     return slot;
 }
 uint32_t init_scheduler(){
-        base_cr3 = test_if_paging_catches_fire();
-
+        base_cr3 =test_if_paging_catches_fire();
         kernel_tasks[0].state=1;
         switch_task(&kernel_tasks[0].regs,&kernel_tasks[0].regs);
 

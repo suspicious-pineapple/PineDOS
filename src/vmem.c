@@ -1,6 +1,5 @@
 #include "vmem.h"
 #include <stdint.h>
-#include <stdatomic.h>
 #include "libc_freestanding/kmalloc.h"
 #include "kernel.h"
 #include "asmfunctions.h"
@@ -16,6 +15,7 @@
 
 
 uint32_t* page_directory;
+
 
 
 uint32_t* identity_map(){
@@ -70,6 +70,7 @@ uint32_t test_if_paging_catches_fire(){
     _print_hex_serial(0000);
     load_cr3((uint32_t)test_pd);
     enable_paging();
+    default_cr3 = (uint32_t)test_pd;
     return (uint32_t)test_pd;
 }
 
