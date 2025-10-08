@@ -53,8 +53,45 @@ void map_page(uint32_t physical, uint32_t virtual, uint16_t flags){
     
 }
 
+uint16_t get_page_flags(uint32_t virtual){
+    if(virtual%4096!=0){
+        panic(MISALIGNED_PAGE);
+    }
+    uint32_t page_directory_index = virtual >> 22; //12 bits -> 4096, 10 bits -> 1024
+    uint32_t page_table_index = (virtual >> 12) & 0b1111111111;
 
+    uint32_t* page_table = (uint32_t*)((page_directory[page_directory_index]) & 0xFFFFFC00);
+    
+    return (uint16_t)page_table[page_table_index] & 0x3FF; //last 10 bits
 
+    
+}
+void set_page_flags(uint32_t virtual, uint16_t flags){
+    if(virtual%4096!=0){
+        panic(MISALIGNED_PAGE);
+    }
+    uint32_t page_directory_index = virtual >> 22; //12 bits -> 4096, 10 bits -> 1024
+    uint32_t page_table_index = (virtual >> 12) & 0b1111111111;
+
+    uint32_t* page_table = (uint32_t*)((page_directory[page_directory_index]) & 0xFFFFFC00);
+    
+    page_table[page_table_index] = (page_table[page_table_index] & 0xFFFFFC00) | flags & 0x3FF; //last 10 bits
+
+}
+
+void clear_dirty_flag(uint32_t virtual){
+    if(virtual%4096!=0){
+        panic(MISALIGNED_PAGE);
+    }
+    uint32_t page_directory_index = virtual >> 22; //12 bits -> 4096, 10 bits -> 1024
+    uint32_t page_table_index = (virtual >> 12) & 0b1111111111;
+
+    uint32_t* page_table = (uint32_t*)((page_directory[page_directory_index]) & 0xFFFFFC00);
+    
+    page_table[page_table_index] = page_table[page_table_index] & 0xFFFFFFBF;
+
+    
+}
 
 
 

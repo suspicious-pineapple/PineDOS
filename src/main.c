@@ -50,7 +50,7 @@ void cmain() {
     _kprint("\r\n");
 
 
-    secondary_framebuffer = (char*)kmalloc(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
+    secondary_framebuffer = (char*)kmalloc_aligned(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH,4096);
     test_if_paging_catches_fire();
     //uint8_t* remapped_framebuffer = kmalloc_aligned(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH,4096);
     //for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH)>>12; i++){
@@ -227,6 +227,16 @@ void scroll_framebuffer(){
 }
 
 void copy_framebuffer(){
+    for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH) >> 12; i++){
+        if(get_page_flags(((uint32_t)secondary_framebuffer+i*4096))& 0b1000000){
+            _print_hex_serial(get_page_flags(((uint32_t)secondary_framebuffer+i*4096)));
+            clear_dirty_flag((uint32_t)secondary_framebuffer+i*4096);
+            memcpy_4byte(primary_framebuffer+i*4096, secondary_framebuffer+i*4096,4096);
+        } else {
+        }
+        
+    }
+
     memcpy_4byte(primary_framebuffer,secondary_framebuffer,kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
 
 }

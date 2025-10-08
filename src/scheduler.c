@@ -160,7 +160,8 @@ void refresh_screen_task(){
         _console_render();
         copy_framebuffer();
 
-
+        yield();
+        
         
     }
 }
@@ -168,7 +169,7 @@ void refresh_screen_task(){
 
 void idle_task(){
     while(1){
-        wait_for_interrupts();
+        //wait_for_interrupts();
         yield();
     }
 }
@@ -230,7 +231,7 @@ void sched_main_loop(){
 void timer_tick(uint16_t isr){
     kglobals.KERNEL_TIME++;
     end_irq(isr-0x80);
-    if(kglobals.KERNEL_TIME%7 == 0){
+    if(kglobals.KERNEL_TIME%2 == 0){
 
         if(kernel_tasks[active_task_index].state!=TASK_CRITICAL){
         yield();
