@@ -1,9 +1,14 @@
+# This makefile was made with qwen3 as a quick hack to get rid of the awful shell script. i know, i know, ai bad, but it seems to work
+
+
 # Paths
-CROSS_COMPILE = ~/repos/PineDOS/cross/bin/bin/i686-elf-
+# CROSS_COMPILE = ~/repos/PineDOS/cross/bin/bin/i686-elf-
+CROSS_COMPILE = ~/opt/cross/bin/i686-elf-
+
 NASM = nasm
 GCC = $(CROSS_COMPILE)gcc
 OBJCOPY = $(CROSS_COMPILE)objcopy
-GRUB_MKRESCUE = grub2-mkrescue
+GRUB_MKRESCUE = grub-mkrescue
 QEMU = qemu-system-i386
 
 # Directories

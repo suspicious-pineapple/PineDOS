@@ -44,7 +44,7 @@ void irq_enable_task();
 void timer_tick(uint16_t isr);
 void sleep(uint32_t time);
 void wait_for_key();
-
+extern uint8_t interrupted;
 
 enum TASK_STATES {
     TASK_DEAD,

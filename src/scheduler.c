@@ -131,11 +131,17 @@ void example_task_2(){
 
 
 
-
+uint8_t interrupted=0;
 void yield(){
+    interrupted=0;
+    switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
+}
+void interrupt_yield(){
+    interrupted=1;
     switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 
 }
+
 void wait_for_key(){
     kernel_tasks[active_task_index].state=TASK_KEYWAIT;
     yield();
@@ -169,6 +175,7 @@ void refresh_screen_task(){
 
 void idle_task(){
     while(1){
+        //enable_interrupts();
         //wait_for_interrupts();
         yield();
     }
@@ -181,14 +188,14 @@ void sleep(uint32_t time){
     yield();
 }
 
-  
 void sched_main_loop(){
     while(1){
-    disable_interrupts();
+    //disable_interrupts();
     if(active_task_index>=255){
         active_task_index=0;
         
     }
+    //_print_hex_serial(0x696969);
     active_task_index++;    //task 0 is never valid, thats the scheduler itself
    
 
@@ -218,7 +225,10 @@ void sched_main_loop(){
     //uint32_t remaining_stack = kernel_tasks[active_task_index].regs.esp - kernel_tasks[active_task_index].stack_base;
     //print_hex32(remaining_stack);
     // _kprint(" \r\nswitching to next task\r\n");
-    
+    if(interrupted){
+        end_irq(0);
+
+    }
      switch_task(&kernel_tasks[0].regs,&current_task.regs);
     }
         
@@ -228,31 +238,21 @@ void sched_main_loop(){
 
 }
 
+
+
 void timer_tick(uint16_t isr){
+
     kglobals.KERNEL_TIME++;
-    end_irq(isr-0x80);
     if(kglobals.KERNEL_TIME%2 == 0){
 
-        if(kernel_tasks[active_task_index].state!=TASK_CRITICAL){
-        yield();
+        if(kernel_tasks[active_task_index].state!=TASK_CRITICAL && interrupted==0){
+            interrupt_yield();
+        } else {
+                end_irq(isr-0x80);
         }
     //switch_task_int(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 
+    } else {
+            end_irq(isr-0x80);
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
