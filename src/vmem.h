@@ -11,3 +11,6 @@ void map_page(uint32_t physical, uint32_t virtual, uint16_t flags);
 uint16_t get_page_flags(uint32_t virtual);
 void set_page_flags(uint32_t virtual, uint16_t flags);
 void clear_dirty_flag(uint32_t virtual);
+
+
+#define KERNEL_MEM 0x10000000 //256MiB reserved for Kernel
