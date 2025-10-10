@@ -190,7 +190,7 @@ void sleep(uint32_t time){
 
 void sched_main_loop(){
     while(1){
-    //disable_interrupts();
+    disable_interrupts();
     if(active_task_index>=255){
         active_task_index=0;
         
@@ -225,11 +225,13 @@ void sched_main_loop(){
     //uint32_t remaining_stack = kernel_tasks[active_task_index].regs.esp - kernel_tasks[active_task_index].stack_base;
     //print_hex32(remaining_stack);
     // _kprint(" \r\nswitching to next task\r\n");
-    if(interrupted){
-        end_irq(0);
+//    if(interrupted){
+    
+//    }
+    end_irq(0);   
+    switch_task(&kernel_tasks[0].regs,&current_task.regs);
+    end_irq(0);
 
-    }
-     switch_task(&kernel_tasks[0].regs,&current_task.regs);
     }
         
     }

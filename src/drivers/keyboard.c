@@ -131,6 +131,7 @@ void init_keyboard(){
 
 
 void keyboard_int_handler(){
+    uint8_t interrupt_enable_state = disable_interrupts();
     interrupted=1;
     unsigned char scancode = inb(0x60);
     if(scancode==0xE0){return;};
@@ -153,6 +154,7 @@ void keyboard_int_handler(){
     }
     keybuffer_write(decoded);
     interrupted=0;
+    set_interrupts(interrupt_enable_state);
 }
 
 

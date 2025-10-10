@@ -55,11 +55,26 @@ global enable_interrupts
 enable_interrupts:
    sti
 ret
+global set_interrupts
+set_interrupts:
+   cmp byte [esp+4], 0
+   je .noenable
+   sti
+ret
+   .noenable:
+   cli
+ret
+
 
 global disable_interrupts
 disable_interrupts:
+   pushf
+   pop eax
+   shr eax,9
+   and eax, 0b1
    cli
 ret
+
 
 
 global load_interrupts
