@@ -51,7 +51,7 @@ void cmain() {
 
 
     secondary_framebuffer = (char*)kmalloc_aligned(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH,4096);
-    test_if_paging_catches_fire();
+    //test_if_paging_catches_fire();
     //uint8_t* remapped_framebuffer = kmalloc_aligned(kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH,4096);
     //for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH)>>12; i++){
     //    map_page(kglobals.FRAMEBUFFER + 4096*i, (uint32_t)remapped_framebuffer+4096*i, 3);
@@ -128,8 +128,8 @@ void cmain() {
     
     
     create_task((uint32_t)heartbeat);
-    create_task((uint32_t)mutex_test_1);
-    create_task((uint32_t)mutex_test_2);
+    //create_task((uint32_t)mutex_test_1);
+    //create_task((uint32_t)mutex_test_2);
     create_task((uint32_t)refresh_screen_task);
     enable_interrupts();
     

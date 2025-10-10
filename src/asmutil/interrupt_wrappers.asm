@@ -42,7 +42,6 @@ extern handle_interrupt
 global generic_isr_%[i]
 generic_isr_%[i]:
     pusha
-    
     push dword i
     call handle_interrupt
     add esp,4
@@ -84,8 +83,7 @@ ret
 global wait_for_interrupts
 wait_for_interrupts:
 sti
-hlt
-cli
+pause
 ret
 
 

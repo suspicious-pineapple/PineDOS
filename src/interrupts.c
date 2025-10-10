@@ -139,7 +139,6 @@ static inline void io_wait(void)
 void handle_interrupt(uint32_t isr){
 
 
-
     if(interrupt_hooks[isr]!=0){
         int (*hookFunc)(uint32_t isr) = interrupt_hooks[isr];
         hookFunc(isr);
@@ -255,7 +254,8 @@ void set_PIT(){
     //1.193182 MHz
     disable_interrupts();
     //uint16_t divider = 12000;
-    uint16_t divider = 994; // /994 / 3 = 400 Hz
+    //uint16_t divider = 994; // /994 / 3 = 400 Hz
+    uint16_t divider = 200; // /994 / 3 = 400 Hz
     uint8_t divider_low = (divider & 0b11111111 ); 
     uint8_t divider_high = ((divider>>8) &
      0b11111111 ); 

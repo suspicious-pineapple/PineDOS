@@ -5,6 +5,7 @@
 #include "../asmfunctions.h"
 #include "../libc_freestanding/string.h"
 #include "../kernel.h"
+#include "../scheduler.h"
 
 
 
@@ -130,6 +131,7 @@ void init_keyboard(){
 
 
 void keyboard_int_handler(){
+    interrupted=1;
     unsigned char scancode = inb(0x60);
     if(scancode==0xE0){return;};
 
@@ -150,6 +152,7 @@ void keyboard_int_handler(){
         decoded = scanCodeToAscii_lowercase[scancode];
     }
     keybuffer_write(decoded);
+    interrupted=0;
 }
 
 
