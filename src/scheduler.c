@@ -131,15 +131,10 @@ void example_task_2(){
 
 
 
-uint8_t interrupted=0;
-void yield(){
-    interrupted=0;
-    switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
-}
-void interrupt_yield(){
-    interrupted=1;
-    switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
+uint8_t interrupt_disable_request=0;
 
+void yield(){
+    switch_task(&kernel_tasks[active_task_index].regs, &kernel_tasks[0].regs);
 }
 
 void wait_for_key(){
@@ -225,8 +220,10 @@ void timer_tick(uint16_t isr){
     kglobals.KERNEL_TIME++;
     if(kglobals.KERNEL_TIME%2 == 0){
 
-        if(kernel_tasks[active_task_index].state!=TASK_CRITICAL && interrupted==0){
-            interrupt_yield();
+        if(kernel_tasks[active_task_index].state!=TASK_CRITICAL){
+            disable_interrupts();
+            yield();
+            enable_interrupts();
         } else {
                 end_irq(isr-0x80);
         }
