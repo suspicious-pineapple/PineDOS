@@ -207,30 +207,8 @@ void sched_main_loop(){
 
     if(should_run){
         
-        /*
-    if((current_task.regs.esp - current_task.stack_base)<32){
-        _kprint("\r\nThe stack fell over! task killed");
-        _console_render();
-        copy_framebuffer();
-        current_task.state=0;
-
-
-    }
-    */
-    //print_hex32(_get_stacksize());
-    //_kprint("\r\n");
-    //_kprint("\r\ntask : ");
-    //print_hex32(active_task_index);
-    //_kprint("\r\nremaining stack: ");
-    //uint32_t remaining_stack = kernel_tasks[active_task_index].regs.esp - kernel_tasks[active_task_index].stack_base;
-    //print_hex32(remaining_stack);
-    // _kprint(" \r\nswitching to next task\r\n");
-//    if(interrupted){
-    
-//    }
     end_irq(0);   
     switch_task(&kernel_tasks[0].regs,&current_task.regs);
-    end_irq(0);
 
     }
         
