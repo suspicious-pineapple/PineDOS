@@ -41,11 +41,13 @@ extern handle_interrupt
      align 4,nop
 global generic_isr_%[i]
 generic_isr_%[i]:
+    cli
     pusha
     push dword i
     call handle_interrupt
     add esp,4
     popa
+    sti
     iret
 %assign i i+1
 %endrep

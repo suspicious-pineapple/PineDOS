@@ -25,6 +25,8 @@ uint8_t get_consolebuffer(uint32_t x, uint32_t y);
 
 void panic(uint32_t err){
     _print_hex_serial(err);
+    _print_hex_serial(err);
+    _print_hex_serial(err);
     head_x = 24;
     head_y = 15;
     set_consolebuffer(25,15,'P',3);

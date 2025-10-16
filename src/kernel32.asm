@@ -390,6 +390,7 @@ anxiety:
 mov eax, 0xDEAD ;RIP :( something went wrong
 call print_hex_serial_16
 extern panic
+push 0x12345
 call panic
 jmp $ ;halt
 
@@ -406,6 +407,7 @@ _print_hex_serial:
 mov eax, dword  [esp+4]
 
 print_hex_serial:
+ret
 pusha
     push eax
     shr eax, 16
