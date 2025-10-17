@@ -186,19 +186,15 @@ void mutex_test_2(){
 void heartbeat(){
     while(1) {
         //_kprint("\r\n");
-        wait_for_key();
-            //enter_critical();
-            //exit_critical();
+        //wait_for_key();
+          
+
+        //uint8_t pressed[] = {keybuffer_read(),0};
+        sleep(25);
+        print_hex32(inb(0x3F8));
+        //_kprint(pressed);
         
 
-        uint8_t pressed[] = {keybuffer_read(),0};
-        //print_hex32(keybuffer_read());
-        _kprint(pressed);
-        if(pressed[0]=='d'){
-            kglobals.FRAMEBUFFER++;
-        } else if(pressed[0]=='u'){
-            kglobals.FRAMEBUFFER--;
-        }
         //_kprint(" time: ");
         //print_hex32((kglobals.KERNEL_TIME));
         
@@ -213,9 +209,7 @@ void heartbeat(){
 
 void scroll_console(){
     memmove(kglobals.CONSOLE_BUFFER, kglobals.CONSOLE_BUFFER + (kglobals.CONSOLE_COLUMNS*2), (kglobals.CONSOLE_ROWS*kglobals.CONSOLE_COLUMNS*2));
-    for(int i = 0; i < 10; i++){
-        //scroll_framebuffer();
-    }
+    
 }
 
 
@@ -227,15 +221,14 @@ void scroll_framebuffer(){
 }
 
 void copy_framebuffer(){
-    for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH) >> 12; i++){
-        if(get_page_flags(((uint32_t)secondary_framebuffer+i*4096))& 0b1000000){
-            _print_hex_serial(get_page_flags(((uint32_t)secondary_framebuffer+i*4096)));
-            clear_dirty_flag((uint32_t)secondary_framebuffer+i*4096);
-            memcpy_4byte(primary_framebuffer+i*4096, secondary_framebuffer+i*4096,4096);
-        } else {
-        }
-        
-    }
+    //for(uint32_t i = 0; i < (kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH) >> 12; i++){
+    //    if(get_page_flags(((uint32_t)secondary_framebuffer+i*4096))& 0b1000000){
+    //        _print_hex_serial(get_page_flags(((uint32_t)secondary_framebuffer+i*4096)));
+    //        clear_dirty_flag((uint32_t)secondary_framebuffer+i*4096);
+    //        memcpy_4byte(primary_framebuffer+i*4096, secondary_framebuffer+i*4096,4096);
+    //    } 
+    //    
+    //}
 
     memcpy_4byte(primary_framebuffer,secondary_framebuffer,kglobals.FRAMEBUFFER_HEIGHT*kglobals.FRAMEBUFFER_PITCH);
 
