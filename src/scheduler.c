@@ -26,7 +26,7 @@ uint32_t create_task(uint32_t entry){
         }
     }
     kernel_tasks[slot].id=PID_current;
-    kernel_tasks[slot].sleep_until = 0;;
+    kernel_tasks[slot].sleep_until = 0;
 
 
     kernel_tasks[slot].state=1;
@@ -42,10 +42,8 @@ uint32_t create_task(uint32_t entry){
     kernel_tasks[slot].regs.eip = entry;
     kernel_tasks[slot].stack_base = (uint32_t) kmalloc(1024); 
     kernel_tasks[slot].stack_size = 1024;
-    kernel_tasks[slot].regs.esp = kernel_tasks[slot].stack_base + 1024; 
+    kernel_tasks[slot].regs.esp = kernel_tasks[slot].stack_base + 1024;
     
-    *(uint32_t*)(kernel_tasks[slot].regs.esp) = (uint32_t)task_end;
-    kernel_tasks[slot].regs.esp -= 4;
 
 
     return slot;
@@ -202,8 +200,8 @@ void sched_main_loop(){
 
     if(should_run){
         
-    end_irq(0);   
     switch_task(&kernel_tasks[0].regs,&current_task.regs);
+    end_irq(0);   
 
     }
         
@@ -218,12 +216,17 @@ void sched_main_loop(){
 void timer_tick(uint16_t isr){
 
     kglobals.KERNEL_TIME++;
-    if(kglobals.KERNEL_TIME%2 == 0){
+    if((get_eflags()&0x4000)){
+        _print_serial("oh no, nested task");
+        return;
+    }
+    if(kglobals.KERNEL_TIME%2 == 0 || 1){
 
         if(kernel_tasks[active_task_index].state!=TASK_CRITICAL){
-            disable_interrupts();
+            //disable_interrupts();
             yield();
-            enable_interrupts();
+            end_irq(isr-0x80);
+            //enable_interrupts();
         } else {
                 end_irq(isr-0x80);
         }

@@ -47,7 +47,6 @@ generic_isr_%[i]:
     call handle_interrupt
     add esp,4
     popa
-    sti
     iret
 %assign i i+1
 %endrep

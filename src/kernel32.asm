@@ -484,6 +484,11 @@ mov dword [edx], 0
 ret
 
 
+global get_eflags
+get_eflags:
+pushf
+pop eax
+ret
 
 
 

@@ -184,15 +184,17 @@ void mutex_test_2(){
 
 
 void heartbeat(){
+    
     while(1) {
-        //_kprint("\r\n");
+        _kprint("\r\n");
         //wait_for_key();
-          
-
-        //uint8_t pressed[] = {keybuffer_read(),0};
+        
+        
+        uint8_t pressed[] = {keybuffer_read(),0};
         sleep(25);
-        print_hex32(inb(0x3F8));
-        //_kprint(pressed);
+        print_hex32(kglobals.KERNEL_TIME);
+        _kprint("\r\n");
+        _kprint(pressed);
         
 
         //_kprint(" time: ");
